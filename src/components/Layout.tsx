@@ -21,12 +21,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex flex-col bg-background">
       {/* Navbar */}
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
-        <div className="container flex items-center justify-between h-16">
+        <div className="container flex items-center justify-between h-14 sm:h-16">
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-lg gradient-primary flex items-center justify-center">
-              <Stethoscope className="w-5 h-5 text-primary-foreground" />
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg gradient-primary flex items-center justify-center">
+              <Stethoscope className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
             </div>
-            <span className="font-display text-xl font-bold text-foreground tracking-tight">MEDICUS</span>
+            <span className="font-display text-lg sm:text-xl font-bold text-foreground tracking-tight">MEDICUS</span>
           </Link>
 
           {/* Desktop nav */}
