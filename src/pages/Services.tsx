@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Star, User, Play, ShoppingBag } from 'lucide-react';
+import { Star, User, Play } from 'lucide-react';
 
 const categories = ['Todos', 'Alemán médico', 'Homologación', 'Finanzas', 'Legal', 'Psicología'];
 
@@ -27,13 +27,13 @@ const providers: ServiceProvider[] = [
     rating: 4.9, reviews: 127, specialty: 'Alemán médico + Preparación FSP',
     includes: ['8 sesiones 1:1 por mes', 'Simulaciones FSP reales', 'Corrección documentos médicos', 'Grupo práctica otros médicos'],
     price: '€280/mes (mín. 3 meses)', testimonial: 'Aprobé FSP primera vez gracias a simulaciones', testimonialAuthor: 'Dr. Carlos M.',
-    cta: 'Agendar consulta gratis 20 min',
+    cta: 'Agendar consulta gratis',
   },
   {
     name: 'Alberto Méndez', role: 'Especialista Homologación Médica', category: 'Homologación',
     rating: 5.0, reviews: 89, specialty: 'Homologación completa médicos LatAm',
     includes: ['Revisión completa documentos', 'Verificación ANABIN', 'Estrategia por Bundesland', 'Seguimiento proceso completo'],
-    price: '€500-€1.500 según caso', cta: 'Consulta inicial gratis',
+    price: '€500–€1.500 según caso', cta: 'Consulta inicial gratis',
   },
   {
     name: 'Dieter Schmidt', role: 'Asesor Financiero Médicos', category: 'Finanzas',
@@ -61,26 +61,22 @@ export default function ServicesPage() {
   const filtered = activeCategory === 'Todos' ? providers : providers.filter((p) => p.category === activeCategory);
 
   return (
-    <div className="container max-w-5xl py-5 sm:py-8 px-3 sm:px-4 space-y-5 sm:space-y-8">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <div className="flex items-center gap-2.5 sm:gap-3 mb-2">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg gradient-primary flex items-center justify-center">
-            <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
-          </div>
-          <h1 className="font-display text-xl sm:text-3xl font-bold text-foreground">Servicios Especializados</h1>
-        </div>
+    <div className="container max-w-3xl py-6 sm:py-10 px-4 space-y-6">
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+        <h1 className="font-display text-xl sm:text-2xl font-semibold text-foreground">Servicios</h1>
+        <p className="text-sm text-muted-foreground mt-1">Profesionales verificados para cada etapa.</p>
       </motion.div>
 
-      {/* Tabs - horizontal scroll on mobile */}
-      <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-1 -mx-3 px-3 sm:mx-0 sm:px-0 sm:flex-wrap scrollbar-hide">
+      {/* Tabs */}
+      <div className="flex gap-1 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap scrollbar-hide">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveCategory(cat)}
-            className={`px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all whitespace-nowrap min-h-[40px] shrink-0 ${
+            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap shrink-0 ${
               activeCategory === cat
-                ? 'gradient-primary text-primary-foreground'
-                : 'bg-muted text-muted-foreground hover:text-foreground'
+                ? 'bg-foreground text-background'
+                : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             {cat}
@@ -89,59 +85,54 @@ export default function ServicesPage() {
       </div>
 
       {/* Cards */}
-      <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         {filtered.map((p, idx) => (
-          <motion.div key={p.name} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
-            <Card className="p-4 sm:p-6 shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 space-y-3 sm:space-y-4 h-full flex flex-col">
+          <motion.div key={p.name} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.04 }}>
+            <Card className="p-5 shadow-card hover:shadow-card-hover transition-all duration-300 space-y-3 h-full flex flex-col">
               {/* Header */}
-              <div className="flex items-start gap-2.5 sm:gap-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                  <User className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0">
+                  <User className="w-5 h-5 text-muted-foreground" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="font-display font-semibold text-sm sm:text-base text-foreground">{p.name}</h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground truncate">{p.role}</p>
+                  <h3 className="font-display font-medium text-sm text-foreground">{p.name}</h3>
+                  <p className="text-xs text-muted-foreground truncate">{p.role}</p>
                   <div className="flex items-center gap-1.5 mt-1">
                     <div className="flex">
                       {[1,2,3,4,5].map((s) => (
-                        <Star key={s} className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${s <= Math.floor(p.rating) ? 'text-accent fill-accent' : 'text-border'}`} />
+                        <Star key={s} className={`w-3 h-3 ${s <= Math.floor(p.rating) ? 'text-foreground fill-foreground' : 'text-border'}`} />
                       ))}
                     </div>
-                    <span className="text-[10px] sm:text-xs text-muted-foreground">{p.rating}/5 ({p.reviews})</span>
+                    <span className="text-[10px] text-muted-foreground">{p.rating} ({p.reviews})</span>
                   </div>
                 </div>
               </div>
 
-              <Badge variant="secondary" className="w-fit text-[10px] sm:text-xs">{p.specialty}</Badge>
+              <Badge variant="secondary" className="w-fit text-[10px]">{p.specialty}</Badge>
 
-              {/* Video placeholder */}
-              <button className="w-full h-16 sm:h-20 rounded-lg bg-muted flex items-center justify-center gap-2 text-xs sm:text-sm text-muted-foreground hover:bg-muted/80 transition-colors">
-                <Play className="w-4 h-4 sm:w-5 sm:h-5" /> Video presentación
+              <button className="w-full h-14 rounded-lg bg-muted flex items-center justify-center gap-2 text-xs text-muted-foreground hover:bg-muted/80 transition-colors">
+                <Play className="w-4 h-4" /> Video
               </button>
 
-              {/* Includes */}
-              <ul className="space-y-1 sm:space-y-1.5 flex-1">
+              <ul className="space-y-1 flex-1">
                 {p.includes.map((item) => (
-                  <li key={item} className="text-xs sm:text-sm text-foreground flex items-start gap-1.5 sm:gap-2">
-                    <span className="text-secondary mt-0.5">•</span> {item}
+                  <li key={item} className="text-xs text-muted-foreground flex items-start gap-1.5">
+                    <span className="text-foreground/30 mt-px">—</span> {item}
                   </li>
                 ))}
               </ul>
 
-              {/* Price */}
-              <div className="text-base sm:text-lg font-bold text-primary">{p.price}</div>
+              <div className="text-sm font-semibold text-foreground">{p.price}</div>
 
-              {/* Testimonial */}
               {p.testimonial && (
-                <div className="bg-muted/50 rounded-lg p-2.5 sm:p-3 text-xs sm:text-sm italic text-muted-foreground">
-                  "{p.testimonial}" — <span className="font-medium text-foreground">{p.testimonialAuthor}</span>
+                <div className="bg-muted rounded-lg p-3 text-xs text-muted-foreground italic">
+                  "{p.testimonial}" — <span className="font-medium text-foreground not-italic">{p.testimonialAuthor}</span>
                 </div>
               )}
 
-              {/* CTA */}
               <div className="flex gap-2 flex-col sm:flex-row">
-                <Button className="flex-1 gradient-primary text-primary-foreground hover:opacity-90 text-xs sm:text-sm h-11">{p.cta}</Button>
-                <Button variant="outline" className="text-xs sm:text-sm h-11">Ver perfil</Button>
+                <Button className="flex-1 text-xs h-10">{p.cta}</Button>
+                <Button variant="outline" className="text-xs h-10">Ver perfil</Button>
               </div>
             </Card>
           </motion.div>

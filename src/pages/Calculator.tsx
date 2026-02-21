@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
-import { AlertTriangle, Download, Calculator as CalcIcon } from 'lucide-react';
+import { AlertTriangle, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, Tooltip } from 'recharts';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -47,13 +47,13 @@ export default function CalculatorPage() {
     name: isMobile ? i.shortName : i.name,
     value: Math.round((i.low + i.high) / 2),
   }));
-  const colors = ['hsl(222,80%,40%)', 'hsl(160,84%,39%)', 'hsl(38,92%,50%)', 'hsl(0,84%,60%)', 'hsl(270,60%,50%)', 'hsl(200,70%,50%)', 'hsl(340,70%,50%)', 'hsl(120,50%,40%)'];
+  const grays = ['hsl(0,0%,15%)', 'hsl(0,0%,25%)', 'hsl(0,0%,35%)', 'hsl(0,0%,45%)', 'hsl(0,0%,55%)', 'hsl(0,0%,65%)', 'hsl(0,0%,40%)', 'hsl(0,0%,30%)'];
 
-  const RadioGroup = ({ options, value, onChange }: { options: { id: string; label: string }[]; value: string; onChange: (v: string) => void }) => (
-    <div className="flex gap-1.5 sm:gap-2 flex-wrap">
+  const ToggleGroup = ({ options, value, onChange }: { options: { id: string; label: string }[]; value: string; onChange: (v: string) => void }) => (
+    <div className="flex gap-1.5 flex-wrap">
       {options.map((o) => (
         <button key={o.id} onClick={() => onChange(o.id)}
-          className={`px-3 sm:px-4 py-2 rounded-lg border text-xs sm:text-sm font-medium transition-all min-h-[44px] ${value === o.id ? 'border-primary bg-primary/5 text-primary' : 'border-border text-foreground hover:border-primary/40'}`}>
+          className={`px-3 py-2 rounded-lg border text-xs sm:text-sm transition-all min-h-[40px] ${value === o.id ? 'border-foreground bg-foreground text-background font-medium' : 'border-border text-foreground hover:border-foreground/30'}`}>
           {o.label}
         </button>
       ))}
@@ -61,118 +61,109 @@ export default function CalculatorPage() {
   );
 
   return (
-    <div className="container max-w-3xl py-5 sm:py-8 px-3 sm:px-4 space-y-5 sm:space-y-8">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <div className="flex items-center gap-2.5 sm:gap-3 mb-2">
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg gradient-primary flex items-center justify-center">
-            <CalcIcon className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
-          </div>
-          <h1 className="font-display text-xl sm:text-3xl font-bold text-foreground">Calculadora de Costos y Tiempos</h1>
-        </div>
+    <div className="container max-w-2xl py-6 sm:py-10 px-4 space-y-6">
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+        <h1 className="font-display text-xl sm:text-2xl font-semibold text-foreground">Calculadora</h1>
+        <p className="text-sm text-muted-foreground mt-1">Estima costos y tiempos de tu proceso.</p>
       </motion.div>
 
-      <div className="grid gap-4 sm:gap-6">
-        {/* Inputs */}
-        <Card className="p-4 sm:p-6 shadow-card space-y-4 sm:space-y-5">
-          <div className="space-y-1.5 sm:space-y-2">
-            <label className="text-xs sm:text-sm font-medium text-foreground">País de origen</label>
-            <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-full px-3 py-2.5 rounded-lg border border-border bg-background text-foreground text-sm min-h-[44px]">
+      <div className="grid gap-4 sm:gap-5">
+        <Card className="p-4 sm:p-6 shadow-card space-y-4">
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">País de origen</label>
+            <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-full px-3 py-2.5 rounded-lg border border-border bg-background text-foreground text-sm min-h-[40px]">
               {countries.map((c) => <option key={c}>{c}</option>)}
             </select>
           </div>
-          <div className="space-y-1.5 sm:space-y-2">
-            <label className="text-xs sm:text-sm font-medium text-foreground">Universidad reconocida ANABIN H+</label>
-            <div className="flex gap-1.5 sm:gap-2">
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">ANABIN H+</label>
+            <div className="flex gap-1.5">
               {[true, false].map((v) => (
                 <button key={String(v)} onClick={() => setAnabin(v)}
-                  className={`px-4 py-2 rounded-lg border text-xs sm:text-sm font-medium transition-all min-h-[44px] ${anabin === v ? 'border-primary bg-primary/5 text-primary' : 'border-border text-foreground hover:border-primary/40'}`}>
+                  className={`px-4 py-2 rounded-lg border text-sm transition-all min-h-[40px] ${anabin === v ? 'border-foreground bg-foreground text-background font-medium' : 'border-border text-foreground hover:border-foreground/30'}`}>
                   {v ? 'Sí' : 'No'}
                 </button>
               ))}
             </div>
           </div>
-          <div className="space-y-1.5 sm:space-y-2">
-            <label className="text-xs sm:text-sm font-medium text-foreground">Nivel de alemán actual</label>
-            <div className="flex gap-1.5 sm:gap-2 flex-wrap">
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Nivel de alemán</label>
+            <div className="flex gap-1.5 flex-wrap">
               {germanLevels.map((l) => (
                 <button key={l} onClick={() => setGermanLevel(l)}
-                  className={`px-2.5 sm:px-3 py-2 rounded-lg border text-xs sm:text-sm font-medium transition-all min-h-[44px] ${germanLevel === l ? 'border-primary bg-primary/5 text-primary' : 'border-border text-foreground hover:border-primary/40'}`}>
+                  className={`px-2.5 py-2 rounded-lg border text-xs sm:text-sm transition-all min-h-[40px] ${germanLevel === l ? 'border-foreground bg-foreground text-background font-medium' : 'border-border text-foreground hover:border-foreground/30'}`}>
                   {l}
                 </button>
               ))}
             </div>
           </div>
-          <div className="space-y-1.5 sm:space-y-2">
-            <label className="text-xs sm:text-sm font-medium text-foreground">Bundesland destino</label>
-            <select value={bundesland} onChange={(e) => setBundesland(e.target.value)} className="w-full px-3 py-2.5 rounded-lg border border-border bg-background text-foreground text-sm min-h-[44px]">
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Bundesland</label>
+            <select value={bundesland} onChange={(e) => setBundesland(e.target.value)} className="w-full px-3 py-2.5 rounded-lg border border-border bg-background text-foreground text-sm min-h-[40px]">
               {bundeslaender.map((b) => <option key={b}>{b}</option>)}
             </select>
           </div>
-          <div className="space-y-1.5 sm:space-y-2">
-            <label className="text-xs sm:text-sm font-medium text-foreground">Situación familiar</label>
-            <RadioGroup options={familyOptions} value={family} onChange={setFamily} />
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Situación familiar</label>
+            <ToggleGroup options={familyOptions} value={family} onChange={setFamily} />
           </div>
-          <div className="space-y-1.5 sm:space-y-2">
-            <label className="text-xs sm:text-sm font-medium text-foreground">Velocidad del proceso</label>
-            <RadioGroup options={speeds} value={speed} onChange={setSpeed} />
+          <div className="space-y-1.5">
+            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Velocidad</label>
+            <ToggleGroup options={speeds} value={speed} onChange={setSpeed} />
           </div>
         </Card>
 
-        {/* Results */}
-        <Card className="p-4 sm:p-6 shadow-card space-y-4 sm:space-y-5">
-          <h2 className="font-display text-lg sm:text-xl font-bold text-foreground">Desglose estimado</h2>
+        <Card className="p-4 sm:p-6 shadow-card space-y-4">
+          <h2 className="font-display text-base sm:text-lg font-semibold text-foreground">Desglose</h2>
 
-          {/* Chart */}
-          <div className="h-52 sm:h-64">
+          <div className="h-48 sm:h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 16 }}>
-                <XAxis type="number" tick={{ fontSize: 10 }} tickFormatter={(v) => `€${v}`} />
-                <YAxis type="category" dataKey="name" width={isMobile ? 85 : 140} tick={{ fontSize: isMobile ? 9 : 11 }} />
+                <XAxis type="number" tick={{ fontSize: 10, fill: 'hsl(0,0%,45%)' }} tickFormatter={(v) => `€${v}`} />
+                <YAxis type="category" dataKey="name" width={isMobile ? 85 : 140} tick={{ fontSize: isMobile ? 9 : 11, fill: 'hsl(0,0%,45%)' }} />
                 <Tooltip formatter={(v: number) => [`€${v.toLocaleString()}`, 'Promedio']} />
-                <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                  {chartData.map((_, i) => <Cell key={i} fill={colors[i % colors.length]} />)}
+                <Bar dataKey="value" radius={[0, 3, 3, 0]}>
+                  {chartData.map((_, i) => <Cell key={i} fill={grays[i % grays.length]} />)}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
 
-          {/* Breakdown */}
-          <div className="space-y-1.5 sm:space-y-2">
+          <div className="space-y-1.5">
             {breakdown.filter(i => i.high > 0).map((item) => (
-              <div key={item.name} className="flex justify-between text-xs sm:text-sm py-1.5 border-b border-border/50 last:border-0">
-                <span className="text-foreground">{item.name}</span>
-                <span className="font-medium text-foreground whitespace-nowrap ml-2">€{item.low.toLocaleString()}-€{item.high.toLocaleString()}</span>
+              <div key={item.name} className="flex justify-between text-sm py-1.5 border-b border-border/50 last:border-0">
+                <span className="text-muted-foreground">{item.name}</span>
+                <span className="font-medium text-foreground">€{item.low.toLocaleString()}–€{item.high.toLocaleString()}</span>
               </div>
             ))}
-            <div className="flex justify-between pt-2 border-t-2 border-primary/20">
-              <span className="font-bold text-foreground text-base sm:text-lg">TOTAL</span>
-              <span className="font-bold text-primary text-base sm:text-lg">€{totalLow.toLocaleString()}-€{totalHigh.toLocaleString()}</span>
+            <div className="flex justify-between pt-2 border-t border-foreground/10">
+              <span className="font-semibold text-foreground">Total</span>
+              <span className="font-semibold text-foreground">€{totalLow.toLocaleString()}–€{totalHigh.toLocaleString()}</span>
             </div>
-            <div className="flex justify-between text-xs sm:text-sm text-muted-foreground">
+            <div className="flex justify-between text-xs text-muted-foreground">
               <span>Tiempo estimado</span>
-              <span className="font-semibold">{timeLow}-{timeHigh} meses</span>
+              <span className="font-medium">{timeLow}–{timeHigh} meses</span>
             </div>
           </div>
         </Card>
 
-        {/* Warning */}
-        <Card className="p-4 sm:p-5 shadow-card bg-accent/5 border-accent/20">
-          <div className="flex gap-2.5 sm:gap-3">
-            <AlertTriangle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-            <div className="text-xs sm:text-sm space-y-1 text-foreground">
-              <p className="font-semibold">Casos reales:</p>
-              <ul className="list-disc list-inside text-muted-foreground space-y-0.5">
-                <li>30% necesita €2k-3k más que el estimado</li>
+        <div className="bg-muted rounded-lg p-4">
+          <div className="flex gap-3">
+            <AlertTriangle className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
+            <div className="text-xs space-y-1 text-muted-foreground">
+              <p className="font-medium text-foreground">Casos reales:</p>
+              <ul className="list-disc list-inside space-y-0.5">
+                <li>30% necesita €2k–3k más que el estimado</li>
                 <li>15% completa con menos presupuesto</li>
                 <li>Planifica un buffer de 20% adicional</li>
               </ul>
             </div>
           </div>
-        </Card>
+        </div>
 
-        <div className="flex gap-2 sm:gap-3">
-          <Button variant="outline" className="flex-1 h-11 text-xs sm:text-sm"><Download className="w-4 h-4 mr-1.5 sm:mr-2" /> Descargar PDF</Button>
-          <Button className="flex-1 h-11 text-xs sm:text-sm gradient-primary text-primary-foreground hover:opacity-90">Guardar cálculo</Button>
+        <div className="flex gap-2">
+          <Button variant="outline" className="flex-1 h-10 text-xs"><Download className="w-3.5 h-3.5 mr-1.5" /> Descargar PDF</Button>
+          <Button className="flex-1 h-10 text-xs">Guardar cálculo</Button>
         </div>
       </div>
     </div>

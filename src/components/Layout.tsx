@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { Menu, X, Stethoscope } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -19,26 +19,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* Navbar */}
-      <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
-        <div className="container flex items-center justify-between h-14 sm:h-16">
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg gradient-primary flex items-center justify-center">
-              <Stethoscope className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" />
-            </div>
-            <span className="font-display text-lg sm:text-xl font-bold text-foreground tracking-tight">MEDICUS</span>
+      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
+        <div className="container flex items-center justify-between h-12 sm:h-14">
+          <Link to="/" className="flex items-center gap-1.5">
+            <span className="font-display text-base sm:text-lg font-bold text-foreground tracking-tight">MEDICUS</span>
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-0.5">
             {navItems.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors ${
                   location.pathname === item.to
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    ? 'text-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {item.label}
@@ -46,18 +41,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
 
-          {/* Mobile toggle */}
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="md:hidden h-8 w-8"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </Button>
         </div>
 
-        {/* Mobile nav */}
         <AnimatePresence>
           {mobileOpen && (
             <motion.nav
@@ -66,16 +59,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               exit={{ height: 0, opacity: 0 }}
               className="md:hidden border-t border-border overflow-hidden"
             >
-              <div className="container py-3 flex flex-col gap-1">
+              <div className="container py-2 flex flex-col">
                 {navItems.map((item) => (
                   <Link
                     key={item.to}
                     to={item.to}
                     onClick={() => setMobileOpen(false)}
-                    className={`px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
+                    className={`px-3 py-2.5 text-sm font-medium transition-colors ${
                       location.pathname === item.to
-                        ? 'bg-primary/10 text-primary'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                        ? 'text-foreground'
+                        : 'text-muted-foreground'
                     }`}
                   >
                     {item.label}
@@ -87,17 +80,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </AnimatePresence>
       </header>
 
-      {/* Main */}
       <main className="flex-1">{children}</main>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-card">
-        <div className="container py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Stethoscope className="w-4 h-4 text-primary" />
-            <span className="text-sm text-muted-foreground">© 2026 MEDICUS. Todos los derechos reservados.</span>
-          </div>
-          <div className="flex gap-4 text-sm text-muted-foreground">
+      <footer className="border-t border-border">
+        <div className="container py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <span className="text-xs text-muted-foreground">© 2026 MEDICUS</span>
+          <div className="flex gap-4 text-xs text-muted-foreground">
             <span className="hover:text-foreground cursor-pointer transition-colors">Contacto</span>
             <span className="hover:text-foreground cursor-pointer transition-colors">Legal</span>
             <span className="hover:text-foreground cursor-pointer transition-colors">Privacidad</span>
