@@ -5,14 +5,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { FileText, BookOpen, Send, Stethoscope, Award, TrendingUp, ShieldCheck, Clock, AlertTriangle, User } from 'lucide-react';
+import { AlertTriangle, User } from 'lucide-react';
 
 interface PhaseConfig {
   id: string;
   title: string;
   subtitle: string;
-  icon: React.ReactNode;
-  color: string;
+  number: number;
   costRange: string;
   timeRange: string;
   tasks: string[];
@@ -30,44 +29,44 @@ export default function RoadmapPage() {
 
   const phases: PhaseConfig[] = [
     {
-      id: 'phase1', title: 'Preparación', subtitle: 'Mes 1-2', icon: <FileText className="w-4 h-4 sm:w-5 sm:h-5" />,
-      color: 'bg-primary', costRange: '€400-€1.200', timeRange: '1-2 meses', tasks: allTasks.phase1,
-      service: { name: 'Alberto - Virtus Akademie', desc: 'Revisión documentos', price: '€150' },
+      id: 'phase1', title: 'Preparación', subtitle: 'Mes 1–2', number: 1,
+      costRange: '€400–€1.200', timeRange: '1–2 meses', tasks: allTasks.phase1,
+      service: { name: 'Alberto — Virtus Akademie', desc: 'Revisión documentos', price: '€150' },
     },
     {
-      id: 'phase2', title: 'Idioma Alemán', subtitle: 'Mes 2-8', icon: <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />,
-      color: 'bg-secondary', costRange: '€1.200-€2.400', timeRange: '3-8 meses', tasks: allTasks.phase2,
+      id: 'phase2', title: 'Idioma Alemán', subtitle: 'Mes 2–8', number: 2,
+      costRange: '€1.200–€2.400', timeRange: '3–8 meses', tasks: allTasks.phase2,
       service: { name: 'Profesora Leipzig', desc: 'Alemán médico + FSP', price: '€280/mes' },
     },
     {
-      id: 'phase3', title: 'Solicitud Approbation', subtitle: 'Mes 3-4', icon: <Send className="w-4 h-4 sm:w-5 sm:h-5" />,
-      color: 'bg-accent', costRange: '€400-€800', timeRange: '2-4 meses', tasks: allTasks.phase3,
+      id: 'phase3', title: 'Solicitud Approbation', subtitle: 'Mes 3–4', number: 3,
+      costRange: '€400–€800', timeRange: '2–4 meses', tasks: allTasks.phase3,
       warning: 'No envíes documentación incompleta — causa retrasos de meses.',
     },
     {
-      id: 'phase4', title: 'Fachsprachprüfung', subtitle: 'Mes 6-8', icon: <Stethoscope className="w-4 h-4 sm:w-5 sm:h-5" />,
-      color: 'bg-destructive', costRange: '€350-€650', timeRange: '3-6 meses prep.', tasks: allTasks.phase4,
+      id: 'phase4', title: 'Fachsprachprüfung', subtitle: 'Mes 6–8', number: 4,
+      costRange: '€350–€650', timeRange: '3–6 meses prep.', tasks: allTasks.phase4,
       tip: 'No es alemán general — es pensamiento clínico en alemán.',
     },
     {
-      id: 'phase5', title: 'Kenntnisprüfung', subtitle: 'Si se requiere', icon: <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />,
-      color: 'bg-purple-600', costRange: '€400-€1.400', timeRange: '3-6 meses prep.', tasks: allTasks.phase5,
+      id: 'phase5', title: 'Kenntnisprüfung', subtitle: 'Si se requiere', number: 5,
+      costRange: '€400–€1.400', timeRange: '3–6 meses prep.', tasks: allTasks.phase5,
       warning: 'Solo si tu universidad no es H+ en ANABIN.',
       conditionalBadge: { condition: onboarding.anabinStatus === 'Sí', text: 'Probablemente NO necesitas este examen' },
     },
     {
-      id: 'phase6', title: 'Berufserlaubnis', subtitle: 'Opcional', icon: <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />,
-      color: 'bg-yellow-500', costRange: '€200', timeRange: '2-4 semanas', tasks: allTasks.phase6,
+      id: 'phase6', title: 'Berufserlaubnis', subtitle: 'Opcional', number: 6,
+      costRange: '€200', timeRange: '2–4 semanas', tasks: allTasks.phase6,
       tip: 'Solo válida en el Bundesland donde la solicites.',
     },
     {
-      id: 'phase7', title: 'Approbation', subtitle: '¡La meta!', icon: <Award className="w-4 h-4 sm:w-5 sm:h-5" />,
-      color: 'bg-secondary', costRange: 'Incluido', timeRange: '—', tasks: allTasks.phase7,
-      tip: '¡Ya eres médico en Alemania oficialmente! 🎉',
+      id: 'phase7', title: 'Approbation', subtitle: 'La meta', number: 7,
+      costRange: 'Incluido', timeRange: '—', tasks: allTasks.phase7,
+      tip: 'Ya eres médico en Alemania oficialmente.',
     },
     {
-      id: 'phase8', title: 'Post-Approbation', subtitle: 'Finanzas', icon: <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />,
-      color: 'bg-primary', costRange: '€200+', timeRange: 'Continuo', tasks: allTasks.phase8,
+      id: 'phase8', title: 'Post-Approbation', subtitle: 'Finanzas', number: 8,
+      costRange: '€200+', timeRange: 'Continuo', tasks: allTasks.phase8,
       service: { name: 'Hispano Akademie', desc: 'Asesoría financiera', price: '€200 consulta' },
     },
   ];
@@ -79,103 +78,103 @@ export default function RoadmapPage() {
   };
 
   return (
-    <div className="container max-w-3xl py-5 sm:py-8 px-3 sm:px-4 space-y-5 sm:space-y-8">
+    <div className="container max-w-2xl py-6 sm:py-10 px-4 space-y-6 sm:space-y-8">
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-3 sm:space-y-4">
-        <h1 className="font-display text-2xl sm:text-3xl font-bold text-foreground">Tu Roadmap Personalizado</h1>
-        <div className="grid grid-cols-2 gap-2 sm:gap-3">
-          <Card className="p-3 sm:p-4 shadow-card">
-            <div className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground text-xs sm:text-sm mb-1"><Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Tiempo estimado</div>
-            <p className="text-lg sm:text-xl font-bold text-foreground">{timeLow}-{timeHigh} meses</p>
-          </Card>
-          <Card className="p-3 sm:p-4 shadow-card">
-            <div className="flex items-center gap-1.5 sm:gap-2 text-muted-foreground text-xs sm:text-sm mb-1"><TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Costo estimado</div>
-            <p className="text-lg sm:text-xl font-bold text-foreground">€{costLow.toLocaleString()}-€{costHigh.toLocaleString()}</p>
-          </Card>
-        </div>
-        <div className="space-y-1.5 sm:space-y-2">
-          <div className="flex justify-between text-xs sm:text-sm">
-            <span className="text-muted-foreground">Progreso total</span>
-            <span className="font-semibold text-foreground">{overallProgress}%</span>
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+        <h1 className="font-display text-xl sm:text-2xl font-semibold text-foreground">Tu Roadmap</h1>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-muted rounded-lg p-3 sm:p-4">
+            <p className="text-[11px] sm:text-xs text-muted-foreground mb-0.5">Tiempo estimado</p>
+            <p className="text-lg sm:text-xl font-semibold text-foreground">{timeLow}–{timeHigh} meses</p>
           </div>
-          <Progress value={overallProgress} className="h-2.5 sm:h-3" />
+          <div className="bg-muted rounded-lg p-3 sm:p-4">
+            <p className="text-[11px] sm:text-xs text-muted-foreground mb-0.5">Costo estimado</p>
+            <p className="text-lg sm:text-xl font-semibold text-foreground">€{costLow.toLocaleString()}–€{costHigh.toLocaleString()}</p>
+          </div>
+        </div>
+        <div className="space-y-1.5">
+          <div className="flex justify-between text-xs">
+            <span className="text-muted-foreground">Progreso</span>
+            <span className="font-medium text-foreground">{overallProgress}%</span>
+          </div>
+          <Progress value={overallProgress} className="h-1.5" />
         </div>
       </motion.div>
 
       {/* Timeline */}
-      <Accordion type="multiple" className="space-y-2 sm:space-y-3">
+      <Accordion type="multiple" className="space-y-2">
         {phases.map((phase, idx) => (
-          <motion.div key={phase.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
-            <AccordionItem value={phase.id} className="border rounded-xl overflow-hidden shadow-card">
-              <AccordionTrigger className="px-3 sm:px-4 py-3 sm:py-4 hover:no-underline hover:bg-muted/50">
-                <div className="flex items-center gap-2.5 sm:gap-3 w-full">
-                  <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg ${phase.color} flex items-center justify-center text-primary-foreground shrink-0`}>
-                    {phase.icon}
+          <motion.div key={phase.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.04 }}>
+            <AccordionItem value={phase.id} className="border rounded-lg overflow-hidden">
+              <AccordionTrigger className="px-4 py-3 hover:no-underline hover:bg-muted/50">
+                <div className="flex items-center gap-3 w-full">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-foreground flex items-center justify-center text-background text-xs font-semibold shrink-0">
+                    {phase.number}
                   </div>
                   <div className="flex-1 text-left min-w-0">
-                    <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                      <span className="font-display font-semibold text-sm sm:text-base text-foreground">{phase.title}</span>
-                      <span className="text-[10px] sm:text-xs text-muted-foreground">{phase.subtitle}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-display font-medium text-sm text-foreground">{phase.title}</span>
+                      <span className="text-[11px] text-muted-foreground">{phase.subtitle}</span>
                     </div>
-                    <div className="flex items-center gap-2 sm:gap-3 mt-0.5 sm:mt-1">
-                      <span className="text-[10px] sm:text-xs text-muted-foreground">{phase.costRange}</span>
-                      <Progress value={getPhaseProgress(phase.id)} className="h-1 sm:h-1.5 w-16 sm:w-20" />
-                      <span className="text-[10px] sm:text-xs text-muted-foreground">{getPhaseProgress(phase.id)}%</span>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-[11px] text-muted-foreground">{phase.costRange}</span>
+                      <Progress value={getPhaseProgress(phase.id)} className="h-1 w-14 sm:w-20" />
+                      <span className="text-[11px] text-muted-foreground">{getPhaseProgress(phase.id)}%</span>
                     </div>
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-3 sm:px-4 pb-3 sm:pb-4 space-y-2.5 sm:space-y-3">
+              <AccordionContent className="px-4 pb-4 space-y-3">
                 {phase.conditionalBadge?.condition && (
-                  <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20 text-xs">✅ {phase.conditionalBadge.text}</Badge>
+                  <Badge variant="secondary" className="text-xs">✓ {phase.conditionalBadge.text}</Badge>
                 )}
 
-                {/* Tasks */}
-                <div className="space-y-1 sm:space-y-2">
+                <div className="space-y-1">
                   {phase.tasks.map((task, i) => {
                     const taskId = `${phase.id}-${i}`;
                     return (
-                      <label key={taskId} className="flex items-start gap-2.5 sm:gap-3 p-2 rounded-md hover:bg-muted/50 cursor-pointer transition-colors min-h-[44px]">
+                      <label key={taskId} className="flex items-start gap-2.5 p-2 rounded-md hover:bg-muted/50 cursor-pointer transition-colors min-h-[40px]">
                         <Checkbox
                           checked={!!roadmap.checkedTasks[taskId]}
                           onCheckedChange={() => toggleTask(taskId)}
                           className="mt-0.5"
                         />
-                        <span className={`text-xs sm:text-sm leading-relaxed ${roadmap.checkedTasks[taskId] ? 'line-through text-muted-foreground' : 'text-foreground'}`}>{task}</span>
+                        <span className={`text-sm leading-relaxed ${roadmap.checkedTasks[taskId] ? 'line-through text-muted-foreground' : 'text-foreground'}`}>{task}</span>
                       </label>
                     );
                   })}
                 </div>
 
-                <div className="flex gap-2 sm:gap-3 text-[10px] sm:text-xs text-muted-foreground">
-                  <span>💰 {phase.costRange}</span>
-                  <span>⏱ {phase.timeRange}</span>
+                <div className="flex gap-3 text-[11px] text-muted-foreground">
+                  <span>{phase.costRange}</span>
+                  <span>·</span>
+                  <span>{phase.timeRange}</span>
                 </div>
 
                 {phase.warning && (
-                  <div className="flex items-start gap-2 bg-accent/10 border border-accent/20 rounded-lg p-2.5 sm:p-3 text-xs sm:text-sm text-foreground">
-                    <AlertTriangle className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                  <div className="flex items-start gap-2 bg-muted rounded-lg p-3 text-xs text-foreground">
+                    <AlertTriangle className="w-3.5 h-3.5 text-muted-foreground shrink-0 mt-0.5" />
                     {phase.warning}
                   </div>
                 )}
 
                 {phase.tip && (
-                  <div className="bg-info/5 border border-info/20 rounded-lg p-2.5 sm:p-3 text-xs sm:text-sm text-foreground">
-                    💡 {phase.tip}
+                  <div className="bg-muted rounded-lg p-3 text-xs text-muted-foreground leading-relaxed">
+                    {phase.tip}
                   </div>
                 )}
 
                 {phase.service && (
-                  <Card className="p-2.5 sm:p-3 bg-muted/50 flex items-center gap-2.5 sm:gap-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <User className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                  <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                    <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center shrink-0">
+                      <User className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs sm:text-sm font-medium text-foreground truncate">{phase.service.name}</p>
-                      <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{phase.service.desc} · {phase.service.price}</p>
+                      <p className="text-sm font-medium text-foreground truncate">{phase.service.name}</p>
+                      <p className="text-[11px] text-muted-foreground truncate">{phase.service.desc} · {phase.service.price}</p>
                     </div>
-                    <button className="text-[10px] sm:text-xs font-medium text-primary hover:underline shrink-0">Contactar</button>
-                  </Card>
+                    <button className="text-xs font-medium text-foreground underline underline-offset-2 shrink-0">Contactar</button>
+                  </div>
                 )}
               </AccordionContent>
             </AccordionItem>
