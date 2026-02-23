@@ -11,6 +11,7 @@ import Services from "./pages/Services";
 import Guides from "./pages/Guides";
 import Community from "./pages/Community";
 import Profile from "./pages/Profile";
+import Jobs from "./pages/Jobs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/services" element={<Services />} />
             <Route path="/guides" element={<Guides />} />
             <Route path="/community" element={<Community />} />
+            <Route path="/jobs" element={<Jobs />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

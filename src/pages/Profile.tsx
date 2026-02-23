@@ -111,7 +111,7 @@ export default function ProfilePage() {
                 <User className="w-3.5 h-3.5 text-muted-foreground" />
               </div>
               <div className="flex-1">
-                <p className="text-xs font-medium text-foreground">Profesora Leipzig</p>
+                <p className="text-xs font-medium text-foreground">Iris — Leipzig</p>
                 <p className="text-[10px] text-muted-foreground">Activo</p>
               </div>
             </div>
@@ -120,7 +120,7 @@ export default function ProfilePage() {
                 <User className="w-3.5 h-3.5 text-muted-foreground" />
               </div>
               <div className="flex-1">
-                <p className="text-xs font-medium text-foreground">Hispano Akademie</p>
+                <p className="text-xs font-medium text-foreground">Dieter — Hispano Akademie</p>
                 <p className="text-[10px] text-muted-foreground">Pendiente cita</p>
               </div>
             </div>

@@ -23,23 +23,24 @@ interface ServiceProvider {
 
 const providers: ServiceProvider[] = [
   {
-    name: 'Dra. María González', role: 'Profesora Goethe Institut Leipzig', category: 'Alemán médico',
-    rating: 4.9, reviews: 127, specialty: 'Alemán médico + Preparación FSP',
+    name: 'Iris', role: 'Profesora Alemán Médico — Leipzig', category: 'Alemán médico',
+    rating: 4.9, reviews: 127, specialty: 'Alemán médico + Preparación FSP + Simulaciones',
     includes: ['8 sesiones 1:1 por mes', 'Simulaciones FSP reales', 'Corrección documentos médicos', 'Grupo práctica otros médicos'],
     price: '€280/mes (mín. 3 meses)', testimonial: 'Aprobé FSP primera vez gracias a simulaciones', testimonialAuthor: 'Dr. Carlos M.',
     cta: 'Agendar consulta gratis',
   },
   {
-    name: 'Alberto Méndez', role: 'Especialista Homologación Médica', category: 'Homologación',
+    name: 'Alberto Díaz', role: 'Especialista Homologación Médica', category: 'Homologación',
     rating: 5.0, reviews: 89, specialty: 'Homologación completa médicos LatAm',
     includes: ['Revisión completa documentos', 'Verificación ANABIN', 'Estrategia por Bundesland', 'Seguimiento proceso completo'],
-    price: '€500–€1.500 según caso', cta: 'Consulta inicial gratis',
+    price: '€300–€400 por asesoría', testimonial: 'Me ahorró meses de trámites innecesarios', testimonialAuthor: 'Dra. Ana L.',
+    cta: 'Consulta inicial gratis',
   },
   {
-    name: 'Dieter Schmidt', role: 'Asesor Financiero Médicos', category: 'Finanzas',
+    name: 'Dieter', role: 'Asesor Financiero Médicos — Hispano Akademie', category: 'Finanzas',
     rating: 4.8, reviews: 156, specialty: 'Optimización fiscal y pensiones médicos',
     includes: ['Análisis situación completa', 'Optimización Steuerklasse', 'Planificación Versorgungswerk', 'Estrategia Berufsunfähigkeit'],
-    price: '€200 consulta inicial', cta: 'Agendar cita',
+    price: '€200–€500 consulta', cta: 'Agendar cita',
   },
   {
     name: 'Lic. Patricia Ruiz', role: 'Psicóloga especializada migrantes', category: 'Psicología',
@@ -64,7 +65,7 @@ export default function ServicesPage() {
     <div className="container max-w-3xl py-6 sm:py-10 px-4 space-y-6">
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="font-display text-xl sm:text-2xl font-semibold text-foreground">Servicios</h1>
-        <p className="text-sm text-muted-foreground mt-1">Profesionales verificados para cada etapa.</p>
+        <p className="text-sm text-muted-foreground mt-1">Profesionales verificados. Transparencia radical: sabes quién te ayuda y cuánto cuesta.</p>
       </motion.div>
 
       {/* Tabs */}
@@ -111,7 +112,7 @@ export default function ServicesPage() {
               <Badge variant="secondary" className="w-fit text-[10px]">{p.specialty}</Badge>
 
               <button className="w-full h-14 rounded-lg bg-muted flex items-center justify-center gap-2 text-xs text-muted-foreground hover:bg-muted/80 transition-colors">
-                <Play className="w-4 h-4" /> Video
+                <Play className="w-4 h-4" /> Video 30–60 seg
               </button>
 
               <ul className="space-y-1 flex-1">

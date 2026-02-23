@@ -31,12 +31,12 @@ export default function RoadmapPage() {
     {
       id: 'phase1', title: 'Preparación', subtitle: 'Mes 1–2', number: 1,
       costRange: '€400–€1.200', timeRange: '1–2 meses', tasks: allTasks.phase1,
-      service: { name: 'Alberto — Virtus Akademie', desc: 'Revisión documentos', price: '€150' },
+      service: { name: 'Alberto Díaz', desc: 'Homologación + documentos', price: '€300–€400' },
     },
     {
       id: 'phase2', title: 'Idioma Alemán', subtitle: 'Mes 2–8', number: 2,
       costRange: '€1.200–€2.400', timeRange: '3–8 meses', tasks: allTasks.phase2,
-      service: { name: 'Profesora Leipzig', desc: 'Alemán médico + FSP', price: '€280/mes' },
+      service: { name: 'Iris — Leipzig', desc: 'Alemán médico + FSP', price: '€280/mes' },
     },
     {
       id: 'phase3', title: 'Solicitud Approbation', subtitle: 'Mes 3–4', number: 3,
@@ -67,7 +67,7 @@ export default function RoadmapPage() {
     {
       id: 'phase8', title: 'Post-Approbation', subtitle: 'Finanzas', number: 8,
       costRange: '€200+', timeRange: 'Continuo', tasks: allTasks.phase8,
-      service: { name: 'Hispano Akademie', desc: 'Asesoría financiera', price: '€200 consulta' },
+      service: { name: 'Dieter — Hispano Akademie', desc: 'Asesoría financiera', price: '€200–€500' },
     },
   ];
 
