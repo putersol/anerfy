@@ -10,6 +10,7 @@ const navItems = [
   { to: '/services', label: 'Servicios' },
   { to: '/guides', label: 'Guías' },
   { to: '/community', label: 'Comunidad' },
+  { to: '/jobs', label: 'Empleo' },
   { to: '/profile', label: 'Perfil' },
 ];
 
@@ -22,7 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
         <div className="container flex items-center justify-between h-12 sm:h-14">
           <Link to="/" className="flex items-center gap-1.5">
-            <span className="font-display text-base sm:text-lg font-bold text-foreground tracking-tight">MEDICUS</span>
+            <span className="font-display text-base sm:text-lg font-bold text-foreground tracking-tight">ANERFY</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-0.5">
@@ -84,9 +85,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <footer className="border-t border-border">
         <div className="container py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <span className="text-xs text-muted-foreground">© 2026 MEDICUS</span>
+          <span className="text-xs text-muted-foreground">© 2026 ANERFY</span>
           <div className="flex gap-4 text-xs text-muted-foreground">
-            <span className="hover:text-foreground cursor-pointer transition-colors">Contacto</span>
+            <a href="mailto:info@anerfy.com" className="hover:text-foreground transition-colors">info@anerfy.com</a>
             <span className="hover:text-foreground cursor-pointer transition-colors">Legal</span>
             <span className="hover:text-foreground cursor-pointer transition-colors">Privacidad</span>
           </div>

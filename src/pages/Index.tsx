@@ -88,10 +88,10 @@ export default function OnboardingPage() {
           <div className="container max-w-2xl text-center space-y-4">
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
               <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-tight">
-                Tu roadmap para ejercer medicina en Alemania
+                Tu criterio para ejercer medicina en Alemania
               </h1>
               <p className="text-background/60 text-sm sm:text-base mt-4 max-w-lg mx-auto leading-relaxed">
-                Responde 7 preguntas y obtén un plan personalizado con costos, tiempos y recursos.
+                No te decimos qué hacer. Te damos el criterio para decidir por tu cuenta. Responde 7 preguntas y obtén tu plan personalizado.
               </p>
             </motion.div>
           </div>

@@ -46,7 +46,7 @@ export default function CommunityPage() {
       </div>
 
       <div className="bg-muted rounded-lg p-6 text-center">
-        <p className="text-sm text-muted-foreground">Forum completo en desarrollo.</p>
+        <p className="text-sm text-muted-foreground">Foro tipo Reddit en desarrollo — moderado por expertos.</p>
         <Button variant="outline" size="sm" className="mt-3 text-xs">Notificarme</Button>
       </div>
     </div>
