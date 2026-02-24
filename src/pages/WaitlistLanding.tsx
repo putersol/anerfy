@@ -75,14 +75,13 @@ export default function WaitlistLanding() {
       <section className="bg-foreground text-background">
         <div className="container max-w-3xl py-20 sm:py-28 px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <img src={anerfyLogo} alt="ANERFY" className="h-12 sm:h-16 mx-auto mb-8 invert" />
+            <img src={anerfyLogo} alt="ANERFY" className="h-12 sm:h-16 mx-auto mb-6 invert" />
+            <p className="text-background/40 text-xs sm:text-sm tracking-widest uppercase mb-6">Anerkennung + Simplify</p>
             <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
-              Ejerce medicina en Alemania.
-              <br />
-              <span className="text-background/50">Sin que te estafen.</span>
+              Simplificamos tu Anerkennung.
             </h1>
             <p className="text-background/60 text-sm sm:text-lg mt-6 max-w-xl mx-auto leading-relaxed">
-              La plataforma que te da el criterio para tomar decisiones informadas sobre tu homologación. Sin comisiones ocultas. Sin intermediarios innecesarios.
+              La plataforma que te da el criterio para ejercer medicina en Alemania. Sin comisiones ocultas. Sin intermediarios innecesarios.
             </p>
           </motion.div>
 
@@ -264,6 +263,25 @@ export default function WaitlistLanding() {
               </div>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* Why ANERFY */}
+      <section className="py-16 sm:py-24 px-4">
+        <div className="container max-w-2xl text-center">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-6">
+            <motion.h2 variants={fadeUp} custom={0} className="font-display text-xl sm:text-3xl font-bold text-foreground">
+              ¿Por qué ANERFY?
+            </motion.h2>
+            <motion.div variants={fadeUp} custom={1} className="inline-flex items-center gap-3 bg-muted rounded-full px-6 py-3">
+              <span className="font-display font-bold text-foreground text-sm sm:text-base">Aner<span className="text-muted-foreground">kennung</span></span>
+              <span className="text-muted-foreground text-lg">+</span>
+              <span className="font-display font-bold text-foreground text-sm sm:text-base"><span className="text-muted-foreground">Simpli</span>fy</span>
+            </motion.div>
+            <motion.p variants={fadeUp} custom={2} className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-lg mx-auto">
+              Nuestro nombre nace de la fusión entre <strong className="text-foreground">Anerkennung</strong> —el proceso de homologación médica en Alemania— y <strong className="text-foreground">Simplify</strong>. Porque creemos que algo tan importante como tu carrera no debería ser un laberinto burocrático.
+            </motion.p>
+          </motion.div>
         </div>
       </section>
 
