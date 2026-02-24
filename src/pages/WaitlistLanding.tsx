@@ -118,8 +118,9 @@ export default function WaitlistLanding() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <p
-            className="font-display text-7xl sm:text-[120px] lg:text-[150px] font-bold leading-none tracking-tight text-foreground"
+            className="text-7xl sm:text-[120px] lg:text-[150px] font-bold leading-none tracking-tight text-foreground"
             style={{
+              fontFamily: "'Space Grotesk', sans-serif",
               textShadow: '0 0 20px hsl(220 85% 55% / 0.4), 0 0 60px hsl(220 85% 55% / 0.2), 0 0 100px hsl(220 85% 55% / 0.1)',
             }}
           >
