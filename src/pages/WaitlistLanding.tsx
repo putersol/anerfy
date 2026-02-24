@@ -103,12 +103,8 @@ export default function WaitlistLanding() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-center gap-2"
         >
-          <img src={anerfyLogo} alt="Anerfy logo" className="w-12 h-12 sm:w-16 sm:h-16" />
-          <span style={{ fontFamily: "'Space Grotesk', sans-serif" }} className="text-lg sm:text-xl font-bold tracking-[0.3em] text-foreground/60">
-            ANERFY
-          </span>
+          <img src={anerfyLogo} alt="Anerfy logo" className="w-12 h-12 sm:w-16 sm:h-16 mx-auto" />
         </motion.div>
 
         {/* Counter */}
