@@ -13,6 +13,9 @@ import Guides from "./pages/Guides";
 import Community from "./pages/Community";
 import Profile from "./pages/Profile";
 import Jobs from "./pages/Jobs";
+import Cookies from "./pages/Cookies";
+import Datenschutz from "./pages/Datenschutz";
+import Impressum from "./pages/Impressum";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +36,9 @@ const App = () => (
             <Route path="/guides" element={<Guides />} />
             <Route path="/community" element={<Community />} />
             <Route path="/jobs" element={<Jobs />} />
+            <Route path="/cookies" element={<Cookies />} />
+            <Route path="/datenschutz" element={<Datenschutz />} />
+            <Route path="/impressum" element={<Impressum />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
