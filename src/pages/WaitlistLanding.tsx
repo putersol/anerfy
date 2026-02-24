@@ -75,7 +75,9 @@ export default function WaitlistLanding() {
       <section className="bg-foreground text-background">
         <div className="container max-w-3xl py-20 sm:py-28 px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <img src={anerfyLogo} alt="ANERFY" className="h-16 sm:h-20 mx-auto mb-6 invert mix-blend-screen" />
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <span className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-background">ANERFY</span>
+            </div>
             <p className="text-background/40 text-xs sm:text-sm tracking-widest uppercase mb-6">Anerkennung + Simplify</p>
             <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
               Simplificamos tu Anerkennung.
