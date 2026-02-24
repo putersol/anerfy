@@ -17,6 +17,16 @@ const navItems = [
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const isWaitlist = location.pathname === '/';
+
+  // On waitlist landing, render only the page with no nav/footer
+  if (isWaitlist) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <main className="flex-1">{children}</main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
