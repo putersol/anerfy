@@ -103,7 +103,7 @@ export default function WaitlistLanding() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="font-display text-lg sm:text-xl font-bold tracking-[0.2em] text-foreground/60">
+          <span style={{ fontFamily: "'Space Grotesk', sans-serif" }} className="text-lg sm:text-xl font-bold tracking-[0.3em] text-foreground/60">
             ANERFY
           </span>
         </motion.div>
