@@ -140,7 +140,7 @@ export default function WaitlistLanding() {
       >
         <img src={anerfyLogo} alt="Anerfy logo" className="w-8 h-8 sm:w-9 sm:h-9 brightness-0 invert object-contain scale-[1.6]" />
         <span
-          className="text-sm sm:text-base font-semibold tracking-[0.35em] text-foreground/80 font-sans"
+          className="text-sm sm:text-base font-bold tracking-[0.35em] text-foreground/80 font-sans"
         >
           ANERFY
         </span>
