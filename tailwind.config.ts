@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "system-ui", "sans-serif"],
-        display: ["DM Sans", "Inter", "-apple-system", "system-ui", "sans-serif"],
+        sans: ["Geist", "-apple-system", "BlinkMacSystemFont", "system-ui", "sans-serif"],
+        display: ["Geist", "-apple-system", "system-ui", "sans-serif"],
+        accent: ["Spectral", "Georgia", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",

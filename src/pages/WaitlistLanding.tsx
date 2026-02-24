@@ -140,8 +140,7 @@ export default function WaitlistLanding() {
       >
         <img src={anerfyLogo} alt="Anerfy logo" className="w-8 h-8 sm:w-9 sm:h-9 brightness-0 invert object-contain scale-[1.6]" />
         <span
-          style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-          className="text-sm sm:text-base font-bold tracking-[0.35em] text-foreground/80"
+          className="text-sm sm:text-base font-semibold tracking-[0.35em] text-foreground/80 font-sans"
         >
           ANERFY
         </span>
@@ -158,9 +157,8 @@ export default function WaitlistLanding() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <p
-              className="text-8xl sm:text-[140px] lg:text-[180px] font-bold leading-none tracking-tight text-foreground"
+              className="text-8xl sm:text-[120px] lg:text-[150px] font-bold leading-none tracking-tight text-foreground font-sans"
               style={{
-                fontFamily: "'Space Grotesk', sans-serif",
                 textShadow: '0 0 30px hsl(220 85% 55% / 0.35), 0 0 80px hsl(220 85% 55% / 0.15), 0 0 120px hsl(220 85% 55% / 0.08)',
               }}
             >
@@ -186,13 +184,12 @@ export default function WaitlistLanding() {
             className="space-y-4 pt-2"
           >
             <h1
-              className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-[1.1]"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              className="text-3xl sm:text-5xl lg:text-[60px] font-normal leading-[1.1] font-sans"
             >
               Simplificamos tu{' '}
-              <span className="italic text-primary">Anerkennung</span>
+              <span className="italic text-primary font-accent font-semibold text-4xl sm:text-[55px] lg:text-[65px]">Anerkennung</span>
             </h1>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">
+            <p className="text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed font-normal">
               La plataforma que te da el criterio para ejercer medicina en Alemania. Sin comisiones ocultas.
             </p>
           </motion.div>
