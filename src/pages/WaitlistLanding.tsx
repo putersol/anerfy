@@ -106,106 +106,125 @@ export default function WaitlistLanding() {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center overflow-hidden">
+    <div className="relative min-h-screen flex flex-col overflow-hidden">
       <FloatingShapes />
 
-      <div className="relative z-10 text-center px-4 max-w-2xl mx-auto space-y-8">
-        {/* Logo - horizontal: icon left + text right */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex items-center justify-center gap-3 -mt-8"
+      {/* Top bar - brand name */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="relative z-10 flex items-center justify-center gap-2 pt-8 pb-4"
+      >
+        <img src={anerfyLogo} alt="Anerfy logo" className="w-8 h-8 sm:w-9 sm:h-9 brightness-0 invert object-contain scale-[1.6]" />
+        <span
+          style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+          className="text-sm sm:text-base font-bold tracking-[0.35em] text-foreground/80"
         >
-          <img src={anerfyLogo} alt="Anerfy logo" className="w-10 h-10 sm:w-12 sm:h-12 brightness-0 invert object-contain scale-[1.6]" />
-          <span style={{ fontFamily: "'Space Grotesk', sans-serif" }} className="text-2xl sm:text-3xl font-bold tracking-[0.3em] text-foreground/60">
-            ANERFY
-          </span>
-        </motion.div>
+          ANERFY
+        </span>
+      </motion.div>
 
-        {/* Counter */}
-        <motion.div
-          ref={counterRef}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <p
-            className="text-7xl sm:text-[120px] lg:text-[150px] font-bold leading-none tracking-tight text-foreground"
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif",
-              textShadow: '0 0 20px hsl(220 85% 55% / 0.4), 0 0 60px hsl(220 85% 55% / 0.2), 0 0 100px hsl(220 85% 55% / 0.1)',
-            }}
+      {/* Main centered content */}
+      <div className="relative z-10 flex-1 flex items-center justify-center">
+        <div className="text-center px-4 max-w-3xl mx-auto space-y-6">
+          {/* Counter */}
+          <motion.div
+            ref={counterRef}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
-            {displayCount.toLocaleString()}
-          </p>
-          <p className="text-xs sm:text-sm tracking-[0.3em] uppercase text-muted-foreground mt-2">
-            Médicos en la lista de espera
-          </p>
-        </motion.div>
-
-        {/* Headline */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="space-y-3"
-        >
-          <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-bold leading-[1.1]">
-            Simplificamos tu{' '}
-            <span className="italic text-primary">Anerkennung</span>
-          </h1>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto leading-relaxed">
-            La plataforma que te da el criterio para ejercer medicina en Alemania. Sin comisiones ocultas.
-          </p>
-        </motion.div>
-
-        {/* CTA Form */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="max-w-md mx-auto"
-        >
-          {!submitted ? (
-            <form onSubmit={handleSubmit} className="flex gap-2">
-              <Input
-                type="email"
-                placeholder="tu@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="h-12 bg-secondary border-border text-foreground placeholder:text-muted-foreground focus-visible:ring-primary"
-              />
-              <Button
-                type="submit"
-                className="h-12 px-6 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold shrink-0 rounded-lg"
-              >
-                Unirme
-              </Button>
-            </form>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="flex items-center justify-center gap-2 text-primary"
+            <p
+              className="text-8xl sm:text-[140px] lg:text-[180px] font-bold leading-none tracking-tight text-foreground"
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                textShadow: '0 0 30px hsl(220 85% 55% / 0.35), 0 0 80px hsl(220 85% 55% / 0.15), 0 0 120px hsl(220 85% 55% / 0.08)',
+              }}
             >
-              <Check className="w-5 h-5" />
-              <span className="font-semibold">¡Estás dentro!</span>
-            </motion.div>
-          )}
-        </motion.div>
+              {displayCount.toLocaleString()}
+            </p>
+          </motion.div>
 
-        {/* Subtle tagline */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="text-muted-foreground/50 text-xs tracking-wide"
-        >
-          Anerkennung + Simplify
-        </motion.p>
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-xs sm:text-sm tracking-[0.35em] uppercase text-muted-foreground"
+          >
+            Médicos en la lista de espera
+          </motion.p>
+
+          {/* Headline */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="space-y-4 pt-2"
+          >
+            <h1
+              className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-[1.1]"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
+              Simplificamos tu{' '}
+              <span className="italic text-primary">Anerkennung</span>
+            </h1>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed">
+              La plataforma que te da el criterio para ejercer medicina en Alemania. Sin comisiones ocultas.
+            </p>
+          </motion.div>
+
+          {/* CTA Form - tohkn style: single rounded pill container */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+            className="max-w-lg mx-auto pt-2"
+          >
+            {!submitted ? (
+              <form
+                onSubmit={handleSubmit}
+                className="flex items-center bg-secondary/80 border border-border rounded-full p-1.5 pl-6"
+              >
+                <input
+                  type="email"
+                  placeholder="Tu dirección de email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="flex-1 bg-transparent text-sm sm:text-base text-foreground placeholder:text-muted-foreground outline-none"
+                />
+                <Button
+                  type="submit"
+                  className="h-10 sm:h-11 px-5 sm:px-7 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold rounded-full text-sm sm:text-base shrink-0"
+                >
+                  Unirme
+                </Button>
+              </form>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex items-center justify-center gap-2 text-primary"
+              >
+                <Check className="w-5 h-5" />
+                <span className="font-semibold">¡Estás dentro!</span>
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
       </div>
+
+      {/* Bottom tagline */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.9 }}
+        className="relative z-10 text-center text-muted-foreground/40 text-xs tracking-wide pb-8"
+      >
+        Anerkennung + Simplify
+      </motion.p>
     </div>
   );
 }
