@@ -4,7 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "@/components/Layout";
-import Index from "./pages/Index";
+import WaitlistLanding from "./pages/WaitlistLanding";
+import Onboarding from "./pages/Index";
 import Roadmap from "./pages/Roadmap";
 import Calculator from "./pages/Calculator";
 import Services from "./pages/Services";
@@ -24,7 +25,8 @@ const App = () => (
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<WaitlistLanding />} />
+            <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/calculator" element={<Calculator />} />
             <Route path="/services" element={<Services />} />
