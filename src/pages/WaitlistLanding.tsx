@@ -105,7 +105,7 @@ export default function WaitlistLanding() {
           transition={{ duration: 0.6 }}
           className="flex flex-col items-center gap-1"
         >
-          <img src={anerfyLogo} alt="Anerfy logo" className="w-24 h-24 sm:w-32 sm:h-32 brightness-0 invert object-contain scale-[1.8]" />
+          <img src={anerfyLogo} alt="Anerfy logo" className="w-20 h-20 sm:w-24 sm:h-24 brightness-0 invert object-contain scale-[1.6]" />
           <span style={{ fontFamily: "'Space Grotesk', sans-serif" }} className="text-lg sm:text-xl font-bold tracking-[0.3em] text-foreground/60">
             ANERFY
           </span>
