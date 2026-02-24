@@ -67,7 +67,7 @@ export default function WaitlistLanding() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [displayCount, setDisplayCount] = useState(0);
-  const targetCount = 847;
+  const targetCount = 242;
 
   /* Animate counter on mount */
   useEffect(() => {
@@ -117,7 +117,12 @@ export default function WaitlistLanding() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <p className="font-display text-7xl sm:text-[120px] lg:text-[150px] font-bold leading-none tracking-tight text-foreground">
+          <p
+            className="font-display text-7xl sm:text-[120px] lg:text-[150px] font-bold leading-none tracking-tight text-foreground"
+            style={{
+              textShadow: '0 0 20px hsl(220 85% 55% / 0.4), 0 0 60px hsl(220 85% 55% / 0.2), 0 0 100px hsl(220 85% 55% / 0.1)',
+            }}
+          >
             {displayCount.toLocaleString()}
           </p>
           <p className="text-xs sm:text-sm tracking-[0.3em] uppercase text-muted-foreground mt-2">
