@@ -2,7 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Check } from 'lucide-react';
+import { Check, Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 
 /* Floating geometric shapes for animated background */
@@ -66,6 +68,7 @@ function FloatingShapes() {
 export default function WaitlistLanding() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [displayCount, setDisplayCount] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const counterRef = useRef<HTMLDivElement>(null);
@@ -99,10 +102,29 @@ export default function WaitlistLanding() {
     return () => observer.disconnect();
   }, [hasAnimated]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
-    setSubmitted(true);
+    if (!email || loading) return;
+    setLoading(true);
+    try {
+      const { error } = await supabase.from('waitlist').insert({ email: email.trim().toLowerCase() });
+      if (error) {
+        if (error.code === '23505') {
+          toast({ title: '¡Ya estás registrado!', description: 'Este email ya está en la lista de espera.' });
+          setSubmitted(true);
+        } else {
+          toast({ title: 'Error', description: 'No se pudo registrar. Intenta de nuevo.', variant: 'destructive' });
+        }
+      } else {
+        setSubmitted(true);
+      }
+    } catch {
+      toast({ title: 'Error', description: 'Error de conexión. Intenta de nuevo.', variant: 'destructive' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -197,9 +219,10 @@ export default function WaitlistLanding() {
                 />
                 <Button
                   type="submit"
+                  disabled={loading}
                   className="h-10 sm:h-11 px-5 sm:px-7 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold rounded-full text-sm sm:text-base shrink-0"
                 >
-                  Unirme
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Unirme'}
                 </Button>
               </form>
             ) : (
