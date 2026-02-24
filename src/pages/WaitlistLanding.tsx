@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -67,25 +67,37 @@ export default function WaitlistLanding() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [displayCount, setDisplayCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const counterRef = useRef<HTMLDivElement>(null);
   const targetCount = 242;
 
-  /* Animate counter on mount */
+  /* Animate counter when visible */
   useEffect(() => {
-    const duration = 2000;
-    const steps = 60;
-    const increment = targetCount / steps;
-    let current = 0;
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= targetCount) {
-        setDisplayCount(targetCount);
-        clearInterval(timer);
-      } else {
-        setDisplayCount(Math.floor(current));
-      }
-    }, duration / steps);
-    return () => clearInterval(timer);
-  }, []);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          const duration = 2000;
+          const steps = 60;
+          const increment = targetCount / steps;
+          let current = 0;
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= targetCount) {
+              setDisplayCount(targetCount);
+              clearInterval(timer);
+            } else {
+              setDisplayCount(Math.floor(current));
+            }
+          }, duration / steps);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (counterRef.current) observer.observe(counterRef.current);
+    return () => observer.disconnect();
+  }, [hasAnimated]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,21 +110,22 @@ export default function WaitlistLanding() {
       <FloatingShapes />
 
       <div className="relative z-10 text-center px-4 max-w-2xl mx-auto space-y-8">
-        {/* Logo */}
+        {/* Logo - horizontal: icon left + text right */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col items-center gap-1"
+          className="flex items-center justify-center gap-3 -mt-8"
         >
-          <img src={anerfyLogo} alt="Anerfy logo" className="w-20 h-20 sm:w-24 sm:h-24 brightness-0 invert object-contain scale-[1.6]" />
-          <span style={{ fontFamily: "'Space Grotesk', sans-serif" }} className="text-lg sm:text-xl font-bold tracking-[0.3em] text-foreground/60">
+          <img src={anerfyLogo} alt="Anerfy logo" className="w-10 h-10 sm:w-12 sm:h-12 brightness-0 invert object-contain scale-[1.6]" />
+          <span style={{ fontFamily: "'Space Grotesk', sans-serif" }} className="text-2xl sm:text-3xl font-bold tracking-[0.3em] text-foreground/60">
             ANERFY
           </span>
         </motion.div>
 
         {/* Counter */}
         <motion.div
+          ref={counterRef}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
