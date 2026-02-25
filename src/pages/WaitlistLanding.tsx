@@ -6,7 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Check, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { z } from 'zod';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
+
+const emailSchema = z.string().trim().email('Email inválido').max(255, 'Email demasiado largo');
 
 /* Floating geometric shapes for animated background */
 function FloatingShapes() {
@@ -110,7 +113,8 @@ export default function WaitlistLanding() {
     if (!email || loading) return;
     setLoading(true);
     try {
-      const { error } = await supabase.from('waitlist').insert({ email: email.trim().toLowerCase() });
+      const validatedEmail = emailSchema.parse(email.trim().toLowerCase());
+      const { error } = await supabase.from('waitlist').insert({ email: validatedEmail });
       if (error) {
         if (error.code === '23505') {
           toast({ title: '¡Ya estás registrado!', description: 'Este email ya está en la lista de espera.' });
