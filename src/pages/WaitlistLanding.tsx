@@ -70,13 +70,35 @@ function FloatingShapes() {
 }
 
 export default function WaitlistLanding() {
+  const BASE_COUNT = 242;
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [displayCount, setDisplayCount] = useState(0);
+  const [targetCount, setTargetCount] = useState(BASE_COUNT);
   const [hasAnimated, setHasAnimated] = useState(false);
   const counterRef = useRef<HTMLDivElement>(null);
-  const targetCount = 242;
+
+  /* Fetch real count from DB */
+  useEffect(() => {
+    const fetchCount = async () => {
+      const { data, error } = await supabase.rpc('get_waitlist_count');
+      if (!error && data !== null) {
+        setTargetCount(BASE_COUNT + data);
+      }
+    };
+    fetchCount();
+
+    // Subscribe to realtime inserts
+    const channel = supabase
+      .channel('waitlist-count')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'waitlist' }, () => {
+        setTargetCount((prev) => prev + 1);
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, []);
 
   /* Animate counter when visible */
   useEffect(() => {
@@ -104,7 +126,14 @@ export default function WaitlistLanding() {
 
     if (counterRef.current) observer.observe(counterRef.current);
     return () => observer.disconnect();
-  }, [hasAnimated]);
+  }, [hasAnimated, targetCount]);
+
+  // After animation, keep displayCount in sync with targetCount changes
+  useEffect(() => {
+    if (hasAnimated) {
+      setDisplayCount(targetCount);
+    }
+  }, [targetCount, hasAnimated]);
 
   const { toast } = useToast();
 
