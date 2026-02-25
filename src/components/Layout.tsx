@@ -17,10 +17,10 @@ const navItems = [
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
-  const isWaitlist = location.pathname === '/';
+  const isMinimalPage = location.pathname === '/' || ['/cookies', '/datenschutz', '/impressum'].includes(location.pathname);
 
-  // On waitlist landing, render only the page with no nav/footer
-  if (isWaitlist) {
+  // On waitlist landing and legal pages, render only the page with no nav/footer
+  if (isMinimalPage) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <main className="flex-1">{children}</main>
