@@ -29,17 +29,9 @@ const App = () => (
         <Layout>
           <Routes>
             <Route path="/" element={<WaitlistLanding />} />
-            <Route path="/onboarding" element={<Onboarding />} />
-            <Route path="/roadmap" element={<Roadmap />} />
-            <Route path="/calculator" element={<Calculator />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/guides" element={<Guides />} />
-            <Route path="/community" element={<Community />} />
-            <Route path="/jobs" element={<Jobs />} />
             <Route path="/cookies" element={<Cookies />} />
             <Route path="/datenschutz" element={<Datenschutz />} />
             <Route path="/impressum" element={<Impressum />} />
-            <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
