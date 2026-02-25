@@ -75,7 +75,7 @@ export default function WaitlistLanding() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [displayCount, setDisplayCount] = useState(0);
-  const [targetCount, setTargetCount] = useState(BASE_COUNT);
+  const [targetCount, setTargetCount] = useState<number | null>(null);
   const [hasAnimated, setHasAnimated] = useState(false);
   const counterRef = useRef<HTMLDivElement>(null);
 
@@ -85,26 +85,29 @@ export default function WaitlistLanding() {
       const { data, error } = await supabase.rpc('get_waitlist_count');
       if (!error && data !== null) {
         setTargetCount(BASE_COUNT + data);
+      } else {
+        setTargetCount(BASE_COUNT);
       }
     };
     fetchCount();
 
-    // Subscribe to realtime inserts
     const channel = supabase
       .channel('waitlist-count')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'waitlist' }, () => {
-        setTargetCount((prev) => prev + 1);
+        setTargetCount((prev) => (prev ?? BASE_COUNT) + 1);
       })
       .subscribe();
 
     return () => { supabase.removeChannel(channel); };
   }, []);
 
-  /* Animate counter when visible */
+  /* Animate counter when visible AND data is loaded */
   useEffect(() => {
+    if (targetCount === null || hasAnimated) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
+        if (entry.isIntersecting) {
           setHasAnimated(true);
           const duration = 2000;
           const steps = 60;
@@ -126,11 +129,11 @@ export default function WaitlistLanding() {
 
     if (counterRef.current) observer.observe(counterRef.current);
     return () => observer.disconnect();
-  }, [hasAnimated, targetCount]);
+  }, [targetCount, hasAnimated]);
 
-  // After animation, keep displayCount in sync with targetCount changes
+  // After animation, keep displayCount in sync with realtime changes
   useEffect(() => {
-    if (hasAnimated) {
+    if (hasAnimated && targetCount !== null) {
       setDisplayCount(targetCount);
     }
   }, [targetCount, hasAnimated]);
