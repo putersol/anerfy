@@ -29,6 +29,8 @@ const App = () => (
         <Layout>
           <Routes>
             <Route path="/" element={<WaitlistLanding />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/cookies" element={<Cookies />} />
             <Route path="/datenschutz" element={<Datenschutz />} />
             <Route path="/impressum" element={<Impressum />} />
