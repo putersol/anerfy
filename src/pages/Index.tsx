@@ -46,7 +46,7 @@ export default function OnboardingPage() {
 
   const handleFinish = () => {
     completeOnboarding();
-    navigate('/roadmap');
+    navigate('/waitlist');
   };
 
   if (showSummary) {
