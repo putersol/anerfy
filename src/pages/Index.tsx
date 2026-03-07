@@ -108,7 +108,7 @@ function CountryDropdown({ options, value, onChange }: { options: string[]; valu
   );
 }
 
-
+export default function OnboardingPage() {
   const [step, setStep] = useState(0);
   const [showSummary, setShowSummary] = useState(false);
   const { onboarding, setOnboardingField, completeOnboarding, getEstimatedCost, getEstimatedTime } = useMedicusStore();
