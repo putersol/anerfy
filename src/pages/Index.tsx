@@ -168,21 +168,29 @@ export default function OnboardingPage() {
               <div className="bg-secondary/60 border border-border rounded-2xl p-5 sm:p-6 space-y-4">
                 <h2 className="text-base sm:text-lg font-semibold text-foreground leading-snug">{currentQ.title}</h2>
 
-                <div className="grid gap-1.5">
-                  {currentQ.options.map((opt) => (
-                    <button
-                      key={opt}
-                      onClick={() => setOnboardingField(currentQ.key as keyof typeof onboarding, opt)}
-                      className={`text-left px-4 py-3 rounded-xl border text-sm transition-all ${
-                        currentValue === opt
-                          ? 'border-primary bg-primary/15 text-foreground font-medium'
-                          : 'border-border text-foreground/80 hover:border-primary/30 hover:bg-secondary/80'
-                      }`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
+                {currentQ.type === 'select' ? (
+                  <CountryDropdown
+                    options={currentQ.options}
+                    value={currentValue as string}
+                    onChange={(val) => setOnboardingField(currentQ.key as keyof typeof onboarding, val)}
+                  />
+                ) : (
+                  <div className="grid gap-1.5">
+                    {currentQ.options.map((opt) => (
+                      <button
+                        key={opt}
+                        onClick={() => setOnboardingField(currentQ.key as keyof typeof onboarding, opt)}
+                        className={`text-left px-4 py-3 rounded-xl border text-sm transition-all ${
+                          currentValue === opt
+                            ? 'border-primary bg-primary/15 text-foreground font-medium'
+                            : 'border-border text-foreground/80 hover:border-primary/30 hover:bg-secondary/80'
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 {currentQ.showCityInput && currentValue === 'Sí' && (
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}>
