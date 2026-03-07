@@ -28,8 +28,8 @@ const App = () => (
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route path="/" element={<WaitlistLanding />} />
-            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/" element={<Onboarding />} />
+            <Route path="/waitlist" element={<WaitlistLanding />} />
             <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/cookies" element={<Cookies />} />
             <Route path="/datenschutz" element={<Datenschutz />} />
