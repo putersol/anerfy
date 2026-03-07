@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMedicusStore } from '@/stores/medicusStore';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 
 const countries = ['México', 'Colombia', 'Argentina', 'Perú', 'Chile', 'Venezuela', 'Ecuador', 'España', 'Otro'];
 
@@ -54,44 +54,90 @@ export default function OnboardingPage() {
     const [timeLow, timeHigh] = getEstimatedTime();
 
     return (
-      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12">
-        <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-md">
-          <Card className="p-8 shadow-card text-center space-y-6">
-            <div className="w-12 h-12 rounded-full bg-foreground mx-auto flex items-center justify-center">
-              <CheckCircle2 className="w-6 h-6 text-background" />
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+        {/* Logo */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center gap-2 mb-10"
+        >
+          <img src={anerfyLogo} alt="Anerfy logo" className="w-8 h-8 brightness-0 invert object-contain scale-[1.6]" />
+          <span className="text-sm font-bold tracking-[0.35em] text-foreground/80">ANERFY</span>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-md space-y-8 text-center">
+          {/* Check icon */}
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+            className="w-14 h-14 rounded-full bg-primary mx-auto flex items-center justify-center"
+          >
+            <CheckCircle2 className="w-7 h-7 text-primary-foreground" />
+          </motion.div>
+
+          <div className="space-y-2">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">Tu estimación está lista</h2>
+            <p className="text-sm text-muted-foreground">Basado en tus respuestas, aquí va un resumen rápido.</p>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-secondary/80 border border-border rounded-2xl p-5">
+              <p className="text-xs text-muted-foreground mb-1 tracking-wider uppercase">Tiempo estimado</p>
+              <p className="text-2xl font-bold text-foreground">{timeLow}–{timeHigh}</p>
+              <p className="text-xs text-muted-foreground">meses</p>
             </div>
-            <h2 className="font-display text-xl font-semibold text-foreground">Tu roadmap está listo</h2>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-muted rounded-lg p-4">
-                <p className="text-xs text-muted-foreground mb-1">Tiempo estimado</p>
-                <p className="text-xl font-semibold text-foreground">{timeLow}–{timeHigh} meses</p>
-              </div>
-              <div className="bg-muted rounded-lg p-4">
-                <p className="text-xs text-muted-foreground mb-1">Costo estimado</p>
-                <p className="text-xl font-semibold text-foreground">€{costLow.toLocaleString()}–€{costHigh.toLocaleString()}</p>
-              </div>
+            <div className="bg-secondary/80 border border-border rounded-2xl p-5">
+              <p className="text-xs text-muted-foreground mb-1 tracking-wider uppercase">Costo estimado</p>
+              <p className="text-2xl font-bold text-foreground">€{costLow.toLocaleString()}</p>
+              <p className="text-xs text-muted-foreground">– €{costHigh.toLocaleString()}</p>
             </div>
-            <Button onClick={handleFinish} className="w-full h-11">
-              Ver mi roadmap <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Card>
+          </div>
+
+          {/* CTA - pill style matching waitlist */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <button
+              onClick={handleFinish}
+              className="w-full h-12 sm:h-13 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold rounded-full text-sm sm:text-base transition-colors flex items-center justify-center gap-2"
+            >
+              Unirme a la lista de espera <ArrowRight className="w-4 h-4" />
+            </button>
+          </motion.div>
         </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex flex-col">
-      {/* Hero */}
+    <div className="min-h-screen flex flex-col">
+      {/* Logo header */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="flex items-center justify-center gap-2 pt-8 pb-4"
+      >
+        <img src={anerfyLogo} alt="Anerfy logo" className="w-8 h-8 brightness-0 invert object-contain scale-[1.6]" />
+        <span className="text-sm font-bold tracking-[0.35em] text-foreground/80">ANERFY</span>
+      </motion.div>
+
+      {/* Hero - only on first step */}
       {step === 0 && (
-        <section className="bg-foreground text-background py-14 sm:py-20 px-4">
-          <div className="container max-w-2xl text-center space-y-4">
+        <section className="py-10 sm:py-14 px-4">
+          <div className="max-w-2xl mx-auto text-center space-y-3">
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-              <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-tight">
-                Tu criterio para ejercer medicina en Alemania
+              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-semibold leading-tight tracking-tight text-foreground">
+                Tu criterio para ejercer medicina en{' '}
+                <span className="italic text-primary font-accent">Alemania</span>
               </h1>
-              <p className="text-background/60 text-sm sm:text-base mt-4 max-w-lg mx-auto leading-relaxed">
-                No te decimos qué hacer. Te damos el criterio para decidir por tu cuenta. Responde 7 preguntas y obtén tu plan personalizado.
+              <p className="text-sm text-muted-foreground mt-4 max-w-lg mx-auto leading-relaxed">
+                Responde 7 preguntas y obtén tu estimación personalizada de tiempo y costo.
               </p>
             </motion.div>
           </div>
@@ -99,7 +145,7 @@ export default function OnboardingPage() {
       )}
 
       {/* Question area */}
-      <div className="flex-1 flex items-center justify-center px-4 py-10">
+      <div className="flex-1 flex items-center justify-center px-4 py-6">
         <div className="w-full max-w-md space-y-5">
           {/* Progress */}
           <div className="space-y-1.5">
@@ -119,18 +165,18 @@ export default function OnboardingPage() {
               exit={{ opacity: 0, x: -16 }}
               transition={{ duration: 0.2 }}
             >
-              <Card className="p-5 sm:p-6 shadow-card space-y-4">
-                <h2 className="font-display text-base sm:text-lg font-semibold text-foreground leading-snug">{currentQ.title}</h2>
+              <div className="bg-secondary/60 border border-border rounded-2xl p-5 sm:p-6 space-y-4">
+                <h2 className="text-base sm:text-lg font-semibold text-foreground leading-snug">{currentQ.title}</h2>
 
                 <div className="grid gap-1.5">
                   {currentQ.options.map((opt) => (
                     <button
                       key={opt}
                       onClick={() => setOnboardingField(currentQ.key as keyof typeof onboarding, opt)}
-                      className={`text-left px-4 py-3 rounded-lg border text-sm transition-all ${
+                      className={`text-left px-4 py-3 rounded-xl border text-sm transition-all ${
                         currentValue === opt
-                          ? 'border-foreground bg-foreground text-background font-medium'
-                          : 'border-border text-foreground hover:border-foreground/30'
+                          ? 'border-primary bg-primary/15 text-foreground font-medium'
+                          : 'border-border text-foreground/80 hover:border-primary/30 hover:bg-secondary/80'
                       }`}
                     >
                       {opt}
@@ -145,34 +191,37 @@ export default function OnboardingPage() {
                       placeholder="¿En qué ciudad?"
                       value={onboarding.city}
                       onChange={(e) => setOnboardingField('city', e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-foreground/20"
+                      className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-primary/30"
                     />
                   </motion.div>
                 )}
 
                 {currentQ.infoCondition && currentValue === currentQ.infoCondition && (
-                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="bg-muted rounded-lg p-3 text-xs text-muted-foreground leading-relaxed">
+                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="bg-muted rounded-xl p-3 text-xs text-muted-foreground leading-relaxed">
                     {currentQ.infoText}
                   </motion.div>
                 )}
-              </Card>
+              </div>
             </motion.div>
           </AnimatePresence>
 
           {/* Navigation */}
           <div className="flex gap-2">
             {step > 0 && (
-              <Button variant="outline" onClick={() => setStep(step - 1)} className="flex-1 h-11">
-                <ArrowLeft className="w-4 h-4 mr-1" /> Anterior
-              </Button>
+              <button
+                onClick={() => setStep(step - 1)}
+                className="flex-1 h-11 border border-border rounded-full text-sm font-medium text-foreground/80 hover:bg-secondary/80 transition-colors flex items-center justify-center gap-1"
+              >
+                <ArrowLeft className="w-4 h-4" /> Anterior
+              </button>
             )}
-            <Button
+            <button
               onClick={handleNext}
               disabled={!currentValue}
-              className="flex-1 h-11"
+              className="flex-1 h-11 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-40 disabled:pointer-events-none rounded-full text-sm font-semibold transition-colors flex items-center justify-center gap-1"
             >
-              {step === questions.length - 1 ? 'Ver resultados' : 'Siguiente'} <ArrowRight className="w-4 h-4 ml-1" />
-            </Button>
+              {step === questions.length - 1 ? 'Ver resultados' : 'Siguiente'} <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>
