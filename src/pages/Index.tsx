@@ -195,7 +195,7 @@ export default function OnboardingPage() {
                   <span className="text-sm mt-0.5">{item.emoji}</span>
                   <div>
                     <p className="text-sm text-foreground">{item.label}</p>
-                    {item.note && <p className="text-xs text-muted-foreground">{item.note}</p>}
+                    {'note' in item && item.note && <p className="text-xs text-muted-foreground">{item.note}</p>}
                   </div>
                 </motion.div>
               ))}
