@@ -276,7 +276,7 @@ export default function OnboardingPage() {
       )}
 
       {/* Question area */}
-      <div className="flex-1 flex items-center justify-center px-4 py-6">
+      <div className="flex-1 flex items-start justify-center px-4 pt-2 pb-6">
         <div className="w-full max-w-md space-y-5">
           {/* Progress */}
           <div className="space-y-1.5">
