@@ -5,8 +5,9 @@ import { useMedicusStore } from '@/stores/medicusStore';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { ArrowRight, ArrowLeft, CheckCircle2, ChevronDown, Search } from 'lucide-react';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
+import { useIsMobile } from '@/hooks/use-mobile';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
-
 const countries = ['México', 'Colombia', 'Argentina', 'Perú', 'Chile', 'Venezuela', 'Ecuador', 'Bolivia', 'Paraguay', 'Uruguay', 'Brasil', 'Panamá', 'Costa Rica', 'Guatemala', 'Honduras', 'El Salvador', 'Nicaragua', 'Cuba', 'República Dominicana', 'Puerto Rico', 'España', 'Otro'];
 
 interface QuestionConfig {
@@ -33,32 +34,89 @@ function CountryDropdown({ options, value, onChange }: { options: string[]; valu
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const ref = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    if (isMobile) return;
     const handler = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
-  }, []);
+  }, [isMobile]);
 
   const filtered = options.filter((o) => o.toLowerCase().includes(search.toLowerCase()));
 
+  const triggerButton = (
+    <button
+      type="button"
+      onClick={() => setOpen(!open)}
+      className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-sm transition-all ${
+        value
+          ? 'border-primary bg-primary/15 text-foreground font-medium'
+          : 'border-border text-muted-foreground hover:border-primary/30'
+      }`}
+    >
+      <span>{value || 'Selecciona tu país'}</span>
+      <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
+    </button>
+  );
+
+  const optionsList = (
+    <>
+      <div className="flex items-center gap-2 px-3 py-2.5 border-b border-border">
+        <Search className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+        <input
+          type="text"
+          placeholder="Buscar país..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          autoFocus
+          className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
+        />
+      </div>
+      <div className={`overflow-y-auto py-1 ${isMobile ? 'max-h-[50vh]' : 'max-h-48'}`}>
+        {filtered.length === 0 ? (
+          <p className="px-4 py-3 text-xs text-muted-foreground">Sin resultados</p>
+        ) : (
+          filtered.map((opt) => (
+            <button
+              key={opt}
+              type="button"
+              onClick={() => { onChange(opt); setOpen(false); setSearch(''); }}
+              className={`w-full text-left px-4 py-3 text-sm transition-colors ${
+                value === opt
+                  ? 'bg-primary/15 text-foreground font-medium'
+                  : 'text-foreground/80 hover:bg-secondary/80'
+              }`}
+            >
+              {opt}
+            </button>
+          ))
+        )}
+      </div>
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <div>
+        {triggerButton}
+        <Drawer open={open} onOpenChange={setOpen}>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Selecciona tu país</DrawerTitle>
+            </DrawerHeader>
+            {optionsList}
+          </DrawerContent>
+        </Drawer>
+      </div>
+    );
+  }
+
   return (
     <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-sm transition-all ${
-          value
-            ? 'border-primary bg-primary/15 text-foreground font-medium'
-            : 'border-border text-muted-foreground hover:border-primary/30'
-        }`}
-      >
-        <span>{value || 'Selecciona tu país'}</span>
-        <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
-      </button>
-
+      {triggerButton}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -68,39 +126,7 @@ function CountryDropdown({ options, value, onChange }: { options: string[]; valu
             transition={{ duration: 0.15 }}
             className="absolute z-50 mt-1.5 w-full bg-card border border-border rounded-xl shadow-lg overflow-hidden"
           >
-            {/* Search */}
-            <div className="flex items-center gap-2 px-3 py-2.5 border-b border-border">
-              <Search className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
-              <input
-                type="text"
-                placeholder="Buscar país..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                autoFocus
-                className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
-              />
-            </div>
-            {/* Options */}
-            <div className="max-h-48 overflow-y-auto py-1">
-              {filtered.length === 0 ? (
-                <p className="px-4 py-3 text-xs text-muted-foreground">Sin resultados</p>
-              ) : (
-                filtered.map((opt) => (
-                  <button
-                    key={opt}
-                    type="button"
-                    onClick={() => { onChange(opt); setOpen(false); setSearch(''); }}
-                    className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
-                      value === opt
-                        ? 'bg-primary/15 text-foreground font-medium'
-                        : 'text-foreground/80 hover:bg-secondary/80'
-                    }`}
-                  >
-                    {opt}
-                  </button>
-                ))
-              )}
-            </div>
+            {optionsList}
           </motion.div>
         )}
       </AnimatePresence>
