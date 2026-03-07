@@ -175,6 +175,33 @@ export default function OnboardingPage() {
             </div>
           </div>
 
+          {/* Roadmap peek */}
+          <div className="bg-secondary/60 border border-border rounded-2xl p-5 text-left space-y-3">
+            <p className="text-xs text-muted-foreground tracking-wider uppercase">Tu roadmap incluye</p>
+            <div className="space-y-2">
+              {[
+                { emoji: '📄', label: 'Verificación ANABIN y documentos', note: onboarding.anabinStatus === 'Sí' ? 'Tu uni está reconocida ✓' : onboarding.anabinStatus === 'No' ? 'Necesitarás evaluación individual' : 'Pendiente de verificar' },
+                { emoji: '🇩🇪', label: `Alemán: ${onboarding.germanLevel === 'Ninguno' ? 'desde cero hasta C1' : onboarding.germanLevel === 'A1-A2' ? 'de A2 a C1 médico' : onboarding.germanLevel === 'B1-B2' ? 'de B2 a C1 médico' : 'preparación FSP específica'}` },
+                { emoji: '🏥', label: onboarding.currentStage === 'Apenas investigando' ? 'Guía completa paso a paso' : onboarding.currentStage === 'Preparando documentos' ? 'Revisión y envío de Approbation' : 'Siguientes pasos según tu etapa' },
+                { emoji: '👥', label: onboarding.familyStatus !== 'Solo/a' ? `Trámites familiares (${onboarding.familyStatus.toLowerCase()})` : 'Proceso individual optimizado' },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + i * 0.1 }}
+                  className="flex items-start gap-2.5"
+                >
+                  <span className="text-sm mt-0.5">{item.emoji}</span>
+                  <div>
+                    <p className="text-sm text-foreground">{item.label}</p>
+                    {item.note && <p className="text-xs text-muted-foreground">{item.note}</p>}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
           {/* CTA - pill style matching waitlist */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
