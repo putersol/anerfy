@@ -5,8 +5,9 @@ import { useMedicusStore } from '@/stores/medicusStore';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { ArrowRight, ArrowLeft, CheckCircle2, ChevronDown, Search } from 'lucide-react';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
+import { useIsMobile } from '@/hooks/use-mobile';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
-
 const countries = ['México', 'Colombia', 'Argentina', 'Perú', 'Chile', 'Venezuela', 'Ecuador', 'Bolivia', 'Paraguay', 'Uruguay', 'Brasil', 'Panamá', 'Costa Rica', 'Guatemala', 'Honduras', 'El Salvador', 'Nicaragua', 'Cuba', 'República Dominicana', 'Puerto Rico', 'España', 'Otro'];
 
 interface QuestionConfig {
