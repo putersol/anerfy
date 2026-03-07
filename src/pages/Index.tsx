@@ -180,10 +180,10 @@ export default function OnboardingPage() {
             <p className="text-xs text-muted-foreground tracking-wider uppercase">Tu roadmap incluye</p>
             <div className="space-y-2">
               {[
-                { emoji: '📄', label: 'Verificación ANABIN y documentos', note: onboarding.anabinStatus === 'Sí' ? 'Tu uni está reconocida ✓' : onboarding.anabinStatus === 'No' ? 'Necesitarás evaluación individual' : 'Pendiente de verificar' },
-                { emoji: '🇩🇪', label: `Alemán: ${onboarding.germanLevel === 'Ninguno' ? 'desde cero hasta C1' : onboarding.germanLevel === 'A1-A2' ? 'de A2 a C1 médico' : onboarding.germanLevel === 'B1-B2' ? 'de B2 a C1 médico' : 'preparación FSP específica'}` },
-                { emoji: '🏥', label: onboarding.currentStage === 'Apenas investigando' ? 'Guía completa paso a paso' : onboarding.currentStage === 'Preparando documentos' ? 'Revisión y envío de Approbation' : 'Siguientes pasos según tu etapa' },
-                { emoji: '👥', label: onboarding.familyStatus !== 'Solo/a' ? `Trámites familiares (${onboarding.familyStatus.toLowerCase()})` : 'Proceso individual optimizado' },
+                { emoji: '📄', label: onboarding.anabinStatus === 'Sí' ? 'Tu universidad está reconocida en ANABIN' : onboarding.anabinStatus === 'No' ? 'Tu universidad no está en ANABIN — necesitarás evaluación individual' : 'Verificaremos si tu universidad está reconocida en ANABIN' },
+                { emoji: '🇩🇪', label: onboarding.germanLevel === 'Ninguno' ? 'Necesitas aprender alemán desde cero hasta nivel C1' : onboarding.germanLevel === 'A1-A2' ? 'Continuar alemán desde tu nivel actual hasta C1 médico' : onboarding.germanLevel === 'B1-B2' ? 'Completar alemán médico y preparar el FSP' : onboarding.germanLevel === 'C1' ? 'Preparación directa para el examen FSP' : 'Listo para el FSP — enfoque en vocabulario médico' },
+                { emoji: '🏥', label: onboarding.currentStage === 'Apenas investigando' ? 'Empezarás desde la fase de documentación' : onboarding.currentStage === 'Preparando documentos' ? 'Continúas con el envío de tu solicitud de Approbation' : onboarding.currentStage === 'Ya solicité Approbation' ? 'Esperando respuesta — preparar siguiente fase' : onboarding.currentStage === 'Tengo Berufserlaubnis' ? 'Ya puedes ejercer con supervisión mientras avanzas' : onboarding.currentStage === 'Preparando FSP' ? 'Enfoque total en aprobar el examen FSP' : 'Preparación para la Kenntnisprüfung' },
+                { emoji: onboarding.familyStatus === 'Solo/a' ? '✈️' : '👨‍👩‍👧', label: onboarding.familyStatus === 'Solo/a' ? 'Proceso individual — más ágil y económico' : onboarding.familyStatus === 'Pareja' ? 'Incluye trámites de reagrupación para tu pareja' : 'Incluye reagrupación familiar completa (pareja + hijos)' },
               ].map((item, i) => (
                 <motion.div
                   key={i}
@@ -195,7 +195,6 @@ export default function OnboardingPage() {
                   <span className="text-sm mt-0.5">{item.emoji}</span>
                   <div>
                     <p className="text-sm text-foreground">{item.label}</p>
-                    {item.note && <p className="text-xs text-muted-foreground">{item.note}</p>}
                   </div>
                 </motion.div>
               ))}
