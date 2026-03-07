@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMedicusStore } from '@/stores/medicusStore';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, ChevronDown, Search } from 'lucide-react';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 
 const countries = ['México', 'Colombia', 'Argentina', 'Perú', 'Chile', 'Venezuela', 'Ecuador', 'España', 'Otro'];
@@ -28,6 +28,85 @@ const questions: QuestionConfig[] = [
   { key: 'budget', title: '¿Cuál es tu presupuesto disponible para el proceso?', type: 'radio', options: ['<3.000€', '3.000-7.000€', '7.000-15.000€', '>15.000€'] },
   { key: 'currentStage', title: '¿En qué etapa del proceso estás?', type: 'radio', options: ['Apenas investigando', 'Preparando documentos', 'Ya solicité Approbation', 'Tengo Berufserlaubnis', 'Preparando FSP', 'Esperando Kenntnisprüfung'] },
 ];
+
+function CountryDropdown({ options, value, onChange }: { options: string[]; value: string; onChange: (v: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const filtered = options.filter((o) => o.toLowerCase().includes(search.toLowerCase()));
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-sm transition-all ${
+          value
+            ? 'border-primary bg-primary/15 text-foreground font-medium'
+            : 'border-border text-muted-foreground hover:border-primary/30'
+        }`}
+      >
+        <span>{value || 'Selecciona tu país'}</span>
+        <ChevronDown className={`w-4 h-4 transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.15 }}
+            className="absolute z-50 mt-1.5 w-full bg-card border border-border rounded-xl shadow-lg overflow-hidden"
+          >
+            {/* Search */}
+            <div className="flex items-center gap-2 px-3 py-2.5 border-b border-border">
+              <Search className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+              <input
+                type="text"
+                placeholder="Buscar país..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                autoFocus
+                className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
+              />
+            </div>
+            {/* Options */}
+            <div className="max-h-48 overflow-y-auto py-1">
+              {filtered.length === 0 ? (
+                <p className="px-4 py-3 text-xs text-muted-foreground">Sin resultados</p>
+              ) : (
+                filtered.map((opt) => (
+                  <button
+                    key={opt}
+                    type="button"
+                    onClick={() => { onChange(opt); setOpen(false); setSearch(''); }}
+                    className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
+                      value === opt
+                        ? 'bg-primary/15 text-foreground font-medium'
+                        : 'text-foreground/80 hover:bg-secondary/80'
+                    }`}
+                  >
+                    {opt}
+                  </button>
+                ))
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(0);
@@ -168,21 +247,29 @@ export default function OnboardingPage() {
               <div className="bg-secondary/60 border border-border rounded-2xl p-5 sm:p-6 space-y-4">
                 <h2 className="text-base sm:text-lg font-semibold text-foreground leading-snug">{currentQ.title}</h2>
 
-                <div className="grid gap-1.5">
-                  {currentQ.options.map((opt) => (
-                    <button
-                      key={opt}
-                      onClick={() => setOnboardingField(currentQ.key as keyof typeof onboarding, opt)}
-                      className={`text-left px-4 py-3 rounded-xl border text-sm transition-all ${
-                        currentValue === opt
-                          ? 'border-primary bg-primary/15 text-foreground font-medium'
-                          : 'border-border text-foreground/80 hover:border-primary/30 hover:bg-secondary/80'
-                      }`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
+                {currentQ.type === 'select' ? (
+                  <CountryDropdown
+                    options={currentQ.options}
+                    value={currentValue as string}
+                    onChange={(val) => setOnboardingField(currentQ.key as keyof typeof onboarding, val)}
+                  />
+                ) : (
+                  <div className="grid gap-1.5">
+                    {currentQ.options.map((opt) => (
+                      <button
+                        key={opt}
+                        onClick={() => setOnboardingField(currentQ.key as keyof typeof onboarding, opt)}
+                        className={`text-left px-4 py-3 rounded-xl border text-sm transition-all ${
+                          currentValue === opt
+                            ? 'border-primary bg-primary/15 text-foreground font-medium'
+                            : 'border-border text-foreground/80 hover:border-primary/30 hover:bg-secondary/80'
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 {currentQ.showCityInput && currentValue === 'Sí' && (
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}>
