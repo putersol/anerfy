@@ -71,6 +71,7 @@ function FloatingShapes() {
 
 export default function WaitlistLanding() {
   const BASE_COUNT = 242;
+  const { onboarding } = useMedicusStore();
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
