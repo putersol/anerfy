@@ -8,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
+import { useMedicusStore } from '@/stores/medicusStore';
 
 const emailSchema = z.string().trim().email('Email inválido').max(255, 'Email demasiado largo');
 
