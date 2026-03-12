@@ -8,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
+import { useMedicusStore } from '@/stores/medicusStore';
 
 const emailSchema = z.string().trim().email('Email inválido').max(255, 'Email demasiado largo');
 
@@ -71,6 +72,7 @@ function FloatingShapes() {
 
 export default function WaitlistLanding() {
   const BASE_COUNT = 242;
+  const { onboarding } = useMedicusStore();
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -146,7 +148,7 @@ export default function WaitlistLanding() {
     setLoading(true);
     try {
       const validatedEmail = emailSchema.parse(email.trim().toLowerCase());
-      const { error } = await supabase.from('waitlist').insert({ email: validatedEmail });
+      const { data: waitlistData, error } = await supabase.from('waitlist').insert({ email: validatedEmail }).select('id').single();
       if (error) {
         if (error.code === '23505') {
           toast({ title: '¡Ya estás registrado!', description: 'Este email ya está en la lista de espera.' });
@@ -155,6 +157,20 @@ export default function WaitlistLanding() {
           toast({ title: 'Error', description: 'No se pudo registrar. Intenta de nuevo.', variant: 'destructive' });
         }
       } else {
+        // Save onboarding responses linked to waitlist entry
+        if (waitlistData?.id) {
+          await supabase.from('onboarding_responses').insert({
+            waitlist_id: waitlistData.id,
+            country: onboarding.country || null,
+            anabin_status: onboarding.anabinStatus || null,
+            german_level: onboarding.germanLevel || null,
+            in_germany: onboarding.inGermany || null,
+            city: onboarding.city || null,
+            family_status: onboarding.familyStatus || null,
+            budget: onboarding.budget || null,
+            current_stage: onboarding.currentStage || null,
+          });
+        }
         setSubmitted(true);
       }
     } catch {

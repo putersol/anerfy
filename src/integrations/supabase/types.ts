@@ -14,6 +14,56 @@ export type Database = {
   }
   public: {
     Tables: {
+      onboarding_responses: {
+        Row: {
+          anabin_status: string | null
+          budget: string | null
+          city: string | null
+          country: string | null
+          created_at: string
+          current_stage: string | null
+          family_status: string | null
+          german_level: string | null
+          id: string
+          in_germany: string | null
+          waitlist_id: string | null
+        }
+        Insert: {
+          anabin_status?: string | null
+          budget?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          current_stage?: string | null
+          family_status?: string | null
+          german_level?: string | null
+          id?: string
+          in_germany?: string | null
+          waitlist_id?: string | null
+        }
+        Update: {
+          anabin_status?: string | null
+          budget?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          current_stage?: string | null
+          family_status?: string | null
+          german_level?: string | null
+          id?: string
+          in_germany?: string | null
+          waitlist_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "onboarding_responses_waitlist_id_fkey"
+            columns: ["waitlist_id"]
+            isOneToOne: false
+            referencedRelation: "waitlist"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       waitlist: {
         Row: {
           created_at: string
