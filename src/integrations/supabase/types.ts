@@ -64,6 +64,57 @@ export type Database = {
           },
         ]
       }
+      user_profiles: {
+        Row: {
+          id: string
+          user_id: string
+          email: string | null
+          country: string | null
+          anabin_status: string | null
+          german_level: string | null
+          in_germany: string | null
+          city: string | null
+          family_status: string | null
+          budget: string | null
+          current_stage: string | null
+          checked_tasks: Record<string, boolean>
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          email?: string | null
+          country?: string | null
+          anabin_status?: string | null
+          german_level?: string | null
+          in_germany?: string | null
+          city?: string | null
+          family_status?: string | null
+          budget?: string | null
+          current_stage?: string | null
+          checked_tasks?: Record<string, boolean>
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          email?: string | null
+          country?: string | null
+          anabin_status?: string | null
+          german_level?: string | null
+          in_germany?: string | null
+          city?: string | null
+          family_status?: string | null
+          budget?: string | null
+          current_stage?: string | null
+          checked_tasks?: Record<string, boolean>
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       waitlist: {
         Row: {
           created_at: string

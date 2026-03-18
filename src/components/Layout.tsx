@@ -17,7 +17,7 @@ const navItems = [
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
-  const isMinimalPage = ['/', '/waitlist', '/mapa', '/cookies', '/datenschutz', '/impressum'].includes(location.pathname);
+  const isMinimalPage = ['/', '/waitlist', '/mapa', '/auth', '/cookies', '/datenschutz', '/impressum'].includes(location.pathname);
 
   // On waitlist landing and legal pages, render only the page with no nav/footer
   if (isMinimalPage) {
