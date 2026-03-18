@@ -17,6 +17,7 @@ import Cookies from "./pages/Cookies";
 import Datenschutz from "./pages/Datenschutz";
 import Impressum from "./pages/Impressum";
 import NotFound from "./pages/NotFound";
+import GameMap from "./pages/GameMap";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Onboarding />} />
             <Route path="/waitlist" element={<WaitlistLanding />} />
+            <Route path="/mapa" element={<GameMap />} />
             <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/cookies" element={<Cookies />} />
             <Route path="/datenschutz" element={<Datenschutz />} />
