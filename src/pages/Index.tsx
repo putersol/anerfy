@@ -151,7 +151,7 @@ export default function OnboardingPage() {
 
   const handleFinish = () => {
     completeOnboarding();
-    navigate('/waitlist');
+    navigate('/auth');
   };
 
   if (showSummary) {
@@ -237,7 +237,7 @@ export default function OnboardingPage() {
               onClick={handleFinish}
               className="w-full h-12 sm:h-13 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold rounded-full text-sm sm:text-base transition-colors flex items-center justify-center gap-2"
             >
-              Unirme a la lista de espera <ArrowRight className="w-4 h-4" />
+              Crear mi cuenta gratis <ArrowRight className="w-4 h-4" />
             </button>
           </motion.div>
         </motion.div>

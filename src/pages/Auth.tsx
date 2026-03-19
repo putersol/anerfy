@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,8 @@ import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 
 export default function AuthPage() {
   const { user, loading: authLoading, signIn, signUp, resetPassword } = useAuth();
-  const [mode, setMode] = useState<'login' | 'register' | 'reset'>('login');
+  const [searchParams] = useSearchParams();
+  const [mode, setMode] = useState<'login' | 'register' | 'reset'>(searchParams.get('mode') === 'login' ? 'login' : 'register');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
