@@ -30,8 +30,15 @@ export function useProfile() {
         .eq('user_id', user.id)
         .single();
 
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error loading profile:', error);
+      if (error) {
+        if (error.code === 'PGRST116') {
+          // No profile yet — normal for new users, will be created on first save
+          console.log('[useProfile] No profile found for user, will create on first save');
+        } else if (error.message?.includes('does not exist') || error.code === '42P01') {
+          console.warn('[useProfile] user_profiles table does not exist in Supabase. Run the SQL migration in the dashboard.');
+        } else {
+          console.error('[useProfile] Error loading profile:', error.code, error.message);
+        }
         setLoaded(true);
         return;
       }
@@ -61,6 +68,7 @@ export function useProfile() {
         if (data.country && data.current_stage) {
           store.completeOnboarding();
         }
+        console.log('[useProfile] Profile loaded successfully for', user.email);
       }
 
       setLoaded(true);
@@ -94,7 +102,13 @@ export function useProfile() {
       .from('user_profiles')
       .upsert(profileData, { onConflict: 'user_id' });
 
-    if (error) console.error('Error saving profile:', error);
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        console.warn('[useProfile] user_profiles table missing. SQL migration needed:\n\nCREATE TABLE user_profiles (\n  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,\n  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE UNIQUE NOT NULL,\n  email text,\n  country text, anabin_status text, german_level text, in_germany text,\n  city text, family_status text, budget text, current_stage text,\n  checked_tasks jsonb DEFAULT \'{}\',\n  created_at timestamptz DEFAULT now(),\n  updated_at timestamptz DEFAULT now()\n);\nALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;\nCREATE POLICY "Users manage own profile" ON user_profiles FOR ALL USING (auth.uid() = user_id);');
+      } else {
+        console.error('[useProfile] Error saving profile:', error.code, error.message);
+      }
+    }
     setSaving(false);
   }, [user]);
 

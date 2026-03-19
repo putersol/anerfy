@@ -308,9 +308,10 @@ export default function GameMapPage() {
     const y = 60 + index * verticalSpacing;
     const pattern = index % 3;
     let x: number;
+    // Keep nodes away from edges (min 30%, max 70%) to avoid clipping on small screens
     if (pattern === 0) x = 50;
-    else if (pattern === 1) x = 25;
-    else x = 75;
+    else if (pattern === 1) x = 30;
+    else x = 70;
     return { x, y };
   });
 
@@ -383,20 +384,20 @@ export default function GameMapPage() {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-4 mt-2 pt-2 border-t border-white/5">
-            <div className="flex-1 text-center">
-              <p className="text-[10px] text-white/30 uppercase tracking-wider">Tiempo est.</p>
-              <p className="text-xs font-semibold text-white/80">{timeLow}-{timeHigh} meses</p>
+          <div className="flex items-center gap-2 mt-2 pt-2 border-t border-white/5">
+            <div className="flex-1 text-center min-w-0">
+              <p className="text-[9px] text-white/30 uppercase tracking-wider truncate">Tiempo</p>
+              <p className="text-[11px] font-semibold text-white/80 truncate">{timeLow}-{timeHigh}m</p>
             </div>
-            <div className="w-px h-6 bg-white/10" />
-            <div className="flex-1 text-center">
-              <p className="text-[10px] text-white/30 uppercase tracking-wider">Inversión est.</p>
-              <p className="text-xs font-semibold text-white/80">€{costLow.toLocaleString()}-{costHigh.toLocaleString()}</p>
+            <div className="w-px h-5 bg-white/10 shrink-0" />
+            <div className="flex-1 text-center min-w-0">
+              <p className="text-[9px] text-white/30 uppercase tracking-wider truncate">Inversión</p>
+              <p className="text-[11px] font-semibold text-white/80 truncate">€{costLow.toLocaleString()}-{costHigh.toLocaleString()}</p>
             </div>
-            <div className="w-px h-6 bg-white/10" />
-            <div className="flex-1 text-center">
-              <p className="text-[10px] text-white/30 uppercase tracking-wider">Fase actual</p>
-              <p className="text-xs font-semibold text-white/80">{activePhase} de 8</p>
+            <div className="w-px h-5 bg-white/10 shrink-0" />
+            <div className="flex-1 text-center min-w-0">
+              <p className="text-[9px] text-white/30 uppercase tracking-wider truncate">Fase</p>
+              <p className="text-[11px] font-semibold text-white/80">{activePhase}/8</p>
             </div>
           </div>
           {/* User bar */}
@@ -460,7 +461,8 @@ export default function GameMapPage() {
             >
               {isAvatar && (
                 <motion.div
-                  className="absolute -top-14 left-1/2 -translate-x-1/2 flex flex-col items-center z-20"
+                  className="absolute -top-14 left-1/2 -translate-x-1/2 flex flex-col items-center z-20 pointer-events-none"
+                  style={{ minWidth: '80px' }}
                   animate={{ y: [0, -6, 0] }}
                   transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
                 >
@@ -474,7 +476,7 @@ export default function GameMapPage() {
               <button
                 onClick={() => status !== 'locked' && setSelectedPhase(node)}
                 disabled={status === 'locked'}
-                className="group relative flex flex-col items-center"
+                className="group relative flex flex-col items-center min-w-[44px] min-h-[44px] touch-manipulation"
               >
                 {status === 'active' && (
                   <motion.div
