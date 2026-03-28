@@ -42,8 +42,9 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
     mode: "onTouched",
     defaultValues: {
       nombreCompleto: "", paisOrigen: "", nacionalidad: "", edad: "",
-      estadoCivil: "", viajaSolo: "", tieneHijos: "", viajaMascota: "",
-      ciudadPreferida: "", bundeslandPreferido: "", tieneContactosAlemania: "",
+      estadoCivil: "", viajaSolo: "", viajaConPareja: "",
+      parejaHablaAleman: "", nivelAlemanPareja: "", parejaProfesion: "",
+      tieneHijos: "", bundeslandPreferido: "", tieneContactosAlemania: "",
       dondeContactos: "", universidad: "", anioGraduacion: "",
       realizoInternado: "", tieneEspecialidad: "", cualEspecialidad: "",
       aniosExperiencia: "", areasTrabajo: "", nivelAleman: "",
@@ -51,12 +52,11 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
       horasPorSemana: "", estudioAlemanMedico: "", presentoFSP: "",
       presentoKenntnis: "", documentos: defaultDocs, envioDocumentos: "",
       bundeslandEnvio: "", recibioRespuesta: "", solicitaronExamen: "",
-      tieneBerufserlaubnis: "", tieneApprobation: "", tipoVisa: "",
-      viajaConPareja: "", parejaHablaAleman: "", nivelAlemanPareja: "",
-      parejaProfesion: "", dineroAhorrado: "", puedeAbrirSperrkonto: "",
+      tieneBerufserlaubnis: "", tieneApprobation: "",
+      dineroAhorrado: "", puedeAbrirSperrkonto: "",
       apoyoFamiliar: "", dispuestoCiudadesPequenas: "",
       especialidadInteres: "", dispuestoEspecialidades: [],
-      haAplicadoHospitales: "", haTenidoEntrevistas: "",
+      haAplicadoHospitales: "", cualesHospitales: "",
       cuandoViajar: "", puedeEstudiarIntensivo: "", puedeDedicar1a2Horas: "",
       motivacion: "",
     },
@@ -124,8 +124,8 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
         edad: data.edad,
         estado_civil: data.estadoCivil,
         viaja_solo: data.viajaSolo,
-        tiene_hijos: data.tieneHijos,
-        viaja_mascota: data.viajaMascota,
+        tiene_hijos: data.tieneHijos || null,
+        viaja_mascota: data.viajaMascota || null,
         ciudad_preferida: data.ciudadPreferida || null,
         bundesland_preferido: data.bundeslandPreferido || null,
         tiene_contactos_alemania: data.tieneContactosAlemania,
@@ -152,19 +152,20 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
         solicitaron_examen: data.solicitaronExamen || null,
         tiene_berufserlaubnis: data.tieneBerufserlaubnis,
         tiene_approbation: data.tieneApprobation,
-        tipo_visa: data.tipoVisa,
-        viaja_con_pareja: data.viajaConPareja,
+        tipo_visa: data.tipoVisa || null,
+        viaja_con_pareja: data.viajaConPareja || null,
         pareja_habla_aleman: data.parejaHablaAleman || null,
         nivel_aleman_pareja: data.nivelAlemanPareja || null,
         pareja_profesion: data.parejaProfesion || null,
         dinero_ahorrado: data.dineroAhorrado,
         puede_abrir_sperrkonto: data.puedeAbrirSperrkonto,
-        apoyo_familiar: data.apoyoFamiliar,
+        apoyo_familiar: data.apoyoFamiliar || null,
         dispuesto_ciudades_pequenas: data.dispuestoCiudadesPequenas,
         especialidad_interes: data.especialidadInteres || null,
         dispuesto_especialidades: data.dispuestoEspecialidades || [],
         ha_aplicado_hospitales: data.haAplicadoHospitales,
-        ha_tenido_entrevistas: data.haTenidoEntrevistas,
+        cuales_hospitales: data.cualesHospitales || null,
+        ha_tenido_entrevistas: data.haTenidoEntrevistas || null,
         cuando_viajar: data.cuandoViajar,
         puede_estudiar_intensivo: data.puedeEstudiarIntensivo,
         puede_dedicar_1a2_horas: data.puedeDedicar1a2Horas,
@@ -423,6 +424,9 @@ function ScorePreview({
         <div className={`inline-block mt-3 px-5 py-2 rounded-full ${badgeColor}`}>
           <span className="text-sm font-bold text-white">{scores.clasificacion}</span>
         </div>
+        <p className="text-muted-foreground text-xs mt-3 max-w-xs mx-auto">
+          Este es un diagnóstico preliminar. El análisis detallado se realizará durante tu asesoría personalizada.
+        </p>
       </motion.div>
 
       {/* Category bars */}
@@ -519,6 +523,9 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
             <p className="text-muted-foreground text-sm">
               Hemos recibido tus respuestas, {data.nombreCompleto.split(" ")[0] || ""}.
             </p>
+            <p className="text-muted-foreground text-xs mt-2 max-w-sm mx-auto">
+              Este diagnóstico es una evaluación inicial. En tu asesoría personalizada profundizaremos en cada aspecto de tu caso.
+            </p>
           </div>
 
           {/* Score circle */}
@@ -587,6 +594,17 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
           >
             <MessageCircle className="w-5 h-5" />
             Agenda tu asesoría por WhatsApp
+          </a>
+
+          {/* LinkedIn share */}
+          <a
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent("https://anerfy.com/diagnostico")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full border border-[#0A66C2]/40 text-[#0A66C2] hover:bg-[#0A66C2]/10 font-semibold py-3.5 rounded-full transition-colors"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            Compartir en LinkedIn
           </a>
 
           <button

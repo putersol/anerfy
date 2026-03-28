@@ -40,12 +40,29 @@ export interface QuestionDef {
   options?: { value: string; label: string }[];
   required: boolean;
   condition?: { field: keyof DiagnosticoForm; values: string[] };
+  conditions?: { field: keyof DiagnosticoForm; values: string[] }[];
 }
 
 const SPECIALTIES = [
-  "Medicina interna", "Cirugía", "Urgencias / Medicina de emergencia",
-  "Rehabilitación", "Geriatría", "Psiquiatría", "Anestesiología",
-  "Pediatría", "Ginecología", "Otra",
+  "Allgemeinmedizin (Medicina general)",
+  "Innere Medizin (Medicina interna)",
+  "Chirurgie (Cirugía)",
+  "Anästhesiologie (Anestesiología)",
+  "Pädiatrie (Pediatría)",
+  "Gynäkologie (Ginecología)",
+  "Psychiatrie (Psiquiatría)",
+  "Neurologie (Neurología)",
+  "Orthopädie (Ortopedia)",
+  "Radiologie (Radiología)",
+  "Dermatologie (Dermatología)",
+  "Urologie (Urología)",
+  "Kardiologie (Cardiología)",
+  "Augenheilkunde (Oftalmología)",
+  "HNO (Otorrinolaringología)",
+  "Notfallmedizin (Medicina de emergencia)",
+  "Geriatrie (Geriatría)",
+  "Rehabilitationsmedizin (Rehabilitación)",
+  "Otra",
 ];
 
 export const QUESTIONS: QuestionDef[] = [
@@ -61,17 +78,26 @@ export const QUESTIONS: QuestionDef[] = [
   { field: "viajaSolo", type: "cards", label: "¿Viajas solo o con familia?", group: "Datos Personales", groupIcon: "📋", required: true, options: [
     { value: "solo", label: "Solo" }, { value: "familia", label: "Con familia" },
   ] },
-  { field: "tieneHijos", type: "radio", label: "¿Tienes hijos?", group: "Datos Personales", groupIcon: "📋", required: true },
-  { field: "viajaMascota", type: "radio", label: "¿Viajas con mascota?", helper: "Hay trámites especiales para ingresar con mascotas", group: "Datos Personales", groupIcon: "📋", required: true },
+  { field: "viajaConPareja", type: "radio", label: "¿Planeas viajar con tu pareja?", group: "Datos Personales", groupIcon: "📋", required: false, condition: { field: "viajaSolo", values: ["familia"] } },
+  { field: "parejaHablaAleman", type: "radio", label: "¿Tu pareja habla alemán?", helper: "El nivel A1 es requisito mínimo para visa familiar", group: "Datos Personales", groupIcon: "📋", required: false, condition: { field: "viajaConPareja", values: ["si"] } },
+  { field: "nivelAlemanPareja", type: "cards", label: "¿Cuál es el nivel de alemán de tu pareja?", group: "Datos Personales", groupIcon: "📋", required: false, condition: { field: "viajaConPareja", values: ["si"] }, options: GERMAN_LEVELS.map(l => ({ value: l, label: l })) },
+  { field: "parejaProfesion", type: "cards", label: "¿Tu pareja tiene profesión universitaria?", group: "Datos Personales", groupIcon: "📋", required: false, condition: { field: "viajaConPareja", values: ["si"] }, options: [
+    { value: "si_medicina", label: "Sí, también es médico/a" },
+    { value: "si_otra", label: "Sí, otra profesión" },
+    { value: "no", label: "No" },
+  ] },
+  { field: "tieneHijos", type: "radio", label: "¿Tienes hijos?", group: "Datos Personales", groupIcon: "📋", required: false, conditions: [
+    { field: "viajaSolo", values: ["familia"] },
+    { field: "estadoCivil", values: ["Casado/a", "Unión libre"] },
+  ] },
   { field: "bundeslandPreferido", type: "select", label: "¿En qué Bundesland te gustaría vivir?", helper: "El estado federal donde te gustaría vivir", group: "Datos Personales", groupIcon: "📋", required: false, options: BUNDESLAENDER.map(b => ({ value: b, label: b })) },
-  { field: "ciudadPreferida", type: "text", label: "¿Tienes alguna ciudad preferida?", placeholder: "Ej: Múnich", group: "Datos Personales", groupIcon: "📋", required: false },
   { field: "tieneContactosAlemania", type: "radio", label: "¿Tienes amigos o familiares en Alemania?", helper: "Tener contactos facilita la adaptación inicial", group: "Datos Personales", groupIcon: "📋", required: true },
   { field: "dondeContactos", type: "text", label: "¿En qué ciudad o región están tus contactos?", placeholder: "Ej: Berlín", group: "Datos Personales", groupIcon: "📋", required: false, condition: { field: "tieneContactosAlemania", values: ["si"] } },
 
   // ── Formación Académica ──
   { field: "universidad", type: "text", label: "¿En qué universidad estudiaste medicina?", helper: "El nombre oficial de tu universidad", placeholder: "Nombre de la universidad", group: "Formación Académica", groupIcon: "🎓", required: true },
   { field: "anioGraduacion", type: "number", label: "¿En qué año te graduaste?", placeholder: "Ej: 2018", group: "Formación Académica", groupIcon: "🎓", required: true },
-  { field: "realizoInternado", type: "radio", label: "¿Realizaste internado rotatorio?", helper: "El internado es parte de la formación requerida", group: "Formación Académica", groupIcon: "🎓", required: true },
+  { field: "realizoInternado", type: "radio", label: "¿Realizaste servicio social o rural?", helper: "El servicio social o rural es un requisito en muchos países latinoamericanos para poder ejercer medicina. En Alemania, se evalúa como parte de tu formación clínica.", group: "Formación Académica", groupIcon: "🎓", required: true },
   { field: "tieneEspecialidad", type: "radio", label: "¿Tienes especialidad médica?", group: "Formación Académica", groupIcon: "🎓", required: true },
   { field: "cualEspecialidad", type: "text", label: "¿Cuál especialidad?", placeholder: "Ej: Cardiología", group: "Formación Académica", groupIcon: "🎓", required: false, condition: { field: "tieneEspecialidad", values: ["si"] } },
   { field: "aniosExperiencia", type: "number", label: "¿Cuántos años de experiencia laboral tienes?", placeholder: "Ej: 5", group: "Formación Académica", groupIcon: "🎓", required: true },
@@ -101,35 +127,23 @@ export const QUESTIONS: QuestionDef[] = [
   { field: "tieneBerufserlaubnis", type: "radio", label: "¿Tienes Berufserlaubnis?", helper: "Permiso temporal de ejercicio médico", group: "Estado del Proceso", groupIcon: "📬", required: true },
   { field: "tieneApprobation", type: "radio", label: "¿Ya tienes la Approbation?", helper: "Homologación completa para ejercer en Alemania", group: "Estado del Proceso", groupIcon: "📬", required: true },
 
-  // ── Visa y Migración ──
-  { field: "tipoVisa", type: "cards", label: "¿Qué tipo de visa planeas solicitar?", helper: "Cada visa tiene requisitos diferentes", group: "Visa y Migración", groupIcon: "✈️", required: true, options: [
-    { value: "trabajo", label: "Visa de trabajo" }, { value: "busqueda_empleo", label: "Búsqueda de empleo" },
-    { value: "estudio", label: "Visa de estudio" }, { value: "oportunidad", label: "Chancenkarte" },
-    { value: "no_se", label: "No sé aún" },
-  ] },
-  { field: "viajaConPareja", type: "radio", label: "¿Planeas viajar con tu pareja?", group: "Visa y Migración", groupIcon: "✈️", required: true },
-  { field: "parejaHablaAleman", type: "radio", label: "¿Tu pareja habla alemán?", helper: "El nivel A1 es requisito mínimo para visa familiar", group: "Visa y Migración", groupIcon: "✈️", required: false, condition: { field: "viajaConPareja", values: ["si"] } },
-  { field: "nivelAlemanPareja", type: "cards", label: "¿Cuál es el nivel de alemán de tu pareja?", group: "Visa y Migración", groupIcon: "✈️", required: false, condition: { field: "viajaConPareja", values: ["si"] }, options: GERMAN_LEVELS.map(l => ({ value: l, label: l })) },
-  { field: "parejaProfesion", type: "cards", label: "¿Tu pareja tiene profesión universitaria?", group: "Visa y Migración", groupIcon: "✈️", required: false, condition: { field: "viajaConPareja", values: ["si"] }, options: [
-    { value: "si_medicina", label: "Sí, también es médico/a" },
-    { value: "si_otra", label: "Sí, otra profesión" },
-    { value: "no", label: "No" },
-  ] },
-
   // ── Situación Financiera ──
   { field: "dineroAhorrado", type: "cards", label: "¿Cuánto dinero tienes ahorrado para el proceso?", helper: "Incluye cursos de idioma, visa, vuelos y primeros meses", group: "Situación Financiera", groupIcon: "💰", required: true, options: [
     { value: "menos_5000", label: "Menos de 5.000 EUR" }, { value: "5000_10000", label: "5.000 – 10.000 EUR" },
     { value: "10000_20000", label: "10.000 – 20.000 EUR" }, { value: "mas_20000", label: "Más de 20.000 EUR" },
   ] },
   { field: "puedeAbrirSperrkonto", type: "radio", label: "¿Puedes abrir un Sperrkonto?", helper: "Cuenta bloqueada de ~11.208 EUR, obligatoria para varias visas", group: "Situación Financiera", groupIcon: "💰", required: true },
-  { field: "apoyoFamiliar", type: "radio", label: "¿Tienes apoyo económico familiar?", group: "Situación Financiera", groupIcon: "💰", required: true },
+  { field: "apoyoFamiliar", type: "radio", label: "¿Tienes apoyo económico familiar?", group: "Situación Financiera", groupIcon: "💰", required: false, conditions: [
+    { field: "tieneHijos", values: ["si"] },
+    { field: "estadoCivil", values: ["Casado/a", "Unión libre"] },
+  ] },
   { field: "dispuestoCiudadesPequenas", type: "radio", label: "¿Estás dispuesto/a a trabajar en ciudades pequeñas?", helper: "Las zonas rurales tienen mayor demanda y menos competencia", group: "Situación Financiera", groupIcon: "💰", required: true },
 
   // ── Estrategia Laboral ──
-  { field: "especialidadInteres", type: "text", label: "¿Cuál es tu especialidad de mayor interés para Alemania?", placeholder: "Ej: Medicina interna", group: "Estrategia Laboral", groupIcon: "🏥", required: false },
+  { field: "especialidadInteres", type: "select", label: "¿Cuál es tu especialidad de mayor interés para Alemania?", group: "Estrategia Laboral", groupIcon: "🏥", required: false, options: SPECIALTIES.map(s => ({ value: s, label: s })) },
   { field: "dispuestoEspecialidades", type: "checkbox-multi", label: "¿En cuáles áreas estarías dispuesto/a a trabajar?", helper: "Selecciona todas las que apliquen", group: "Estrategia Laboral", groupIcon: "🏥", required: false, options: SPECIALTIES.map(s => ({ value: s, label: s })) },
-  { field: "haAplicadoHospitales", type: "radio", label: "¿Has aplicado a hospitales alemanes?", group: "Estrategia Laboral", groupIcon: "🏥", required: true },
-  { field: "haTenidoEntrevistas", type: "radio", label: "¿Has tenido entrevistas con hospitales o clínicas?", group: "Estrategia Laboral", groupIcon: "🏥", required: true },
+  { field: "haAplicadoHospitales", type: "radio", label: "¿Has buscado opciones de hospitales en los que te gustaría trabajar en Alemania?", group: "Estrategia Laboral", groupIcon: "🏥", required: true },
+  { field: "cualesHospitales", type: "text", label: "¿Cuáles hospitales o clínicas has investigado?", placeholder: "Ej: Charité, Universitätsklinikum...", group: "Estrategia Laboral", groupIcon: "🏥", required: false, condition: { field: "haAplicadoHospitales", values: ["si"] } },
 
   // ── Tiempo y Planificación ──
   { field: "cuandoViajar", type: "cards", label: "¿Cuándo te gustaría viajar a Alemania?", helper: "Esto nos ayuda a definir tu ruta y prioridades", group: "Tiempo y Planificación", groupIcon: "⏰", required: true, options: [
@@ -148,12 +162,20 @@ export const QUESTIONS: QuestionDef[] = [
 export const CONDITION_FIELDS: (keyof DiagnosticoForm)[] = [
   "tieneContactosAlemania", "tieneEspecialidad", "tieneCertificado",
   "estudiaActualmente", "envioDocumentos", "viajaConPareja",
+  "estadoCivil", "viajaSolo", "tieneHijos", "haAplicadoHospitales",
 ];
 
 export function getVisibleQuestions(
   conditionValues: Partial<Record<keyof DiagnosticoForm, string>>,
 ): QuestionDef[] {
   return QUESTIONS.filter((q) => {
+    // OR-logic conditions: show if ANY condition matches
+    if (q.conditions) {
+      return q.conditions.some((c) => {
+        const val = conditionValues[c.field] || "";
+        return c.values.includes(val);
+      });
+    }
     if (!q.condition) return true;
     const val = conditionValues[q.condition.field] || "";
     return q.condition.values.includes(val);

@@ -56,7 +56,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
                 setValue(question.field, opt.value as never);
                 autoAdvance();
               }}
-              className={`w-full px-6 py-4 rounded-xl text-left text-base font-medium border transition-all active:scale-[0.98] ${
+              className={`w-full px-6 py-4 rounded-xl text-left text-lg font-medium border transition-all active:scale-[0.98] ${
                 value === opt.value
                   ? "bg-primary/15 border-primary/50 text-primary"
                   : "bg-secondary/80 border-border text-secondary-foreground hover:bg-secondary hover:border-muted-foreground/20"
@@ -92,7 +92,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
                 setValue(question.field, opt.value as never);
                 autoAdvance();
               }}
-              className={`w-full px-6 py-4 rounded-xl text-left text-base font-medium border transition-all active:scale-[0.98] ${
+              className={`w-full px-6 py-4 rounded-xl text-left text-lg font-medium border transition-all active:scale-[0.98] ${
                 value === opt.value
                   ? "bg-primary/15 border-primary/50 text-primary"
                   : "bg-secondary/80 border-border text-secondary-foreground hover:bg-secondary hover:border-muted-foreground/20"
@@ -319,7 +319,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
           <div className="flex gap-3 text-xs text-muted-foreground mb-4">
             <span className="text-emerald-400">{tengoCount} listos</span>
             <span className="text-amber-400">{enProcesoCount} en proceso</span>
-            <span className="text-red-400">{14 - tengoCount - enProcesoCount} pendientes</span>
+            <span className="text-red-400">{DOCUMENT_NAMES.length - tengoCount - enProcesoCount} pendientes</span>
           </div>
           <div className="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
             {DOCUMENT_NAMES.map((doc, i) => {
@@ -327,7 +327,10 @@ export default function QuestionView({ question, form, onNext }: Props) {
               const currentVal = documentos[key] || "no_tengo";
               return (
                 <div key={key} className="rounded-xl border border-border bg-secondary/80 p-3">
-                  <Label className="text-secondary-foreground text-sm font-medium block mb-2">{doc}</Label>
+                  <Label className="text-secondary-foreground text-sm font-medium block mb-1">{doc}</Label>
+                  {doc === "Certificado médico de salud" && (
+                    <p className="text-muted-foreground text-xs mb-2">Debe ser emitido por un médico de la lista oficial de la embajada alemana en tu país.</p>
+                  )}
                   <RadioGroup
                     value={currentVal}
                     onValueChange={(v) => setValue("documentos", { ...documentos, [key]: v } as never)}
@@ -403,7 +406,7 @@ function Shell({ q, children }: { q: QuestionDef; children: React.ReactNode }) {
         <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
           {q.groupIcon} {q.group}
         </p>
-        <h2 className="text-xl sm:text-2xl font-bold text-foreground leading-tight">
+        <h2 className="text-2xl sm:text-3xl font-bold text-foreground leading-tight">
           {q.label}
         </h2>
         {q.helper && (
