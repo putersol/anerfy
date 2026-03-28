@@ -84,7 +84,7 @@ export default function AuthPage() {
       >
         {/* Logo */}
         <div className="text-center mb-8">
-          <img src={anerfyLogo} alt="Anerfy" className="h-10 mx-auto mb-4" />
+          <img src={anerfyLogo} alt="Anerfy" className="h-10 mx-auto mb-4 brightness-0 invert" />
           <h1 className="text-2xl font-bold text-white">
             {mode === 'login' ? 'Bienvenido de vuelta' : mode === 'register' ? 'Crea tu cuenta' : 'Recuperar contraseña'}
           </h1>

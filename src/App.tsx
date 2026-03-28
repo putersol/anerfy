@@ -21,6 +21,8 @@ import Impressum from "./pages/Impressum";
 import NotFound from "./pages/NotFound";
 import GameMap from "./pages/GameMap";
 import Auth from "./pages/Auth";
+import Diagnostico from "./pages/Diagnostico";
+import Admin from "./pages/Admin";
 import { Loader2 } from "lucide-react";
 
 const queryClient = new QueryClient();
@@ -48,25 +50,30 @@ function ProfileSync({ children }: { children: React.ReactNode }) {
 }
 
 const AppRoutes = () => (
-  <ProfileSync>
-    <Layout>
-      <Routes>
-        <Route path="/" element={<Onboarding />} />
-        <Route path="/waitlist" element={<WaitlistLanding />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/mapa" element={
-          <ProtectedRoute>
-            <GameMap />
-          </ProtectedRoute>
-        } />
-        <Route path="/roadmap" element={<Roadmap />} />
-        <Route path="/cookies" element={<Cookies />} />
-        <Route path="/datenschutz" element={<Datenschutz />} />
-        <Route path="/impressum" element={<Impressum />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Layout>
-  </ProfileSync>
+  <Routes>
+    {/* Public routes — no auth, no ProfileSync */}
+    <Route path="/diagnostico" element={<Diagnostico />} />
+    <Route path="/admin" element={<Admin />} />
+    <Route path="/mapa" element={<GameMap />} />
+    
+    {/* Routes with ProfileSync */}
+    <Route path="*" element={
+      <ProfileSync>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Onboarding />} />
+            <Route path="/waitlist" element={<WaitlistLanding />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/roadmap" element={<Roadmap />} />
+            <Route path="/cookies" element={<Cookies />} />
+            <Route path="/datenschutz" element={<Datenschutz />} />
+            <Route path="/impressum" element={<Impressum />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>
+      </ProfileSync>
+    } />
+  </Routes>
 );
 
 const App = () => (
