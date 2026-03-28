@@ -24,7 +24,7 @@ export function useProfile() {
     }
 
     const loadProfile = async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('user_profiles')
         .select('*')
         .eq('user_id', user.id)
@@ -98,7 +98,7 @@ export function useProfile() {
       checked_tasks: state.roadmap.checkedTasks,
     };
 
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('user_profiles')
       .upsert(profileData, { onConflict: 'user_id' });
 

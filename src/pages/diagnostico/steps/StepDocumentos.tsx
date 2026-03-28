@@ -43,7 +43,7 @@ export default function StepDocumentos({ form }: Props) {
               <RadioGroup
                 value={currentVal}
                 onValueChange={(v) => {
-                  setValue("documentos", { ...documentos, [key]: v });
+                  setValue("documentos", { ...documentos, [key]: v } as Record<string, "tengo" | "en_proceso" | "no_tengo">);
                 }}
                 className="flex flex-wrap gap-2"
               >
