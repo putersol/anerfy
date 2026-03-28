@@ -1,0 +1,61 @@
+# RuFlo V3 — Anerfy MVP Development
+# Configurado: 2026-03-23
+
+version: "3.0.0"
+
+project:
+  name: anerfy
+  description: "Plataforma para médicos hispanohablantes que quieren homologar su título en Alemania"
+  owners:
+    - Alberto Díaz (producto, contenido médico)
+    - Dieter Brodersen (finanzas, growth)
+
+swarm:
+  topology: hierarchical-mesh
+  maxAgents: 15
+  autoScale: true
+  coordinationStrategy: consensus
+  orchestrator: anerfy-orchestrator
+
+memory:
+  backend: hybrid
+  enableHNSW: true
+  persistPath: .claude-flow/data
+  cacheSize: 100
+  learningBridge:
+    enabled: true
+    sonaMode: balanced
+    confidenceDecayRate: 0.005
+    accessBoostAmount: 0.03
+    consolidationThreshold: 10
+  memoryGraph:
+    enabled: true
+    pageRankDamping: 0.85
+    maxNodes: 5000
+    similarityThreshold: 0.8
+  agentScopes:
+    enabled: true
+    defaultScope: project
+
+neural:
+  enabled: true
+  modelPath: .claude-flow/neural
+
+hooks:
+  enabled: true
+  autoExecute: true
+
+mcp:
+  autoStart: false
+  port: 3000
+
+# Anerfy agents
+agents:
+  custom:
+    - anerfy-orchestrator
+    - product-manager
+    - frontend-dev
+    - backend-dev
+    - qa-tester
+    - content-writer
+    - growth-hacker
