@@ -14,6 +14,201 @@ export type Database = {
   }
   public: {
     Tables: {
+      diagnostico_submissions: {
+        Row: {
+          anio_graduacion: string
+          anios_experiencia: string
+          apoyo_familiar: string
+          areas_trabajo: string
+          bundesland_envio: string | null
+          bundesland_preferido: string | null
+          ciudad_preferida: string | null
+          clasificacion: string
+          created_at: string
+          cual_certificado: string | null
+          cual_especialidad: string | null
+          cuando_viajar: string
+          dinero_ahorrado: string
+          dispuesto_ciudades_pequenas: string
+          dispuesto_especialidades: Json | null
+          documentos: Json
+          donde_contactos: string | null
+          edad: string
+          envio_documentos: string
+          especialidad_interes: string | null
+          estado_civil: string
+          estudia_actualmente: string
+          estudio_aleman_medico: string
+          ha_aplicado_hospitales: string
+          ha_tenido_entrevistas: string
+          horas_por_semana: string | null
+          id: number
+          motivacion: string
+          nacionalidad: string
+          nivel_aleman: string
+          nivel_aleman_pareja: string | null
+          nombre_completo: string
+          pais_origen: string
+          pareja_habla_aleman: string | null
+          pareja_profesion: string | null
+          presento_fsp: string
+          presento_kenntnis: string
+          puede_abrir_sperrkonto: string
+          puede_dedicar_1a2_horas: string
+          puede_estudiar_intensivo: string
+          realizo_internado: string
+          recibio_respuesta: string | null
+          score_documentos: number
+          score_estrategia: number
+          score_finanzas: number
+          score_homologacion: number
+          score_idioma: number
+          score_total: number
+          solicitaron_examen: string | null
+          submission_id: string
+          tiene_approbation: string
+          tiene_berufserlaubnis: string
+          tiene_certificado: string
+          tiene_contactos_alemania: string
+          tiene_especialidad: string
+          tiene_hijos: string
+          tipo_visa: string
+          universidad: string
+          updated_at: string
+          viaja_con_pareja: string
+          viaja_mascota: string
+          viaja_solo: string
+        }
+        Insert: {
+          anio_graduacion: string
+          anios_experiencia: string
+          apoyo_familiar: string
+          areas_trabajo: string
+          bundesland_envio?: string | null
+          bundesland_preferido?: string | null
+          ciudad_preferida?: string | null
+          clasificacion?: string
+          created_at?: string
+          cual_certificado?: string | null
+          cual_especialidad?: string | null
+          cuando_viajar: string
+          dinero_ahorrado: string
+          dispuesto_ciudades_pequenas: string
+          dispuesto_especialidades?: Json | null
+          documentos?: Json
+          donde_contactos?: string | null
+          edad: string
+          envio_documentos: string
+          especialidad_interes?: string | null
+          estado_civil: string
+          estudia_actualmente: string
+          estudio_aleman_medico: string
+          ha_aplicado_hospitales: string
+          ha_tenido_entrevistas: string
+          horas_por_semana?: string | null
+          id?: never
+          motivacion: string
+          nacionalidad: string
+          nivel_aleman: string
+          nivel_aleman_pareja?: string | null
+          nombre_completo: string
+          pais_origen: string
+          pareja_habla_aleman?: string | null
+          pareja_profesion?: string | null
+          presento_fsp: string
+          presento_kenntnis: string
+          puede_abrir_sperrkonto: string
+          puede_dedicar_1a2_horas: string
+          puede_estudiar_intensivo: string
+          realizo_internado: string
+          recibio_respuesta?: string | null
+          score_documentos?: number
+          score_estrategia?: number
+          score_finanzas?: number
+          score_homologacion?: number
+          score_idioma?: number
+          score_total?: number
+          solicitaron_examen?: string | null
+          submission_id?: string
+          tiene_approbation: string
+          tiene_berufserlaubnis: string
+          tiene_certificado: string
+          tiene_contactos_alemania: string
+          tiene_especialidad: string
+          tiene_hijos: string
+          tipo_visa: string
+          universidad: string
+          updated_at?: string
+          viaja_con_pareja: string
+          viaja_mascota: string
+          viaja_solo: string
+        }
+        Update: {
+          anio_graduacion?: string
+          anios_experiencia?: string
+          apoyo_familiar?: string
+          areas_trabajo?: string
+          bundesland_envio?: string | null
+          bundesland_preferido?: string | null
+          ciudad_preferida?: string | null
+          clasificacion?: string
+          created_at?: string
+          cual_certificado?: string | null
+          cual_especialidad?: string | null
+          cuando_viajar?: string
+          dinero_ahorrado?: string
+          dispuesto_ciudades_pequenas?: string
+          dispuesto_especialidades?: Json | null
+          documentos?: Json
+          donde_contactos?: string | null
+          edad?: string
+          envio_documentos?: string
+          especialidad_interes?: string | null
+          estado_civil?: string
+          estudia_actualmente?: string
+          estudio_aleman_medico?: string
+          ha_aplicado_hospitales?: string
+          ha_tenido_entrevistas?: string
+          horas_por_semana?: string | null
+          id?: never
+          motivacion?: string
+          nacionalidad?: string
+          nivel_aleman?: string
+          nivel_aleman_pareja?: string | null
+          nombre_completo?: string
+          pais_origen?: string
+          pareja_habla_aleman?: string | null
+          pareja_profesion?: string | null
+          presento_fsp?: string
+          presento_kenntnis?: string
+          puede_abrir_sperrkonto?: string
+          puede_dedicar_1a2_horas?: string
+          puede_estudiar_intensivo?: string
+          realizo_internado?: string
+          recibio_respuesta?: string | null
+          score_documentos?: number
+          score_estrategia?: number
+          score_finanzas?: number
+          score_homologacion?: number
+          score_idioma?: number
+          score_total?: number
+          solicitaron_examen?: string | null
+          submission_id?: string
+          tiene_approbation?: string
+          tiene_berufserlaubnis?: string
+          tiene_certificado?: string
+          tiene_contactos_alemania?: string
+          tiene_especialidad?: string
+          tiene_hijos?: string
+          tipo_visa?: string
+          universidad?: string
+          updated_at?: string
+          viaja_con_pareja?: string
+          viaja_mascota?: string
+          viaja_solo?: string
+        }
+        Relationships: []
+      }
       onboarding_responses: {
         Row: {
           anabin_status: string | null
