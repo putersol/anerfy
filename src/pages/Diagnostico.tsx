@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   ChevronLeft, ChevronRight, Send, Stethoscope, Clock, Shield,
   MessageCircle, Loader2,
@@ -10,6 +11,7 @@ import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import anerfyLogo from "@/assets/anerfy-logo-dark.png";
+import FloatingShapes from "@/components/FloatingShapes";
 import {
   diagnosticoSchema, DiagnosticoForm, DOCUMENT_NAMES, calculateScores,
 } from "./diagnostico/schema";
@@ -60,7 +62,6 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
     },
   });
 
-  // Watch only condition fields for efficiency
   const conditionWatch = form.watch(CONDITION_FIELDS);
   const conditionValues = useMemo(() => {
     const map: Partial<Record<keyof DiagnosticoForm, string>> = {};
@@ -76,13 +77,12 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
   );
   const totalQ = visibleQuestions.length;
 
-  // Clamp qIndex if questions list shrank
   useEffect(() => {
     if (qIndex >= totalQ && totalQ > 0) setQIndex(totalQ - 1);
   }, [qIndex, totalQ]);
 
   const currentQuestion = visibleQuestions[qIndex];
-  const totalScreens = totalQ + 1; // +1 for score screen
+  const totalScreens = totalQ + 1;
   const progress = showScore ? 100 : ((qIndex + 1) / totalScreens) * 100;
 
   const goNext = useCallback(() => {
@@ -180,7 +180,6 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
 
       if (error) throw error;
 
-      // Mark token as used if this was a gated submission
       if (tokenData?.token) {
         await markTokenUsed(tokenData.token, submissionId);
       }
@@ -206,56 +205,90 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
   // ─── Welcome Screen ───
   if (!started) {
     return (
-      <div className="min-h-screen flex flex-col p-4 bg-[#0f1729]">
-        {/* Logo top-left */}
-        <div className="relative z-10 flex items-center justify-center gap-2 pt-8 pb-4">
+      <div className="relative min-h-screen flex flex-col overflow-hidden">
+        <FloatingShapes />
+
+        {/* Logo */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="relative z-10 flex items-center justify-center gap-2 pt-8 pb-4"
+        >
           <img src={anerfyLogo} alt="Anerfy logo" className="w-8 h-8 sm:w-9 sm:h-9 brightness-0 invert object-contain scale-[1.6]" />
-          <span className="text-sm sm:text-base font-bold tracking-[0.35em] text-foreground/80 font-sans">ANERFY</span>
+          <span className="text-sm sm:text-base font-bold tracking-[0.35em] text-foreground/80 font-sans">
+            ANERFY
+          </span>
+        </motion.div>
+
+        {/* Main content */}
+        <div className="relative z-10 flex-1 flex items-center justify-center">
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-md w-full mx-auto px-4 space-y-6"
+          >
+            <div className="w-20 h-20 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center mx-auto">
+              <Stethoscope className="w-10 h-10 text-primary" />
+            </div>
+
+            <div className="space-y-3">
+              <h1 className="text-3xl sm:text-4xl font-normal leading-[1.1] font-sans">
+                Diagnóstico{" "}
+                <span className="italic text-primary font-accent font-semibold text-[34px] sm:text-[42px]">
+                  Migratorio
+                </span>
+              </h1>
+              <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
+                Evaluamos tu perfil para ejercer medicina en Alemania.
+                Con tus respuestas generamos tu{" "}
+                <span className="text-primary font-medium">Migration Score</span> y
+                diseñamos una ruta personalizada.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div className="bg-secondary/80 border border-border rounded-xl p-3">
+                <Clock className="w-5 h-5 text-primary mx-auto mb-1.5" />
+                <p className="text-xs text-muted-foreground">5-8 minutos</p>
+              </div>
+              <div className="bg-secondary/80 border border-border rounded-xl p-3">
+                <Shield className="w-5 h-5 text-emerald-400 mx-auto mb-1.5" />
+                <p className="text-xs text-muted-foreground">100% confidencial</p>
+              </div>
+              <div className="bg-secondary/80 border border-border rounded-xl p-3">
+                <Stethoscope className="w-5 h-5 text-purple-400 mx-auto mb-1.5" />
+                <p className="text-xs text-muted-foreground">~50 preguntas</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setStarted(true)}
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-base py-4 rounded-full font-semibold transition-colors flex items-center justify-center gap-1"
+            >
+              Comenzar diagnóstico
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </motion.div>
         </div>
 
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="text-center max-w-md w-full mx-auto flex-1 flex flex-col justify-center"
+        {/* Footer */}
+        <motion.footer
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+          className="relative z-10 pb-6 pt-4 space-y-3"
         >
-
-          <div className="w-20 h-20 rounded-full bg-blue-500/15 border border-blue-500/30 flex items-center justify-center mx-auto mb-6">
-            <Stethoscope className="w-10 h-10 text-blue-400" />
+          <div className="flex items-center justify-center gap-4 text-[11px] text-muted-foreground/40">
+            <Link to="/cookies" className="hover:text-foreground transition-colors">Cookies</Link>
+            <Link to="/datenschutz" className="hover:text-foreground transition-colors">Datenschutz</Link>
+            <Link to="/impressum" className="hover:text-foreground transition-colors">Impressum</Link>
           </div>
-
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-            Diagnóstico Migratorio
-          </h1>
-          <p className="text-slate-400 mb-8 leading-relaxed">
-            Este formulario evalúa tu perfil para ejercer medicina en Alemania.
-            Con tus respuestas generamos tu <span className="text-blue-400 font-medium">Migration Score</span> y
-            diseñamos una ruta personalizada para tu caso.
+          <p className="text-center text-muted-foreground/30 text-[11px]">
+            © 2026 ANERFY. Todos los derechos reservados.
           </p>
-
-          <div className="grid grid-cols-3 gap-3 mb-8">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-              <Clock className="w-5 h-5 text-blue-400 mx-auto mb-1.5" />
-              <p className="text-xs text-slate-400">5-8 minutos</p>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-              <Shield className="w-5 h-5 text-emerald-400 mx-auto mb-1.5" />
-              <p className="text-xs text-slate-400">100% confidencial</p>
-            </div>
-            <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-              <Stethoscope className="w-5 h-5 text-purple-400 mx-auto mb-1.5" />
-              <p className="text-xs text-slate-400">~50 preguntas</p>
-            </div>
-          </div>
-
-          <button
-            onClick={() => setStarted(true)}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white text-base py-4 rounded-xl font-medium transition-colors flex items-center justify-center gap-1"
-          >
-            Comenzar diagnóstico
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </motion.div>
+        </motion.footer>
       </div>
     );
   }
@@ -267,21 +300,23 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
 
   // ─── Form: Questions + Score ───
   return (
-    <div className="min-h-screen bg-[#0f1729] flex flex-col">
+    <div className="relative min-h-screen flex flex-col overflow-hidden">
+      <FloatingShapes />
+
       {/* Header */}
-      <div className="sticky top-0 z-20 backdrop-blur-xl bg-[#0f1729]/80 border-b border-white/5">
+      <div className="sticky top-0 z-20 backdrop-blur-xl bg-background/80 border-b border-border">
         <div className="max-w-2xl mx-auto px-4 py-3">
           <div className="flex items-center gap-3 mb-2">
             <img src={anerfyLogo} alt="Anerfy" className="h-7 brightness-0 invert" />
-            <div className="h-4 w-px bg-white/20" />
-            <span className="text-slate-400 text-sm">Diagnóstico migratorio</span>
+            <div className="h-4 w-px bg-border" />
+            <span className="text-muted-foreground text-sm">Diagnóstico migratorio</span>
           </div>
           <div className="flex items-center gap-3">
             <Progress
               value={progress}
-              className="h-1.5 flex-1 bg-white/10 [&>div]:bg-blue-500"
+              className="h-1.5 flex-1 bg-secondary [&>div]:bg-primary"
             />
-            <span className="text-xs text-slate-500 whitespace-nowrap">
+            <span className="text-xs text-muted-foreground whitespace-nowrap">
               {showScore ? totalScreens : qIndex + 1}/{totalScreens}
             </span>
           </div>
@@ -289,18 +324,18 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
       </div>
 
       {/* Back button */}
-      <div className="max-w-2xl mx-auto w-full px-4 pt-3">
+      <div className="relative z-10 max-w-2xl mx-auto w-full px-4 pt-3">
         <button
           onClick={goBack}
           disabled={qIndex === 0 && !showScore}
-          className="text-sm text-slate-500 hover:text-slate-300 disabled:opacity-30 disabled:cursor-default transition-colors flex items-center gap-1"
+          className="text-sm text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-default transition-colors flex items-center gap-1"
         >
           <ChevronLeft className="w-4 h-4" /> Atrás
         </button>
       </div>
 
       {/* Content */}
-      <div className="flex-1 flex items-center justify-center">
+      <div className="relative z-10 flex-1 flex items-center justify-center">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={showScore ? "score" : qIndex}
@@ -357,8 +392,8 @@ function ScorePreview({
   return (
     <div className="flex flex-col items-center px-4 py-8 max-w-md mx-auto w-full space-y-6">
       <div className="text-center">
-        <p className="text-xs text-slate-500 uppercase tracking-wide mb-1">📊 Migration Score</p>
-        <h2 className="text-xl sm:text-2xl font-bold text-white">Tu puntuación estimada</h2>
+        <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">📊 Migration Score</p>
+        <h2 className="text-xl sm:text-2xl font-bold text-foreground">Tu puntuación estimada</h2>
       </div>
 
       {/* Score circle */}
@@ -370,10 +405,10 @@ function ScorePreview({
       >
         <div className="relative inline-flex items-center justify-center">
           <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8" />
+            <circle cx="60" cy="60" r="52" fill="none" stroke="hsl(var(--secondary))" strokeWidth="8" />
             <motion.circle
               cx="60" cy="60" r="52" fill="none"
-              stroke="#3b82f6" strokeWidth="8" strokeLinecap="round"
+              stroke="hsl(var(--primary))" strokeWidth="8" strokeLinecap="round"
               strokeDasharray={`${circumference}`}
               initial={{ strokeDashoffset: circumference }}
               animate={{ strokeDashoffset: circumference - strokeDash }}
@@ -381,8 +416,8 @@ function ScorePreview({
             />
           </svg>
           <div className="absolute text-center">
-            <span className="text-4xl font-bold text-white">{scores.total}</span>
-            <span className="text-slate-400 text-sm block">/100</span>
+            <span className="text-4xl font-bold text-foreground">{scores.total}</span>
+            <span className="text-muted-foreground text-sm block">/100</span>
           </div>
         </div>
         <div className={`inline-block mt-3 px-5 py-2 rounded-full ${badgeColor}`}>
@@ -391,7 +426,7 @@ function ScorePreview({
       </motion.div>
 
       {/* Category bars */}
-      <div className="w-full space-y-3 bg-white/5 rounded-xl p-4 border border-white/10">
+      <div className="w-full space-y-3 bg-secondary/80 rounded-xl p-4 border border-border">
         {categories.map(({ label, score }) => {
           const pct = (score / 20) * 100;
           let color = "bg-red-500";
@@ -401,10 +436,10 @@ function ScorePreview({
           return (
             <div key={label} className="space-y-1">
               <div className="flex justify-between text-sm">
-                <span className="text-slate-300">{label}</span>
-                <span className="text-white font-semibold">{score}/20</span>
+                <span className="text-secondary-foreground">{label}</span>
+                <span className="text-foreground font-semibold">{score}/20</span>
               </div>
-              <div className="h-2.5 rounded-full bg-white/10 overflow-hidden">
+              <div className="h-2.5 rounded-full bg-muted overflow-hidden">
                 <motion.div
                   className={`h-full rounded-full ${color}`}
                   initial={{ width: 0 }}
@@ -418,8 +453,8 @@ function ScorePreview({
       </div>
 
       {/* Summary */}
-      <div className="w-full bg-white/5 rounded-xl p-4 border border-white/10 space-y-2">
-        <h3 className="text-white font-semibold text-sm">Resumen</h3>
+      <div className="w-full bg-secondary/80 rounded-xl p-4 border border-border space-y-2">
+        <h3 className="text-foreground font-semibold text-sm">Resumen</h3>
         <SummaryRow label="Nombre" value={data.nombreCompleto} />
         <SummaryRow label="País" value={data.paisOrigen} />
         <SummaryRow label="Nivel alemán" value={data.nivelAleman} />
@@ -431,7 +466,7 @@ function ScorePreview({
       <button
         onClick={onSubmit}
         disabled={submitting}
-        className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white font-medium py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
+        className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white font-semibold py-4 rounded-full transition-colors flex items-center justify-center gap-2"
       >
         {submitting ? (
           <>
@@ -466,99 +501,102 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
   }
 
   return (
-    <div className="min-h-screen p-4 py-8 bg-[#0f1729]">
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="max-w-md mx-auto space-y-6"
-      >
-        <div className="text-center">
-          <div className="w-20 h-20 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto mb-4">
-            <Stethoscope className="w-10 h-10 text-emerald-400" />
-          </div>
-          <h2 className="text-2xl font-bold text-white mb-2">
-            Diagnóstico completado
-          </h2>
-          <p className="text-slate-400 text-sm">
-            Hemos recibido tus respuestas, {data.nombreCompleto.split(" ")[0] || ""}.
-          </p>
-        </div>
-
-        {/* Score circle */}
-        <div className="text-center">
-          <div className="relative inline-flex items-center justify-center">
-            <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8" />
-              <circle
-                cx="60" cy="60" r="52" fill="none"
-                stroke="#3b82f6" strokeWidth="8" strokeLinecap="round"
-                strokeDasharray={`${strokeDash} ${circumference}`}
-              />
-            </svg>
-            <div className="absolute text-center">
-              <span className="text-4xl font-bold text-white">{scores.total}</span>
-              <span className="text-slate-400 text-sm block">/100</span>
+    <div className="relative min-h-screen overflow-hidden">
+      <FloatingShapes />
+      <div className="relative z-10 p-4 py-8">
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="max-w-md mx-auto space-y-6"
+        >
+          <div className="text-center">
+            <div className="w-20 h-20 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto mb-4">
+              <Stethoscope className="w-10 h-10 text-emerald-400" />
             </div>
+            <h2 className="text-2xl font-bold text-foreground mb-2">
+              Diagnóstico completado
+            </h2>
+            <p className="text-muted-foreground text-sm">
+              Hemos recibido tus respuestas, {data.nombreCompleto.split(" ")[0] || ""}.
+            </p>
           </div>
-          <div className={`inline-block mt-3 px-5 py-2 rounded-full ${badgeColor}`}>
-            <span className="text-sm font-bold text-white">{scores.clasificacion}</span>
-          </div>
-        </div>
 
-        {/* Category bars */}
-        <div className={`rounded-xl p-4 border ${badgeBg} space-y-3`}>
-          {[
-            { label: "🗣️ Idioma", score: scores.idioma },
-            { label: "📄 Documentos", score: scores.documentos },
-            { label: "📬 Homologación", score: scores.homologacion },
-            { label: "💰 Finanzas", score: scores.finanzas },
-            { label: "🏥 Estrategia", score: scores.estrategia },
-          ].map(({ label, score }) => (
-            <div key={label} className="space-y-1">
-              <div className="flex justify-between text-sm">
-                <span className="text-slate-300">{label}</span>
-                <span className="text-white font-semibold">{score}/20</span>
-              </div>
-              <div className="h-2 rounded-full bg-white/10 overflow-hidden">
-                <div
-                  className={`h-full rounded-full transition-all duration-700 ${
-                    score >= 15 ? "bg-emerald-500" : score >= 8 ? "bg-amber-500" : "bg-red-500"
-                  }`}
-                  style={{ width: `${(score / 20) * 100}%` }}
+          {/* Score circle */}
+          <div className="text-center">
+            <div className="relative inline-flex items-center justify-center">
+              <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="52" fill="none" stroke="hsl(var(--secondary))" strokeWidth="8" />
+                <circle
+                  cx="60" cy="60" r="52" fill="none"
+                  stroke="hsl(var(--primary))" strokeWidth="8" strokeLinecap="round"
+                  strokeDasharray={`${strokeDash} ${circumference}`}
                 />
+              </svg>
+              <div className="absolute text-center">
+                <span className="text-4xl font-bold text-foreground">{scores.total}</span>
+                <span className="text-muted-foreground text-sm block">/100</span>
               </div>
             </div>
-          ))}
-        </div>
+            <div className={`inline-block mt-3 px-5 py-2 rounded-full ${badgeColor}`}>
+              <span className="text-sm font-bold text-white">{scores.clasificacion}</span>
+            </div>
+          </div>
 
-        {/* Next steps */}
-        <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
-          <h3 className="text-blue-300 font-semibold text-sm mb-2">Siguientes pasos</h3>
-          <ul className="text-slate-400 text-sm space-y-1.5">
-            <li>1. Un asesor revisará tu diagnóstico</li>
-            <li>2. Recibirás un plan personalizado</li>
-            <li>3. Agenda tu asesoría para resolver dudas</li>
-          </ul>
-        </div>
+          {/* Category bars */}
+          <div className={`rounded-xl p-4 border ${badgeBg} space-y-3`}>
+            {[
+              { label: "🗣️ Idioma", score: scores.idioma },
+              { label: "📄 Documentos", score: scores.documentos },
+              { label: "📬 Homologación", score: scores.homologacion },
+              { label: "💰 Finanzas", score: scores.finanzas },
+              { label: "🏥 Estrategia", score: scores.estrategia },
+            ].map(({ label, score }) => (
+              <div key={label} className="space-y-1">
+                <div className="flex justify-between text-sm">
+                  <span className="text-secondary-foreground">{label}</span>
+                  <span className="text-foreground font-semibold">{score}/20</span>
+                </div>
+                <div className="h-2 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className={`h-full rounded-full transition-all duration-700 ${
+                      score >= 15 ? "bg-emerald-500" : score >= 8 ? "bg-amber-500" : "bg-red-500"
+                    }`}
+                    style={{ width: `${(score / 20) * 100}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
 
-        {/* WhatsApp CTA */}
-        <a
-          href="https://wa.me/4915257607594"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-semibold py-3.5 rounded-xl transition-colors"
-        >
-          <MessageCircle className="w-5 h-5" />
-          Agenda tu asesoría por WhatsApp
-        </a>
+          {/* Next steps */}
+          <div className="bg-primary/10 border border-primary/20 rounded-xl p-4">
+            <h3 className="text-primary font-semibold text-sm mb-2">Siguientes pasos</h3>
+            <ul className="text-muted-foreground text-sm space-y-1.5">
+              <li>1. Un asesor revisará tu diagnóstico</li>
+              <li>2. Recibirás un plan personalizado</li>
+              <li>3. Agenda tu asesoría para resolver dudas</li>
+            </ul>
+          </div>
 
-        <button
-          className="w-full border border-white/20 text-slate-300 hover:bg-white/10 py-3 rounded-xl transition-colors"
-          onClick={() => (window.location.href = "/")}
-        >
-          Volver al inicio
-        </button>
-      </motion.div>
+          {/* WhatsApp CTA */}
+          <a
+            href="https://wa.me/4915257607594"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-semibold py-3.5 rounded-full transition-colors"
+          >
+            <MessageCircle className="w-5 h-5" />
+            Agenda tu asesoría por WhatsApp
+          </a>
+
+          <button
+            className="w-full border border-border text-muted-foreground hover:text-foreground hover:bg-secondary py-3 rounded-full transition-colors"
+            onClick={() => (window.location.href = "/")}
+          >
+            Volver al inicio
+          </button>
+        </motion.div>
+      </div>
     </div>
   );
 }
@@ -567,8 +605,8 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
   if (!value) return null;
   return (
     <div className="flex justify-between text-sm">
-      <span className="text-slate-400">{label}</span>
-      <span className="text-slate-200 text-right max-w-[60%]">{value}</span>
+      <span className="text-muted-foreground">{label}</span>
+      <span className="text-secondary-foreground text-right max-w-[60%]">{value}</span>
     </div>
   );
 }

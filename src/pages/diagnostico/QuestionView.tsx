@@ -58,15 +58,15 @@ export default function QuestionView({ question, form, onNext }: Props) {
               }}
               className={`w-full px-6 py-4 rounded-xl text-left text-base font-medium border transition-all active:scale-[0.98] ${
                 value === opt.value
-                  ? "bg-blue-600/15 border-blue-500/50 text-blue-300"
-                  : "bg-white/5 border-white/10 text-slate-300 hover:bg-white/[0.08] hover:border-white/20"
+                  ? "bg-primary/15 border-primary/50 text-primary"
+                  : "bg-secondary/80 border-border text-secondary-foreground hover:bg-secondary hover:border-muted-foreground/20"
               }`}
             >
               <span className="flex items-center gap-3">
                 <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                  value === opt.value ? "border-blue-500" : "border-white/20"
+                  value === opt.value ? "border-primary" : "border-muted-foreground/30"
                 }`}>
-                  {value === opt.value && <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />}
+                  {value === opt.value && <span className="w-2.5 h-2.5 rounded-full bg-primary" />}
                 </span>
                 {opt.label}
               </span>
@@ -94,8 +94,8 @@ export default function QuestionView({ question, form, onNext }: Props) {
               }}
               className={`w-full px-6 py-4 rounded-xl text-left text-base font-medium border transition-all active:scale-[0.98] ${
                 value === opt.value
-                  ? "bg-blue-600/15 border-blue-500/50 text-blue-300"
-                  : "bg-white/5 border-white/10 text-slate-300 hover:bg-white/[0.08] hover:border-white/20"
+                  ? "bg-primary/15 border-primary/50 text-primary"
+                  : "bg-secondary/80 border-border text-secondary-foreground hover:bg-secondary hover:border-muted-foreground/20"
               }`}
             >
               {opt.label}
@@ -121,7 +121,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
             }}
             value={(value as string) || ""}
           >
-            <SelectTrigger className="bg-white/5 border-white/10 text-white min-h-[52px] text-base">
+            <SelectTrigger className="bg-secondary/80 border-border text-foreground min-h-[52px] text-base">
               <SelectValue placeholder="Selecciona una opción" />
             </SelectTrigger>
             <SelectContent>
@@ -153,7 +153,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
             }}
             value={paisOrigen || ""}
           >
-            <SelectTrigger className="bg-white/5 border-white/10 text-white min-h-[52px] text-base">
+            <SelectTrigger className="bg-secondary/80 border-border text-foreground min-h-[52px] text-base">
               <SelectValue placeholder="Selecciona tu país" />
             </SelectTrigger>
             <SelectContent>
@@ -167,12 +167,12 @@ export default function QuestionView({ question, form, onNext }: Props) {
 
           {paisOrigen && (
             <div className="space-y-1.5">
-              <Label className="text-slate-400 text-sm">Nacionalidad</Label>
+              <Label className="text-muted-foreground text-sm">Nacionalidad</Label>
               <Select
                 onValueChange={(v) => setValue("nacionalidad", v)}
                 value={nacionalidad || ""}
               >
-                <SelectTrigger className="bg-white/5 border-white/10 text-white min-h-[52px] text-base">
+                <SelectTrigger className="bg-secondary/80 border-border text-foreground min-h-[52px] text-base">
                   <SelectValue placeholder="Selecciona" />
                 </SelectTrigger>
                 <SelectContent>
@@ -204,7 +204,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
           <Input
             {...register(question.field)}
             placeholder={question.placeholder}
-            className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 min-h-[52px] text-base"
+            className="bg-secondary/80 border-border text-foreground placeholder:text-muted-foreground min-h-[52px] text-base"
             autoFocus
           />
           <div className="flex items-center justify-between mt-4">
@@ -226,7 +226,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
             {...register(question.field)}
             type="number"
             placeholder={question.placeholder}
-            className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 min-h-[52px] text-base"
+            className="bg-secondary/80 border-border text-foreground placeholder:text-muted-foreground min-h-[52px] text-base"
             autoFocus
           />
           <div className="flex items-center justify-between mt-4">
@@ -247,7 +247,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
           <Textarea
             {...register(question.field)}
             placeholder={question.placeholder}
-            className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 min-h-[120px] text-base"
+            className="bg-secondary/80 border-border text-foreground placeholder:text-muted-foreground min-h-[120px] text-base"
             autoFocus
           />
           <div className="flex items-center justify-end mt-4">
@@ -281,8 +281,8 @@ export default function QuestionView({ question, form, onNext }: Props) {
                 onClick={() => toggle(opt.value)}
                 className={`flex items-center gap-3 text-left text-sm p-4 rounded-xl border transition-all ${
                   selected.includes(opt.value)
-                    ? "bg-blue-600/15 border-blue-500/40 text-blue-300"
-                    : "bg-white/5 border-white/10 text-slate-300 hover:bg-white/[0.08]"
+                    ? "bg-primary/15 border-primary/40 text-primary"
+                    : "bg-secondary/80 border-border text-secondary-foreground hover:bg-secondary"
                 }`}
               >
                 <Checkbox
@@ -316,7 +316,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
     return (
       <Shell q={question}>
         <div className="w-full max-w-lg">
-          <div className="flex gap-3 text-xs text-slate-400 mb-4">
+          <div className="flex gap-3 text-xs text-muted-foreground mb-4">
             <span className="text-emerald-400">{tengoCount} listos</span>
             <span className="text-amber-400">{enProcesoCount} en proceso</span>
             <span className="text-red-400">{14 - tengoCount - enProcesoCount} pendientes</span>
@@ -326,8 +326,8 @@ export default function QuestionView({ question, form, onNext }: Props) {
               const key = `doc_${i}`;
               const currentVal = documentos[key] || "no_tengo";
               return (
-                <div key={key} className="rounded-xl border border-white/10 bg-white/5 p-3">
-                  <Label className="text-slate-200 text-sm font-medium block mb-2">{doc}</Label>
+                <div key={key} className="rounded-xl border border-border bg-secondary/80 p-3">
+                  <Label className="text-secondary-foreground text-sm font-medium block mb-2">{doc}</Label>
                   <RadioGroup
                     value={currentVal}
                     onValueChange={(v) => setValue("documentos", { ...documentos, [key]: v } as never)}
@@ -337,7 +337,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
                       <label
                         key={val}
                         className={`flex items-center gap-1.5 cursor-pointer text-xs px-3 py-1.5 rounded-full border transition-all ${
-                          currentVal === val ? cls : "border-white/10 text-slate-500"
+                          currentVal === val ? cls : "border-border text-muted-foreground"
                         }`}
                       >
                         <RadioGroupItem value={val} className="h-3 w-3" />
@@ -366,20 +366,20 @@ export default function QuestionView({ question, form, onNext }: Props) {
           <Textarea
             {...register("motivacion")}
             placeholder="Comparte tu motivación aquí..."
-            className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 min-h-[180px] text-base leading-relaxed"
+            className="bg-secondary/80 border-border text-foreground placeholder:text-muted-foreground min-h-[180px] text-base leading-relaxed"
             autoFocus
           />
           <div className="flex justify-between items-center mt-1.5">
             {errors.motivacion ? (
               <p className="text-red-400 text-sm">{errors.motivacion.message}</p>
             ) : <span />}
-            <span className={`text-xs ${motivacion.length >= 10 ? "text-slate-500" : "text-slate-600"}`}>
+            <span className={`text-xs ${motivacion.length >= 10 ? "text-muted-foreground" : "text-muted-foreground/50"}`}>
               {motivacion.length} caracteres
             </span>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4 mt-4">
-            <p className="text-slate-400 text-sm leading-relaxed">
-              <span className="text-blue-400 font-medium">Tip:</span> No hay respuestas incorrectas.
+          <div className="bg-secondary/80 border border-border rounded-xl p-4 mt-4">
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              <span className="text-primary font-medium">Tip:</span> No hay respuestas incorrectas.
               Queremos conocer tu situación real para poder ayudarte mejor.
             </p>
           </div>
@@ -400,14 +400,14 @@ function Shell({ q, children }: { q: QuestionDef; children: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
       <div className="text-center mb-8 w-full max-w-lg">
-        <p className="text-xs text-slate-500 uppercase tracking-wide mb-1">
+        <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
           {q.groupIcon} {q.group}
         </p>
-        <h2 className="text-xl sm:text-2xl font-bold text-white leading-tight">
+        <h2 className="text-xl sm:text-2xl font-bold text-foreground leading-tight">
           {q.label}
         </h2>
         {q.helper && (
-          <p className="text-slate-400 text-sm mt-2">{q.helper}</p>
+          <p className="text-muted-foreground text-sm mt-2">{q.helper}</p>
         )}
       </div>
       {children}
@@ -420,7 +420,7 @@ function NextBtn({ onClick, label }: { onClick: () => void; label: string }) {
     <button
       type="button"
       onClick={onClick}
-      className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors flex items-center gap-2"
+      className="px-6 py-3 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium transition-colors flex items-center gap-2"
     >
       {label} <ChevronRight className="w-4 h-4" />
     </button>
@@ -432,7 +432,7 @@ function OkBtn({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors flex items-center gap-2"
+      className="px-6 py-3 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium transition-colors flex items-center gap-2"
     >
       OK <CornerDownLeft className="w-4 h-4" />
     </button>
@@ -444,7 +444,7 @@ function SkipBtn({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="text-sm text-slate-500 hover:text-slate-300 transition-colors"
+      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
     >
       Saltar →
     </button>

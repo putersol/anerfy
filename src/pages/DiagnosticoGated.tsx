@@ -4,6 +4,7 @@ import { ShieldX, Clock, CheckCircle2, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTokenValidation } from "@/hooks/useTokenValidation";
 import anerfyLogo from "@/assets/anerfy-logo-dark.png";
+import FloatingShapes from "@/components/FloatingShapes";
 import Diagnostico from "./Diagnostico";
 
 function StatusScreen({
@@ -18,11 +19,12 @@ function StatusScreen({
   iconColor: string;
 }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#0f1729]">
+    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <FloatingShapes />
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="text-center max-w-md space-y-6"
+        className="relative z-10 text-center max-w-md px-4 space-y-6"
       >
         <div className="flex items-center justify-center gap-2 mb-8">
           <img
@@ -30,7 +32,7 @@ function StatusScreen({
             alt="Anerfy"
             className="w-8 h-8 brightness-0 invert object-contain scale-[1.6]"
           />
-          <span className="text-sm font-bold tracking-[0.35em] text-white/80">
+          <span className="text-sm font-bold tracking-[0.35em] text-foreground/80">
             ANERFY
           </span>
         </div>
@@ -41,13 +43,13 @@ function StatusScreen({
           {icon}
         </div>
 
-        <h1 className="text-2xl font-bold text-white">{title}</h1>
-        <p className="text-slate-400 leading-relaxed">{description}</p>
+        <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+        <p className="text-muted-foreground leading-relaxed">{description}</p>
 
         <Link to="/">
           <Button
             variant="outline"
-            className="border-white/10 text-slate-300 hover:bg-white/5 mt-4"
+            className="border-border text-muted-foreground hover:text-foreground hover:bg-secondary mt-4 rounded-full"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Volver al inicio
@@ -64,8 +66,8 @@ export default function DiagnosticoGated() {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0f1729]">
-        <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -103,6 +105,5 @@ export default function DiagnosticoGated() {
     );
   }
 
-  // Valid! Render the actual diagnostico with token context
   return <Diagnostico tokenData={data!} />;
 }
