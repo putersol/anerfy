@@ -67,9 +67,9 @@ export default function StepMigrationScore({ form }: Props) {
   const circumference = 2 * Math.PI * 52;
   const strokeDash = (scores.total / 100) * circumference;
 
-  let badgeColor = "from-red-500 to-orange-500";
-  if (scores.total >= 70) badgeColor = "from-emerald-500 to-teal-500";
-  else if (scores.total >= 40) badgeColor = "from-amber-500 to-yellow-500";
+  let badgeColor = "bg-red-500";
+  if (scores.total >= 70) badgeColor = "bg-emerald-500";
+  else if (scores.total >= 40) badgeColor = "bg-amber-500";
 
   const categories = [
     { label: "\u{1F5E3}\u{FE0F} Idioma alemán", score: scores.idioma },
@@ -94,18 +94,12 @@ export default function StepMigrationScore({ form }: Props) {
             <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8" />
             <motion.circle
               cx="60" cy="60" r="52" fill="none"
-              stroke="url(#scoreGradPreview)" strokeWidth="8" strokeLinecap="round"
+              stroke="#3b82f6" strokeWidth="8" strokeLinecap="round"
               strokeDasharray={`${circumference}`}
               initial={{ strokeDashoffset: circumference }}
               animate={{ strokeDashoffset: circumference - strokeDash }}
               transition={{ delay: 0.3, duration: 1.2, ease: "easeOut" }}
             />
-            <defs>
-              <linearGradient id="scoreGradPreview" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#3b82f6" />
-                <stop offset="100%" stopColor="#a855f7" />
-              </linearGradient>
-            </defs>
           </svg>
           <div className="absolute text-center">
             <span className="text-4xl font-bold text-white">
@@ -119,7 +113,7 @@ export default function StepMigrationScore({ form }: Props) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0 }}
-          className={`inline-block mt-4 px-5 py-2 rounded-full bg-gradient-to-r ${badgeColor}`}
+          className={`inline-block mt-4 px-5 py-2 rounded-full ${badgeColor}`}
         >
           <span className="text-sm font-bold text-white">{scores.clasificacion}</span>
         </motion.div>

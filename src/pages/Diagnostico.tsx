@@ -1,37 +1,20 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Send, Stethoscope, Clock, Shield, MessageCircle, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  ChevronLeft, ChevronRight, Send, Stethoscope, Clock, Shield,
+  MessageCircle, Loader2,
+} from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import anerfyLogo from "@/assets/anerfy-logo-dark.png";
 import {
-  diagnosticoSchema,
-  DiagnosticoForm,
-  STEP_TITLES,
-  STEP_ICONS,
-  STEP_FIELDS,
-  DOCUMENT_NAMES,
-  calculateScores,
+  diagnosticoSchema, DiagnosticoForm, DOCUMENT_NAMES, calculateScores,
 } from "./diagnostico/schema";
-
-import StepDatosPersonales from "./diagnostico/steps/StepDatosPersonales";
-import StepFormacion from "./diagnostico/steps/StepFormacion";
-import StepIdioma from "./diagnostico/steps/StepIdioma";
-import StepDocumentos from "./diagnostico/steps/StepDocumentos";
-import StepEstadoProceso from "./diagnostico/steps/StepEstadoProceso";
-import StepVisa from "./diagnostico/steps/StepVisa";
-import StepFinanzas from "./diagnostico/steps/StepFinanzas";
-import StepEstrategia from "./diagnostico/steps/StepEstrategia";
-import StepTiempo from "./diagnostico/steps/StepTiempo";
-import StepMotivacion from "./diagnostico/steps/StepMotivacion";
-import StepMigrationScore from "./diagnostico/steps/StepMigrationScore";
-
-const TOTAL_STEPS = 11;
+import { CONDITION_FIELDS, getVisibleQuestions } from "./diagnostico/questions";
+import QuestionView from "./diagnostico/QuestionView";
 
 const defaultDocs: Record<string, "no_tengo"> = {};
 DOCUMENT_NAMES.forEach((_, i) => {
@@ -40,8 +23,9 @@ DOCUMENT_NAMES.forEach((_, i) => {
 
 export default function Diagnostico() {
   const [started, setStarted] = useState(false);
-  const [step, setStep] = useState(0);
+  const [qIndex, setQIndex] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [showScore, setShowScore] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const { toast } = useToast();
@@ -71,28 +55,52 @@ export default function Diagnostico() {
     },
   });
 
-  const validateCurrentStep = useCallback(async () => {
-    const fields = STEP_FIELDS[step];
-    if (!fields || fields.length === 0) return true;
-    return form.trigger(fields);
-  }, [step, form]);
+  // Watch only condition fields for efficiency
+  const conditionWatch = form.watch(CONDITION_FIELDS);
+  const conditionValues = useMemo(() => {
+    const map: Partial<Record<keyof DiagnosticoForm, string>> = {};
+    CONDITION_FIELDS.forEach((f, i) => {
+      map[f] = (conditionWatch[i] as string) || "";
+    });
+    return map;
+  }, [conditionWatch]);
 
-  const goNext = useCallback(async () => {
-    if (!(await validateCurrentStep())) return;
-    if (step < TOTAL_STEPS - 1) {
+  const visibleQuestions = useMemo(
+    () => getVisibleQuestions(conditionValues),
+    [conditionValues],
+  );
+  const totalQ = visibleQuestions.length;
+
+  // Clamp qIndex if questions list shrank
+  useEffect(() => {
+    if (qIndex >= totalQ && totalQ > 0) setQIndex(totalQ - 1);
+  }, [qIndex, totalQ]);
+
+  const currentQuestion = visibleQuestions[qIndex];
+  const totalScreens = totalQ + 1; // +1 for score screen
+  const progress = showScore ? 100 : ((qIndex + 1) / totalScreens) * 100;
+
+  const goNext = useCallback(() => {
+    if (qIndex < totalQ - 1) {
       setDirection(1);
-      setStep((s) => s + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      setQIndex((i) => i + 1);
+    } else {
+      setDirection(1);
+      setShowScore(true);
     }
-  }, [step, validateCurrentStep]);
+  }, [qIndex, totalQ]);
 
   const goBack = useCallback(() => {
-    if (step > 0) {
+    if (showScore) {
+      setShowScore(false);
       setDirection(-1);
-      setStep((s) => s - 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
     }
-  }, [step]);
+    if (qIndex > 0) {
+      setDirection(-1);
+      setQIndex((i) => i - 1);
+    }
+  }, [qIndex, showScore]);
 
   const onSubmit = useCallback(async () => {
     setSubmitting(true);
@@ -164,7 +172,6 @@ export default function Diagnostico() {
       });
 
       if (error) throw error;
-
       setSubmitted(true);
       toast({
         title: "Diagnóstico enviado",
@@ -172,7 +179,6 @@ export default function Diagnostico() {
       });
     } catch (err) {
       console.error("Error saving submission:", err);
-      // Still show results even if save fails
       setSubmitted(true);
       toast({
         title: "Diagnóstico completado",
@@ -184,16 +190,10 @@ export default function Diagnostico() {
     }
   }, [form, toast]);
 
-  const progress = ((step + 1) / TOTAL_STEPS) * 100;
-  const isLastStep = step === TOTAL_STEPS - 1;
-
   // ─── Welcome Screen ───
   if (!started) {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center p-4"
-        style={{ background: "linear-gradient(180deg, #0f1729 0%, #1a1040 100%)" }}
-      >
+      <div className="min-h-screen flex items-center justify-center p-4 bg-[#0f1729]">
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -226,279 +226,331 @@ export default function Diagnostico() {
             </div>
             <div className="bg-white/5 border border-white/10 rounded-xl p-3">
               <Stethoscope className="w-5 h-5 text-purple-400 mx-auto mb-1.5" />
-              <p className="text-xs text-slate-400">11 secciones</p>
+              <p className="text-xs text-slate-400">~50 preguntas</p>
             </div>
           </div>
 
-          <Button
+          <button
             onClick={() => setStarted(true)}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white text-base py-6 rounded-xl"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white text-base py-4 rounded-xl font-medium transition-colors flex items-center justify-center gap-1"
           >
             Comenzar diagnóstico
-            <ChevronRight className="w-5 h-5 ml-1" />
-          </Button>
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </motion.div>
       </div>
     );
   }
 
-  // ─── Submitted Screen with Score Summary ───
+  // ─── Submitted Results ───
   if (submitted) {
-    const data = form.getValues();
-    const scores = calculateScores(data);
-
-    let badgeColor = "from-red-500 to-orange-500";
-    let badgeBg = "bg-red-500/10 border-red-500/20";
-    if (scores.total >= 70) {
-      badgeColor = "from-emerald-500 to-teal-500";
-      badgeBg = "bg-emerald-500/10 border-emerald-500/20";
-    } else if (scores.total >= 40) {
-      badgeColor = "from-amber-500 to-yellow-500";
-      badgeBg = "bg-amber-500/10 border-amber-500/20";
-    }
-
-    return (
-      <div
-        className="min-h-screen p-4 py-8"
-        style={{ background: "linear-gradient(180deg, #0f1729 0%, #1a1040 100%)" }}
-      >
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="max-w-md mx-auto space-y-6"
-        >
-          <div className="text-center">
-            <div className="w-20 h-20 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto mb-4">
-              <Stethoscope className="w-10 h-10 text-emerald-400" />
-            </div>
-            <h2 className="text-2xl font-bold text-white mb-2">
-              Diagnóstico completado
-            </h2>
-            <p className="text-slate-400 text-sm">
-              Hemos recibido tus respuestas, {data.nombreCompleto.split(" ")[0] || ""}.
-            </p>
-          </div>
-
-          {/* Score circle */}
-          <div className="text-center">
-            <div className="relative inline-flex items-center justify-center">
-              <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120">
-                <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8" />
-                <circle
-                  cx="60" cy="60" r="52" fill="none"
-                  stroke="url(#scoreGrad)" strokeWidth="8" strokeLinecap="round"
-                  strokeDasharray={`${(scores.total / 100) * 327} 327`}
-                />
-                <defs>
-                  <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#3b82f6" />
-                    <stop offset="100%" stopColor="#a855f7" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div className="absolute text-center">
-                <span className="text-4xl font-bold text-white">{scores.total}</span>
-                <span className="text-slate-400 text-sm block">/100</span>
-              </div>
-            </div>
-            <div className={`inline-block mt-3 px-5 py-2 rounded-full bg-gradient-to-r ${badgeColor}`}>
-              <span className="text-sm font-bold text-white">{scores.clasificacion}</span>
-            </div>
-          </div>
-
-          {/* Category bars */}
-          <div className={`rounded-xl p-4 border ${badgeBg} space-y-3`}>
-            {[
-              { label: "🗣️ Idioma", score: scores.idioma },
-              { label: "📄 Documentos", score: scores.documentos },
-              { label: "📬 Homologación", score: scores.homologacion },
-              { label: "💰 Finanzas", score: scores.finanzas },
-              { label: "🏥 Estrategia", score: scores.estrategia },
-            ].map(({ label, score }) => (
-              <div key={label} className="space-y-1">
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-300">{label}</span>
-                  <span className="text-white font-semibold">{score}/20</span>
-                </div>
-                <div className="h-2 rounded-full bg-white/10 overflow-hidden">
-                  <div
-                    className={`h-full rounded-full transition-all duration-700 ${
-                      score >= 15 ? "bg-emerald-500" : score >= 8 ? "bg-amber-500" : "bg-red-500"
-                    }`}
-                    style={{ width: `${(score / 20) * 100}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Next steps */}
-          <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
-            <h3 className="text-blue-300 font-semibold text-sm mb-2">Siguientes pasos</h3>
-            <ul className="text-slate-400 text-sm space-y-1.5">
-              <li>1. Un asesor revisará tu diagnóstico</li>
-              <li>2. Recibirás un plan personalizado</li>
-              <li>3. Agenda tu asesoría para resolver dudas</li>
-            </ul>
-          </div>
-
-          {/* WhatsApp CTA */}
-          <a
-            href="https://wa.me/4915257607594"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-semibold py-3.5 rounded-xl transition-colors"
-          >
-            <MessageCircle className="w-5 h-5" />
-            Agenda tu asesoría por WhatsApp
-          </a>
-
-          <Button
-            variant="outline"
-            className="w-full border-white/20 text-slate-300 hover:bg-white/10"
-            onClick={() => (window.location.href = "/")}
-          >
-            Volver al inicio
-          </Button>
-        </motion.div>
-      </div>
-    );
+    return <SubmittedScreen form={form} />;
   }
 
-  // ─── Form Steps ───
+  // ─── Form: Questions + Score ───
   return (
-    <div
-      className="min-h-screen pb-8"
-      style={{ background: "linear-gradient(180deg, #0f1729 0%, #1a1040 100%)" }}
-    >
-      {/* Sticky header with logo + progress */}
+    <div className="min-h-screen bg-[#0f1729] flex flex-col">
+      {/* Header */}
       <div className="sticky top-0 z-20 backdrop-blur-xl bg-[#0f1729]/80 border-b border-white/5">
         <div className="max-w-2xl mx-auto px-4 py-3">
           <div className="flex items-center gap-3 mb-2">
             <img src={anerfyLogo} alt="Anerfy" className="h-7 brightness-0 invert" />
             <div className="h-4 w-px bg-white/20" />
-            <span className="text-slate-400 text-sm">
-              Diagnóstico migratorio
-            </span>
+            <span className="text-slate-400 text-sm">Diagnóstico migratorio</span>
           </div>
           <div className="flex items-center gap-3">
             <Progress
               value={progress}
-              className="h-1.5 flex-1 bg-white/10 [&>div]:bg-gradient-to-r [&>div]:from-blue-500 [&>div]:to-purple-500"
+              className="h-1.5 flex-1 bg-white/10 [&>div]:bg-blue-500"
             />
             <span className="text-xs text-slate-500 whitespace-nowrap">
-              {step + 1}/{TOTAL_STEPS}
+              {showScore ? totalScreens : qIndex + 1}/{totalScreens}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Step content */}
-      <div className="max-w-2xl mx-auto px-4 pt-6">
-        {/* Save progress indicator */}
-        <div className="flex items-center gap-1.5 mb-4 text-xs text-slate-500">
-          <Shield className="w-3.5 h-3.5" />
-          <span>Tus respuestas se guardan automáticamente</span>
-        </div>
+      {/* Back button */}
+      <div className="max-w-2xl mx-auto w-full px-4 pt-3">
+        <button
+          onClick={goBack}
+          disabled={qIndex === 0 && !showScore}
+          className="text-sm text-slate-500 hover:text-slate-300 disabled:opacity-30 disabled:cursor-default transition-colors flex items-center gap-1"
+        >
+          <ChevronLeft className="w-4 h-4" /> Atrás
+        </button>
+      </div>
 
+      {/* Content */}
+      <div className="flex-1 flex items-center justify-center">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            key={step}
+            key={showScore ? "score" : qIndex}
             initial={{ x: direction * 60, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: direction * -60, opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="w-full"
           >
-            <Card className="bg-white/[0.03] border-white/10 backdrop-blur-sm">
-              <CardContent className="p-5 sm:p-6">
-                <div className="mb-6">
-                  <p className="text-xs text-blue-400 font-medium uppercase tracking-wide">
-                    Paso {step + 1} de {TOTAL_STEPS}
-                  </p>
-                  <h2 className="text-xl sm:text-2xl font-bold text-white mt-1 flex items-center gap-2">
-                    <span className="text-2xl">{STEP_ICONS[step]}</span>
-                    {STEP_TITLES[step]}
-                  </h2>
-                </div>
-
-                <div className="min-h-[200px]">
-                  {step === 0 && <StepDatosPersonales form={form} />}
-                  {step === 1 && <StepFormacion form={form} />}
-                  {step === 2 && <StepIdioma form={form} />}
-                  {step === 3 && <StepDocumentos form={form} />}
-                  {step === 4 && <StepEstadoProceso form={form} />}
-                  {step === 5 && <StepVisa form={form} />}
-                  {step === 6 && <StepFinanzas form={form} />}
-                  {step === 7 && <StepEstrategia form={form} />}
-                  {step === 8 && <StepTiempo form={form} />}
-                  {step === 9 && <StepMotivacion form={form} />}
-                  {step === 10 && <StepMigrationScore form={form} />}
-                </div>
-              </CardContent>
-            </Card>
+            {showScore ? (
+              <ScorePreview form={form} onSubmit={onSubmit} submitting={submitting} />
+            ) : currentQuestion ? (
+              <QuestionView
+                question={currentQuestion}
+                form={form}
+                onNext={goNext}
+              />
+            ) : null}
           </motion.div>
         </AnimatePresence>
+      </div>
+    </div>
+  );
+}
 
-        {/* Navigation buttons */}
-        <div className="flex justify-between mt-6 gap-3">
-          <Button
-            variant="outline"
-            onClick={goBack}
-            disabled={step === 0}
-            className="border-white/10 text-slate-300 hover:bg-white/5 disabled:opacity-30 min-h-[44px]"
-          >
-            <ChevronLeft className="w-4 h-4 mr-1" /> Atrás
-          </Button>
+// ─── Score Preview (before submit) ───
 
-          {isLastStep ? (
-            <Button
-              onClick={onSubmit}
-              disabled={submitting}
-              className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white min-h-[44px]"
-            >
-              {submitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-1 animate-spin" /> Enviando...
-                </>
-              ) : (
-                <>
-                  Enviar diagnóstico <Send className="w-4 h-4 ml-1" />
-                </>
-              )}
-            </Button>
-          ) : (
-            <Button
-              onClick={goNext}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white min-h-[44px]"
-            >
-              Siguiente <ChevronRight className="w-4 h-4 ml-1" />
-            </Button>
-          )}
+function ScorePreview({
+  form,
+  onSubmit,
+  submitting,
+}: {
+  form: ReturnType<typeof useForm<DiagnosticoForm>>;
+  onSubmit: () => void;
+  submitting: boolean;
+}) {
+  const data = form.getValues();
+  const scores = calculateScores(data);
+  const circumference = 2 * Math.PI * 52;
+  const strokeDash = (scores.total / 100) * circumference;
+
+  let badgeColor = "bg-red-500";
+  if (scores.total >= 70) badgeColor = "bg-emerald-500";
+  else if (scores.total >= 40) badgeColor = "bg-amber-500";
+
+  const categories = [
+    { label: "🗣️ Idioma alemán", score: scores.idioma },
+    { label: "📄 Documentos", score: scores.documentos },
+    { label: "📬 Homologación", score: scores.homologacion },
+    { label: "💰 Finanzas", score: scores.finanzas },
+    { label: "🏥 Estrategia laboral", score: scores.estrategia },
+  ];
+
+  return (
+    <div className="flex flex-col items-center px-4 py-8 max-w-md mx-auto w-full space-y-6">
+      <div className="text-center">
+        <p className="text-xs text-slate-500 uppercase tracking-wide mb-1">📊 Migration Score</p>
+        <h2 className="text-xl sm:text-2xl font-bold text-white">Tu puntuación estimada</h2>
+      </div>
+
+      {/* Score circle */}
+      <motion.div
+        className="text-center"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="relative inline-flex items-center justify-center">
+          <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8" />
+            <motion.circle
+              cx="60" cy="60" r="52" fill="none"
+              stroke="#3b82f6" strokeWidth="8" strokeLinecap="round"
+              strokeDasharray={`${circumference}`}
+              initial={{ strokeDashoffset: circumference }}
+              animate={{ strokeDashoffset: circumference - strokeDash }}
+              transition={{ delay: 0.3, duration: 1.2, ease: "easeOut" }}
+            />
+          </svg>
+          <div className="absolute text-center">
+            <span className="text-4xl font-bold text-white">{scores.total}</span>
+            <span className="text-slate-400 text-sm block">/100</span>
+          </div>
+        </div>
+        <div className={`inline-block mt-3 px-5 py-2 rounded-full ${badgeColor}`}>
+          <span className="text-sm font-bold text-white">{scores.clasificacion}</span>
+        </div>
+      </motion.div>
+
+      {/* Category bars */}
+      <div className="w-full space-y-3 bg-white/5 rounded-xl p-4 border border-white/10">
+        {categories.map(({ label, score }) => {
+          const pct = (score / 20) * 100;
+          let color = "bg-red-500";
+          if (pct >= 70) color = "bg-emerald-500";
+          else if (pct >= 40) color = "bg-amber-500";
+
+          return (
+            <div key={label} className="space-y-1">
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-300">{label}</span>
+                <span className="text-white font-semibold">{score}/20</span>
+              </div>
+              <div className="h-2.5 rounded-full bg-white/10 overflow-hidden">
+                <motion.div
+                  className={`h-full rounded-full ${color}`}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${pct}%` }}
+                  transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Summary */}
+      <div className="w-full bg-white/5 rounded-xl p-4 border border-white/10 space-y-2">
+        <h3 className="text-white font-semibold text-sm">Resumen</h3>
+        <SummaryRow label="Nombre" value={data.nombreCompleto} />
+        <SummaryRow label="País" value={data.paisOrigen} />
+        <SummaryRow label="Nivel alemán" value={data.nivelAleman} />
+        <SummaryRow label="Especialidad" value={data.cualEspecialidad || data.especialidadInteres || "No indicada"} />
+        <SummaryRow label="Experiencia" value={data.aniosExperiencia ? `${data.aniosExperiencia} años` : ""} />
+      </div>
+
+      {/* Submit */}
+      <button
+        onClick={onSubmit}
+        disabled={submitting}
+        className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white font-medium py-4 rounded-xl transition-colors flex items-center justify-center gap-2"
+      >
+        {submitting ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" /> Enviando...
+          </>
+        ) : (
+          <>
+            Enviar diagnóstico <Send className="w-4 h-4" />
+          </>
+        )}
+      </button>
+    </div>
+  );
+}
+
+// ─── Submitted Screen ───
+
+function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<DiagnosticoForm>> }) {
+  const data = form.getValues();
+  const scores = calculateScores(data);
+  const circumference = 2 * Math.PI * 52;
+  const strokeDash = (scores.total / 100) * circumference;
+
+  let badgeColor = "bg-red-500";
+  let badgeBg = "bg-red-500/10 border-red-500/20";
+  if (scores.total >= 70) {
+    badgeColor = "bg-emerald-500";
+    badgeBg = "bg-emerald-500/10 border-emerald-500/20";
+  } else if (scores.total >= 40) {
+    badgeColor = "bg-amber-500";
+    badgeBg = "bg-amber-500/10 border-amber-500/20";
+  }
+
+  return (
+    <div className="min-h-screen p-4 py-8 bg-[#0f1729]">
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        className="max-w-md mx-auto space-y-6"
+      >
+        <div className="text-center">
+          <div className="w-20 h-20 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto mb-4">
+            <Stethoscope className="w-10 h-10 text-emerald-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2">
+            Diagnóstico completado
+          </h2>
+          <p className="text-slate-400 text-sm">
+            Hemos recibido tus respuestas, {data.nombreCompleto.split(" ")[0] || ""}.
+          </p>
         </div>
 
-        {/* Step indicator dots */}
-        <div className="flex justify-center gap-1.5 mt-6 flex-wrap">
-          {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                if (i < step) {
-                  setDirection(-1);
-                  setStep(i);
-                }
-              }}
-              className={`h-2 rounded-full transition-all min-h-[8px] min-w-[8px] ${
-                i === step
-                  ? "w-6 bg-blue-500"
-                  : i < step
-                    ? "w-2 bg-blue-500/40 cursor-pointer hover:bg-blue-500/60"
-                    : "w-2 bg-white/10"
-              }`}
-              aria-label={`Paso ${i + 1}`}
-            />
+        {/* Score circle */}
+        <div className="text-center">
+          <div className="relative inline-flex items-center justify-center">
+            <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8" />
+              <circle
+                cx="60" cy="60" r="52" fill="none"
+                stroke="#3b82f6" strokeWidth="8" strokeLinecap="round"
+                strokeDasharray={`${strokeDash} ${circumference}`}
+              />
+            </svg>
+            <div className="absolute text-center">
+              <span className="text-4xl font-bold text-white">{scores.total}</span>
+              <span className="text-slate-400 text-sm block">/100</span>
+            </div>
+          </div>
+          <div className={`inline-block mt-3 px-5 py-2 rounded-full ${badgeColor}`}>
+            <span className="text-sm font-bold text-white">{scores.clasificacion}</span>
+          </div>
+        </div>
+
+        {/* Category bars */}
+        <div className={`rounded-xl p-4 border ${badgeBg} space-y-3`}>
+          {[
+            { label: "🗣️ Idioma", score: scores.idioma },
+            { label: "📄 Documentos", score: scores.documentos },
+            { label: "📬 Homologación", score: scores.homologacion },
+            { label: "💰 Finanzas", score: scores.finanzas },
+            { label: "🏥 Estrategia", score: scores.estrategia },
+          ].map(({ label, score }) => (
+            <div key={label} className="space-y-1">
+              <div className="flex justify-between text-sm">
+                <span className="text-slate-300">{label}</span>
+                <span className="text-white font-semibold">{score}/20</span>
+              </div>
+              <div className="h-2 rounded-full bg-white/10 overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all duration-700 ${
+                    score >= 15 ? "bg-emerald-500" : score >= 8 ? "bg-amber-500" : "bg-red-500"
+                  }`}
+                  style={{ width: `${(score / 20) * 100}%` }}
+                />
+              </div>
+            </div>
           ))}
         </div>
-      </div>
+
+        {/* Next steps */}
+        <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
+          <h3 className="text-blue-300 font-semibold text-sm mb-2">Siguientes pasos</h3>
+          <ul className="text-slate-400 text-sm space-y-1.5">
+            <li>1. Un asesor revisará tu diagnóstico</li>
+            <li>2. Recibirás un plan personalizado</li>
+            <li>3. Agenda tu asesoría para resolver dudas</li>
+          </ul>
+        </div>
+
+        {/* WhatsApp CTA */}
+        <a
+          href="https://wa.me/4915257607594"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-semibold py-3.5 rounded-xl transition-colors"
+        >
+          <MessageCircle className="w-5 h-5" />
+          Agenda tu asesoría por WhatsApp
+        </a>
+
+        <button
+          className="w-full border border-white/20 text-slate-300 hover:bg-white/10 py-3 rounded-xl transition-colors"
+          onClick={() => (window.location.href = "/")}
+        >
+          Volver al inicio
+        </button>
+      </motion.div>
+    </div>
+  );
+}
+
+function SummaryRow({ label, value }: { label: string; value: string }) {
+  if (!value) return null;
+  return (
+    <div className="flex justify-between text-sm">
+      <span className="text-slate-400">{label}</span>
+      <span className="text-slate-200 text-right max-w-[60%]">{value}</span>
     </div>
   );
 }

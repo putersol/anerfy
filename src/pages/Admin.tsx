@@ -181,8 +181,7 @@ export default function Admin() {
   if (!authed) {
     return (
       <div
-        className="min-h-screen flex items-center justify-center p-4"
-        style={{ background: "linear-gradient(180deg, #0f1729 0%, #1a1040 100%)" }}
+        className="min-h-screen flex items-center justify-center p-4 bg-[#0f1729]"
       >
         <motion.div
           initial={{ y: 20, opacity: 0 }}
@@ -208,7 +207,7 @@ export default function Admin() {
                 />
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                 >
                   Entrar
                 </Button>
@@ -223,8 +222,7 @@ export default function Admin() {
   // --- Dashboard ---
   return (
     <div
-      className="min-h-screen pb-8"
-      style={{ background: "linear-gradient(180deg, #0f1729 0%, #1a1040 100%)" }}
+      className="min-h-screen pb-8 bg-[#0f1729]"
     >
       {/* Header */}
       <div className="sticky top-0 z-20 backdrop-blur-xl bg-[#0f1729]/80 border-b border-white/5">

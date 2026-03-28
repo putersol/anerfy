@@ -53,9 +53,9 @@ export function RadioPills({
 export function SectionDivider({ label }: { label?: string }) {
   return (
     <div className="flex items-center gap-3 pt-2">
-      <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent" />
+      <div className="flex-1 h-px bg-white/10" />
       {label && <span className="text-xs text-slate-500 uppercase tracking-wider">{label}</span>}
-      <div className="flex-1 h-px bg-gradient-to-l from-white/10 to-transparent" />
+      <div className="flex-1 h-px bg-white/10" />
     </div>
   );
 }
