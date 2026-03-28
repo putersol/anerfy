@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 import GameMap from "./pages/GameMap";
 import Auth from "./pages/Auth";
 import Diagnostico from "./pages/Diagnostico";
+import DiagnosticoGated from "./pages/DiagnosticoGated";
 import Admin from "./pages/Admin";
 import { Loader2 } from "lucide-react";
 
@@ -53,6 +54,7 @@ const AppRoutes = () => (
   <Routes>
     {/* Public routes — no auth, no ProfileSync */}
     <Route path="/diagnostico" element={<Diagnostico />} />
+    <Route path="/diagnostico/:token" element={<DiagnosticoGated />} />
     <Route path="/admin" element={<Admin />} />
     <Route path="/mapa" element={<GameMap />} />
     

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Lock, LogOut, Download, Link2, ChevronDown, ChevronUp,
   BarChart3, Users, Globe, TrendingUp, Search, X,
+  Plus, Copy, Check, Ticket, Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -96,10 +97,19 @@ export default function Admin() {
   const [loading, setLoading] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [showTokenPanel, setShowTokenPanel] = useState(false);
+  const [tokenEmail, setTokenEmail] = useState("");
+  const [tokenNombre, setTokenNombre] = useState("");
+  const [generatingToken, setGeneratingToken] = useState(false);
+  const [tokens, setTokens] = useState<any[]>([]);
+  const [copiedToken, setCopiedToken] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    if (authed) fetchSubmissions();
+    if (authed) {
+      fetchSubmissions();
+      fetchTokens();
+    }
   }, [authed]);
 
   async function fetchSubmissions() {
@@ -115,6 +125,68 @@ export default function Admin() {
       setSubmissions((data as Submission[]) || []);
     }
     setLoading(false);
+  }
+
+  async function fetchTokens() {
+    const { data, error } = await supabase
+      .from("diagnostic_tokens")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(50);
+    if (!error && data) setTokens(data);
+  }
+
+  function generateShortToken() {
+    const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (let i = 0; i < 8; i++) {
+      result += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return result;
+  }
+
+  async function handleGenerateToken(e: React.FormEvent) {
+    e.preventDefault();
+    if (!tokenEmail.trim()) {
+      toast({ title: "Email requerido", variant: "destructive" });
+      return;
+    }
+    setGeneratingToken(true);
+    const token = generateShortToken();
+    const { error } = await supabase.from("diagnostic_tokens").insert({
+      token,
+      email: tokenEmail.trim(),
+      nombre: tokenNombre.trim() || null,
+      created_by: "admin",
+    });
+    if (error) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Token generado", description: `Link listo para ${tokenEmail}` });
+      setTokenEmail("");
+      setTokenNombre("");
+      fetchTokens();
+    }
+    setGeneratingToken(false);
+  }
+
+  function copyTokenLink(token: string) {
+    const url = `${window.location.origin}/diagnostico/${token}`;
+    navigator.clipboard.writeText(url);
+    setCopiedToken(token);
+    setTimeout(() => setCopiedToken(null), 2000);
+    toast({ title: "Link copiado", description: url });
+  }
+
+  async function deleteToken(token: string) {
+    const { error } = await supabase
+      .from("diagnostic_tokens")
+      .delete()
+      .eq("token", token);
+    if (!error) {
+      setTokens((prev) => prev.filter((t) => t.token !== token));
+      toast({ title: "Token eliminado" });
+    }
   }
 
   function handleLogin(e: React.FormEvent) {
@@ -276,6 +348,128 @@ export default function Admin() {
             </CardContent>
           </Card>
         )}
+
+        {/* Token Generation Panel */}
+        <Card className="bg-white/[0.03] border-white/10">
+          <CardContent className="p-4">
+            <button
+              onClick={() => setShowTokenPanel(!showTokenPanel)}
+              className="w-full flex items-center justify-between"
+            >
+              <div className="flex items-center gap-2">
+                <Ticket className="w-5 h-5 text-blue-400" />
+                <h3 className="text-sm font-medium text-slate-300">Links de diagnóstico</h3>
+                <span className="text-xs text-slate-500 bg-white/5 px-2 py-0.5 rounded-full">
+                  {tokens.filter((t) => !t.used).length} activos
+                </span>
+              </div>
+              {showTokenPanel ? (
+                <ChevronUp className="w-4 h-4 text-slate-500" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-slate-500" />
+              )}
+            </button>
+
+            <AnimatePresence>
+              {showTokenPanel && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <div className="pt-4 space-y-4">
+                    {/* Generate new token */}
+                    <form onSubmit={handleGenerateToken} className="flex flex-col sm:flex-row gap-2">
+                      <Input
+                        type="email"
+                        value={tokenEmail}
+                        onChange={(e) => setTokenEmail(e.target.value)}
+                        placeholder="Email del cliente *"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 flex-1"
+                        required
+                      />
+                      <Input
+                        value={tokenNombre}
+                        onChange={(e) => setTokenNombre(e.target.value)}
+                        placeholder="Nombre (opcional)"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 sm:w-48"
+                      />
+                      <Button
+                        type="submit"
+                        disabled={generatingToken}
+                        className="bg-blue-600 hover:bg-blue-700 text-white whitespace-nowrap"
+                        size="sm"
+                      >
+                        <Plus className="w-4 h-4 mr-1" />
+                        Generar link
+                      </Button>
+                    </form>
+
+                    {/* Tokens list */}
+                    {tokens.length > 0 && (
+                      <div className="space-y-1.5 max-h-60 overflow-y-auto">
+                        {tokens.map((t) => (
+                          <div
+                            key={t.token}
+                            className={`flex items-center gap-3 py-2 px-3 rounded-lg text-sm ${
+                              t.used ? "bg-white/[0.02] opacity-50" : "bg-white/5"
+                            }`}
+                          >
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <span className="text-slate-200 truncate">
+                                  {t.nombre || t.email}
+                                </span>
+                                {t.used ? (
+                                  <span className="text-xs text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">
+                                    Usado
+                                  </span>
+                                ) : (
+                                  <span className="text-xs text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">
+                                    Activo
+                                  </span>
+                                )}
+                              </div>
+                              <span className="text-xs text-slate-500">
+                                {t.email} · {new Date(t.created_at).toLocaleDateString("es-ES")}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => copyTokenLink(t.token)}
+                                className="text-slate-400 hover:text-white hover:bg-white/5 h-8 w-8 p-0"
+                              >
+                                {copiedToken === t.token ? (
+                                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                ) : (
+                                  <Copy className="w-3.5 h-3.5" />
+                                )}
+                              </Button>
+                              {!t.used && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => deleteToken(t.token)}
+                                  className="text-slate-400 hover:text-red-400 hover:bg-white/5 h-8 w-8 p-0"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </CardContent>
+        </Card>
 
         {/* Search */}
         <div className="relative">

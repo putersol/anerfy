@@ -15,13 +15,18 @@ import {
 } from "./diagnostico/schema";
 import { CONDITION_FIELDS, getVisibleQuestions } from "./diagnostico/questions";
 import QuestionView from "./diagnostico/QuestionView";
+import { markTokenUsed, type TokenData } from "@/hooks/useTokenValidation";
 
 const defaultDocs: Record<string, "no_tengo"> = {};
 DOCUMENT_NAMES.forEach((_, i) => {
   defaultDocs[`doc_${i}`] = "no_tengo";
 });
 
-export default function Diagnostico() {
+interface DiagnosticoProps {
+  tokenData?: TokenData;
+}
+
+export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
   const [started, setStarted] = useState(false);
   const [qIndex, setQIndex] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -111,6 +116,8 @@ export default function Diagnostico() {
     try {
       const { error } = await supabase.from("diagnostico_submissions").insert({
         submission_id: submissionId,
+        token_id: tokenData?.token || null,
+        email: tokenData?.email || null,
         nombre_completo: data.nombreCompleto,
         pais_origen: data.paisOrigen,
         nacionalidad: data.nacionalidad,
@@ -172,6 +179,12 @@ export default function Diagnostico() {
       });
 
       if (error) throw error;
+
+      // Mark token as used if this was a gated submission
+      if (tokenData?.token) {
+        await markTokenUsed(tokenData.token, submissionId);
+      }
+
       setSubmitted(true);
       toast({
         title: "Diagnóstico enviado",
@@ -188,19 +201,24 @@ export default function Diagnostico() {
     } finally {
       setSubmitting(false);
     }
-  }, [form, toast]);
+  }, [form, toast, tokenData]);
 
   // ─── Welcome Screen ───
   if (!started) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-[#0f1729]">
+      <div className="min-h-screen flex flex-col p-4 bg-[#0f1729]">
+        {/* Logo top-left */}
+        <div className="relative z-10 flex items-center justify-center gap-2 pt-8 pb-4">
+          <img src={anerfyLogo} alt="Anerfy logo" className="w-8 h-8 sm:w-9 sm:h-9 brightness-0 invert object-contain scale-[1.6]" />
+          <span className="text-sm sm:text-base font-bold tracking-[0.35em] text-foreground/80 font-sans">ANERFY</span>
+        </div>
+
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-md w-full"
+          className="text-center max-w-md w-full mx-auto flex-1 flex flex-col justify-center"
         >
-          <img src={anerfyLogo} alt="Anerfy" className="h-10 mx-auto mb-8 brightness-0 invert" />
 
           <div className="w-20 h-20 rounded-full bg-blue-500/15 border border-blue-500/30 flex items-center justify-center mx-auto mb-6">
             <Stethoscope className="w-10 h-10 text-blue-400" />
