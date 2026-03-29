@@ -41,7 +41,7 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
     resolver: zodResolver(diagnosticoSchema),
     mode: "onTouched",
     defaultValues: {
-      nombreCompleto: "", paisOrigen: "", nacionalidad: "", edad: "",
+      email: tokenData?.email || "", nombreCompleto: "", paisOrigen: "", nacionalidad: "", edad: "",
       estadoCivil: "", viajaSolo: "", viajaConPareja: "",
       parejaHablaAleman: "", nivelAlemanPareja: "", parejaProfesion: "",
       tieneHijos: "", bundeslandPreferido: "", tieneContactosAlemania: "",
