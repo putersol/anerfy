@@ -53,7 +53,7 @@ function ProfileSync({ children }: { children: React.ReactNode }) {
 const AppRoutes = () => (
   <Routes>
     {/* Public routes — no auth, no ProfileSync */}
-    <Route path="/diagnostico" element={<Diagnostico />} />
+    <Route path="/diagnostico" element={<DiagnosticoGated />} />
     <Route path="/diagnostico/:token" element={<DiagnosticoGated />} />
     <Route path="/admin" element={<Admin />} />
     <Route path="/mapa" element={<GameMap />} />
