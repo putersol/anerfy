@@ -153,7 +153,7 @@ export default function Admin() {
     }
     setGeneratingToken(true);
     const token = generateShortToken();
-    const { error } = await supabase.from("diagnostic_tokens").insert({
+    const { error } = await (supabase as any).from("diagnostic_tokens").insert({
       token,
       email: tokenEmail.trim(),
       nombre: tokenNombre.trim() || null,
