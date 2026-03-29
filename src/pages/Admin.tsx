@@ -128,7 +128,7 @@ export default function Admin() {
   }
 
   async function fetchTokens() {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("diagnostic_tokens")
       .select("*")
       .order("created_at", { ascending: false })
@@ -153,7 +153,7 @@ export default function Admin() {
     }
     setGeneratingToken(true);
     const token = generateShortToken();
-    const { error } = await supabase.from("diagnostic_tokens").insert({
+    const { error } = await (supabase as any).from("diagnostic_tokens").insert({
       token,
       email: tokenEmail.trim(),
       nombre: tokenNombre.trim() || null,
@@ -179,7 +179,7 @@ export default function Admin() {
   }
 
   async function deleteToken(token: string) {
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("diagnostic_tokens")
       .delete()
       .eq("token", token);
