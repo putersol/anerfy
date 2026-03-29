@@ -28,7 +28,10 @@ export const diagnosticoSchema = z.object({
   nombreCompleto: z.string().min(2, "Necesitamos tu nombre para personalizar tu plan"),
   paisOrigen: z.string().min(1, "Indica tu país de origen para evaluar requisitos"),
   nacionalidad: z.string().min(1, "Tu nacionalidad afecta el tipo de visa disponible"),
-  edad: z.string().min(1, "Tu edad es importante para el perfil migratorio"),
+  edad: z.string().min(1, "Tu edad es importante para el perfil migratorio").refine(
+    (v) => { const n = Number(v); return n >= 18 && n <= 80; },
+    "La edad debe estar entre 18 y 80 años"
+  ),
   estadoCivil: z.string().min(1, "Selecciona tu estado civil"),
   viajaSolo: z.string().min(1, "Indica si viajas solo o acompañado"),
   viajaConPareja: z.string().optional(),
@@ -45,11 +48,17 @@ export const diagnosticoSchema = z.object({
 
   // Step 1 - Formación Académica
   universidad: z.string().min(1, "Tu universidad es clave para la homologación"),
-  anioGraduacion: z.string().min(1, "El año de graduación determina requisitos adicionales"),
+  anioGraduacion: z.string().min(1, "El año de graduación determina requisitos adicionales").refine(
+    (v) => { const n = Number(v); return n >= 1970 && n <= new Date().getFullYear(); },
+    `El año de graduación debe estar entre 1970 y ${new Date().getFullYear()}`
+  ),
   realizoInternado: z.string().min(1, "El internado es relevante para tu perfil"),
   tieneEspecialidad: z.string().min(1, "Las especialidades tienen rutas específicas"),
   cualEspecialidad: z.string().optional(),
-  aniosExperiencia: z.string().min(1, "Tu experiencia influye en las oportunidades"),
+  aniosExperiencia: z.string().min(1, "Tu experiencia influye en las oportunidades").refine(
+    (v) => { const n = Number(v); return n >= 0 && n <= 50; },
+    "Los años de experiencia deben estar entre 0 y 50"
+  ),
   areasTrabajo: z.string().min(1, "Describe brevemente tus áreas de trabajo"),
 
   // Step 2 - Idioma Alemán

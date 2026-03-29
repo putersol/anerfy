@@ -221,17 +221,30 @@ export default function QuestionView({ question, form, onNext }: Props) {
   if (question.type === "number") {
     const fieldName = question.field;
     const currentYear = new Date().getFullYear();
+    const numConstraints: Record<string, { min: number; max: number }> = {
+      edad: { min: 18, max: 80 },
+      anioGraduacion: { min: 1970, max: currentYear },
+      aniosExperiencia: { min: 0, max: 50 },
+      horasPorSemana: { min: 1, max: 80 },
+    };
+    const constraints = numConstraints[fieldName] || {};
     return (
       <Shell q={question}>
         <div className="w-full max-w-sm" onKeyDown={handleKeyDown}>
           <Input
             {...register(question.field)}
             type="number"
-            min={fieldName === "edad" ? 1 : undefined}
-            max={fieldName === "anioGraduacion" ? currentYear : undefined}
+            min={constraints.min}
+            max={constraints.max}
             placeholder={question.placeholder}
             className="bg-secondary/80 border-border text-foreground placeholder:text-muted-foreground min-h-[52px] text-base"
             autoFocus
+            onInput={(e) => {
+              const input = e.target as HTMLInputElement;
+              const val = Number(input.value);
+              if (constraints.max && val > constraints.max) input.value = String(constraints.max);
+              if (constraints.min !== undefined && val < 0) input.value = "";
+            }}
           />
           <div className="flex items-center justify-between mt-8">
             {!question.required ? <SkipBtn onClick={onNext} /> : <span />}
