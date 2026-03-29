@@ -179,7 +179,7 @@ export default function Admin() {
   }
 
   async function deleteToken(token: string) {
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("diagnostic_tokens")
       .delete()
       .eq("token", token);
