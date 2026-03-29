@@ -1,0 +1,1 @@
+UPDATE public.diagnostic_tokens SET nombre = 'Gloribel' WHERE token = '00e978f3955b';
