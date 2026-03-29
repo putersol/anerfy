@@ -24,6 +24,8 @@ export const GERMAN_LEVELS = ["Ninguno", "A1", "A2", "B1", "B2", "C1", "C2"] as 
 const docStatusSchema = z.enum(["tengo", "en_proceso", "no_tengo"]);
 
 export const diagnosticoSchema = z.object({
+  // Email
+  email: z.string().email("Ingresa un email válido para enviarte tu confirmación"),
   // Step 0 - Datos Personales
   nombreCompleto: z.string().min(2, "Necesitamos tu nombre para personalizar tu plan"),
   paisOrigen: z.string().min(1, "Indica tu país de origen para evaluar requisitos"),
