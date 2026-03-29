@@ -594,6 +594,7 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
 
               {/* Details grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                <DetailRow label="Email" value={s.email || "—"} />
                 <DetailRow label="Nacionalidad" value={s.nacionalidad} />
                 <DetailRow label="Edad" value={s.edad} />
                 <DetailRow label="Estado civil" value={s.estado_civil} />
