@@ -551,6 +551,7 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
             <span>{s.pais_origen}</span>
             <span>·</span>
             <span>{s.nivel_aleman}</span>
+            {s.email && <><span>·</span><span>{s.email}</span></>}
             <span>·</span>
             <span>{formatDate(s.created_at)}</span>
           </div>
