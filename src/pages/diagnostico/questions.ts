@@ -81,6 +81,7 @@ const SPECIALTIES = [
 
 export const QUESTIONS: QuestionDef[] = [
   // ── Datos Personales ──
+  { field: "email", type: "text", label: "¿Cuál es tu email?", helper: "Te enviaremos una confirmación de tu diagnóstico", placeholder: "tu@email.com", group: "Datos Personales", groupIcon: "", required: true },
   { field: "nombreCompleto", type: "text", label: "¿Cómo te llamas?", helper: "Como aparece en tu pasaporte", placeholder: "Tu nombre completo", group: "Datos Personales", groupIcon: "", required: true },
   { field: "paisOrigen", type: "country", label: "¿De qué país eres?", helper: "Tu nacionalidad se completará automáticamente", group: "Datos Personales", groupIcon: "", required: true },
   { field: "edad", type: "number", label: "¿Cuántos años tienes?", placeholder: "Ej: 30", group: "Datos Personales", groupIcon: "", required: true },

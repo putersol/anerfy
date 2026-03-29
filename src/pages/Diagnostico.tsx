@@ -41,7 +41,7 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
     resolver: zodResolver(diagnosticoSchema),
     mode: "onTouched",
     defaultValues: {
-      nombreCompleto: "", paisOrigen: "", nacionalidad: "", edad: "",
+      email: tokenData?.email || "", nombreCompleto: "", paisOrigen: "", nacionalidad: "", edad: "",
       estadoCivil: "", viajaSolo: "", viajaConPareja: "",
       parejaHablaAleman: "", nivelAlemanPareja: "", parejaProfesion: "",
       tieneHijos: "", bundeslandPreferido: "", tieneContactosAlemania: "",
@@ -117,7 +117,7 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
       const { error } = await supabase.from("diagnostico_submissions").insert({
         submission_id: submissionId,
         token_id: tokenData?.token || null,
-        email: tokenData?.email || null,
+        email: data.email || tokenData?.email || null,
         nombre_completo: data.nombreCompleto,
         pais_origen: data.paisOrigen,
         nacionalidad: data.nacionalidad,
