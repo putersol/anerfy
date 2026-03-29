@@ -238,13 +238,25 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
             </div>
 
             <div className="space-y-3">
-              <h1 className="text-3xl sm:text-4xl font-normal leading-[1.1] font-sans">
-                Diagnóstico{" "}
-                <span className="italic text-primary font-accent font-semibold text-[34px] sm:text-[42px]">
-                  Migratorio
-                </span>
-              </h1>
+              {tokenData?.nombre ? (
+                <h1 className="text-3xl sm:text-4xl font-normal leading-[1.1] font-sans">
+                  Hola,{" "}
+                  <span className="italic text-primary font-accent font-semibold text-[34px] sm:text-[42px]">
+                    {tokenData.nombre.split(" ")[0]}
+                  </span>
+                </h1>
+              ) : (
+                <h1 className="text-3xl sm:text-4xl font-normal leading-[1.1] font-sans">
+                  Diagnóstico{" "}
+                  <span className="italic text-primary font-accent font-semibold text-[34px] sm:text-[42px]">
+                    Migratorio
+                  </span>
+                </h1>
+              )}
               <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
+                {tokenData?.nombre
+                  ? "Preparamos este diagnóstico especialmente para ti. "
+                  : ""}
                 Evaluamos tu perfil para ejercer medicina en Alemania.
                 Con tus respuestas generamos tu{" "}
                 <span className="text-primary font-medium">Migration Score</span> y
