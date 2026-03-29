@@ -21,7 +21,7 @@ export function useTokenValidation(token: string | undefined) {
     }
 
     async function validate() {
-      const { data: row, error } = await supabase
+      const { data: row, error } = await (supabase as any)
         .from("diagnostic_tokens")
         .select("*")
         .eq("token", token)
