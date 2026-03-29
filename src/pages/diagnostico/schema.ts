@@ -59,8 +59,8 @@ export const diagnosticoSchema = z.object({
   estudiaActualmente: z.string().min(1, "Tu dedicación actual al idioma es relevante"),
   horasPorSemana: z.string().optional(),
   estudioAlemanMedico: z.string().min(1, "El alemán médico es requisito para ejercer"),
-  presentoFSP: z.string().min(1, "La FSP es un paso clave de la homologación"),
-  presentoKenntnis: z.string().min(1, "La Kenntnisprüfung es una vía alternativa"),
+  presentoFSP: z.string().optional(),
+  presentoKenntnis: z.string().optional(),
 
   // Step 3 - Documentos
   documentos: z.record(z.string(), docStatusSchema),
@@ -71,7 +71,7 @@ export const diagnosticoSchema = z.object({
   recibioRespuesta: z.string().optional(),
   solicitaronExamen: z.string().optional(),
   tieneBerufserlaubnis: z.string().min(1, "El permiso temporal es un hito importante"),
-  tieneApprobation: z.string().min(1, "La Approbation es la meta final del proceso"),
+  tieneApprobation: z.string().optional(),
 
   // Step 5 - Situación Financiera
   dineroAhorrado: z.string().min(1, "Los recursos financieros son requisito de visa"),
@@ -102,16 +102,16 @@ export const diagnosticoSchema = z.object({
 export type DiagnosticoForm = z.infer<typeof diagnosticoSchema>;
 
 export const STEP_ICONS = [
-  "📋", // Datos Personales
-  "🎓", // Formación
-  "🗣️", // Idioma
-  "📄", // Documentos
-  "📬", // Estado del Proceso
-  "💰", // Finanzas
-  "🏥", // Estrategia
-  "⏰", // Tiempo
-  "❤️", // Motivación
-  "📊", // Score
+  "", // Datos Personales
+  "", // Formación
+  "", // Idioma
+  "", // Documentos
+  "", // Estado del Proceso
+  "", // Finanzas
+  "", // Estrategia
+  "", // Tiempo
+  "", // Motivación
+  "", // Score
 ];
 
 export const STEP_TITLES = [
@@ -130,9 +130,9 @@ export const STEP_TITLES = [
 export const STEP_FIELDS: Record<number, (keyof DiagnosticoForm)[]> = {
   0: ["nombreCompleto", "paisOrigen", "nacionalidad", "edad", "estadoCivil", "viajaSolo", "viajaConPareja", "tieneHijos", "tieneContactosAlemania"],
   1: ["universidad", "anioGraduacion", "realizoInternado", "tieneEspecialidad", "aniosExperiencia", "areasTrabajo"],
-  2: ["nivelAleman", "tieneCertificado", "estudiaActualmente", "estudioAlemanMedico", "presentoFSP", "presentoKenntnis"],
+  2: ["nivelAleman", "tieneCertificado", "estudiaActualmente", "estudioAlemanMedico"],
   3: ["documentos"],
-  4: ["envioDocumentos", "tieneBerufserlaubnis", "tieneApprobation"],
+  4: ["envioDocumentos", "tieneBerufserlaubnis"],
   5: ["dineroAhorrado", "puedeAbrirSperrkonto", "apoyoFamiliar", "dispuestoCiudadesPequenas"],
   6: ["haAplicadoHospitales", "cualesHospitales"],
   7: ["cuandoViajar", "puedeEstudiarIntensivo", "puedeDedicar1a2Horas"],

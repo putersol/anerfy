@@ -143,15 +143,15 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
         estudia_actualmente: data.estudiaActualmente,
         horas_por_semana: data.horasPorSemana || null,
         estudio_aleman_medico: data.estudioAlemanMedico,
-        presento_fsp: data.presentoFSP,
-        presento_kenntnis: data.presentoKenntnis,
+        presento_fsp: data.presentoFSP || null,
+        presento_kenntnis: data.presentoKenntnis || null,
         documentos: data.documentos,
         envio_documentos: data.envioDocumentos,
         bundesland_envio: data.bundeslandEnvio || null,
         recibio_respuesta: data.recibioRespuesta || null,
         solicitaron_examen: data.solicitaronExamen || null,
         tiene_berufserlaubnis: data.tieneBerufserlaubnis,
-        tiene_approbation: data.tieneApprobation,
+        tiene_approbation: data.tieneApprobation || null,
         tipo_visa: data.tipoVisa || null,
         viaja_con_pareja: data.viajaConPareja || null,
         pareja_habla_aleman: data.parejaHablaAleman || null,
@@ -179,7 +179,10 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
         clasificacion: scores.clasificacion,
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase error:", error);
+        // Don't throw — still show results even if DB save fails
+      }
 
       if (tokenData?.token) {
         await markTokenUsed(tokenData.token, submissionId);
@@ -252,15 +255,15 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
             <div className="grid grid-cols-3 gap-3">
               <div className="bg-secondary/80 border border-border rounded-xl p-3">
                 <Clock className="w-5 h-5 text-primary mx-auto mb-1.5" />
-                <p className="text-xs text-muted-foreground">5-8 minutos</p>
+                <p className="text-xs text-muted-foreground">5-8 min</p>
               </div>
               <div className="bg-secondary/80 border border-border rounded-xl p-3">
                 <Shield className="w-5 h-5 text-emerald-400 mx-auto mb-1.5" />
-                <p className="text-xs text-muted-foreground">100% confidencial</p>
+                <p className="text-xs text-muted-foreground">Confidencial</p>
               </div>
               <div className="bg-secondary/80 border border-border rounded-xl p-3">
-                <Stethoscope className="w-5 h-5 text-purple-400 mx-auto mb-1.5" />
-                <p className="text-xs text-muted-foreground">~50 preguntas</p>
+                <ChevronRight className="w-5 h-5 text-muted-foreground mx-auto mb-1.5" />
+                <p className="text-xs text-muted-foreground">~40 preguntas</p>
               </div>
             </div>
 
@@ -383,17 +386,17 @@ function ScorePreview({
   else if (scores.total >= 40) badgeColor = "bg-amber-500";
 
   const categories = [
-    { label: "🗣️ Idioma alemán", score: scores.idioma },
-    { label: "📄 Documentos", score: scores.documentos },
-    { label: "📬 Homologación", score: scores.homologacion },
-    { label: "💰 Finanzas", score: scores.finanzas },
-    { label: "🏥 Estrategia laboral", score: scores.estrategia },
+    { label: "Idioma alemán", score: scores.idioma },
+    { label: "Documentos", score: scores.documentos },
+    { label: "Homologación", score: scores.homologacion },
+    { label: "Finanzas", score: scores.finanzas },
+    { label: "Estrategia laboral", score: scores.estrategia },
   ];
 
   return (
     <div className="flex flex-col items-center px-4 py-8 max-w-md mx-auto w-full space-y-6">
       <div className="text-center">
-        <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">📊 Migration Score</p>
+        <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Migration Score</p>
         <h2 className="text-xl sm:text-2xl font-bold text-foreground">Tu puntuación estimada</h2>
       </div>
 
@@ -552,11 +555,11 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
           {/* Category bars */}
           <div className={`rounded-xl p-4 border ${badgeBg} space-y-3`}>
             {[
-              { label: "🗣️ Idioma", score: scores.idioma },
-              { label: "📄 Documentos", score: scores.documentos },
-              { label: "📬 Homologación", score: scores.homologacion },
-              { label: "💰 Finanzas", score: scores.finanzas },
-              { label: "🏥 Estrategia", score: scores.estrategia },
+              { label: "Idioma", score: scores.idioma },
+              { label: "Documentos", score: scores.documentos },
+              { label: "Homologación", score: scores.homologacion },
+              { label: "Finanzas", score: scores.finanzas },
+              { label: "Estrategia", score: scores.estrategia },
             ].map(({ label, score }) => (
               <div key={label} className="space-y-1">
                 <div className="flex justify-between text-sm">
@@ -594,17 +597,6 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
           >
             <MessageCircle className="w-5 h-5" />
             Agenda tu asesoría por WhatsApp
-          </a>
-
-          {/* LinkedIn share */}
-          <a
-            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent("https://anerfy.com/diagnostico")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full border border-[#0A66C2]/40 text-[#0A66C2] hover:bg-[#0A66C2]/10 font-semibold py-3.5 rounded-full transition-colors"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            Compartir en LinkedIn
           </a>
 
           <button

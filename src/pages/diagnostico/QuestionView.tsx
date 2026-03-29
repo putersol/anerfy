@@ -207,7 +207,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
             className="bg-secondary/80 border-border text-foreground placeholder:text-muted-foreground min-h-[52px] text-base"
             autoFocus
           />
-          <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center justify-between mt-8">
             {!question.required ? <SkipBtn onClick={onNext} /> : <span />}
             <OkBtn onClick={onNext} />
           </div>
@@ -219,17 +219,21 @@ export default function QuestionView({ question, form, onNext }: Props) {
 
   // ── Number input ──
   if (question.type === "number") {
+    const fieldName = question.field;
+    const currentYear = new Date().getFullYear();
     return (
       <Shell q={question}>
         <div className="w-full max-w-sm" onKeyDown={handleKeyDown}>
           <Input
             {...register(question.field)}
             type="number"
+            min={fieldName === "edad" ? 1 : undefined}
+            max={fieldName === "anioGraduacion" ? currentYear : undefined}
             placeholder={question.placeholder}
             className="bg-secondary/80 border-border text-foreground placeholder:text-muted-foreground min-h-[52px] text-base"
             autoFocus
           />
-          <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center justify-between mt-8">
             {!question.required ? <SkipBtn onClick={onNext} /> : <span />}
             <OkBtn onClick={onNext} />
           </div>
@@ -402,15 +406,15 @@ export default function QuestionView({ question, form, onNext }: Props) {
 function Shell({ q, children }: { q: QuestionDef; children: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
-      <div className="text-center mb-8 w-full max-w-lg">
-        <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-          {q.groupIcon} {q.group}
+      <div className="text-center mb-10 w-full max-w-lg">
+        <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">
+          {q.group}
         </p>
         <h2 className="text-2xl sm:text-3xl font-bold text-foreground leading-tight">
           {q.label}
         </h2>
         {q.helper && (
-          <p className="text-muted-foreground text-sm mt-2">{q.helper}</p>
+          <p className="text-muted-foreground text-sm mt-3">{q.helper}</p>
         )}
       </div>
       {children}
