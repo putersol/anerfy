@@ -227,7 +227,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
       aniosExperiencia: { min: 0, max: 50 },
       horasPorSemana: { min: 1, max: 80 },
     };
-    const constraints = numConstraints[fieldName] || {};
+    const constraints: { min?: number; max?: number } = numConstraints[fieldName] || {};
     return (
       <Shell q={question}>
         <div className="w-full max-w-sm" onKeyDown={handleKeyDown}>
