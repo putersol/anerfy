@@ -17,6 +17,8 @@ const ADMIN_PASSWORD = "anerfy2026";
 interface Submission {
   id: number;
   submission_id: string;
+  email: string | null;
+  token_id: string | null;
   nombre_completo: string;
   pais_origen: string;
   nacionalidad: string;
@@ -205,7 +207,8 @@ export default function Admin() {
       (s) =>
         s.nombre_completo.toLowerCase().includes(q) ||
         s.pais_origen.toLowerCase().includes(q) ||
-        s.clasificacion.toLowerCase().includes(q)
+        s.clasificacion.toLowerCase().includes(q) ||
+        (s.email && s.email.toLowerCase().includes(q))
     );
   }, [submissions, search]);
 
@@ -549,6 +552,7 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
             <span>{s.pais_origen}</span>
             <span>·</span>
             <span>{s.nivel_aleman}</span>
+            {s.email && <><span>·</span><span>{s.email}</span></>}
             <span>·</span>
             <span>{formatDate(s.created_at)}</span>
           </div>
@@ -591,6 +595,7 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
 
               {/* Details grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
+                <DetailRow label="Email" value={s.email || "—"} />
                 <DetailRow label="Nacionalidad" value={s.nacionalidad} />
                 <DetailRow label="Edad" value={s.edad} />
                 <DetailRow label="Estado civil" value={s.estado_civil} />
