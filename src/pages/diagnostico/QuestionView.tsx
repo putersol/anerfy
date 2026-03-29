@@ -10,7 +10,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { DiagnosticoForm, DOCUMENT_NAMES } from "./schema";
-import { QuestionDef, COUNTRIES } from "./questions";
+import { QuestionDef, COUNTRIES, ALL_NATIONALITIES } from "./questions";
 
 interface Props {
   question: QuestionDef;
@@ -167,18 +167,18 @@ export default function QuestionView({ question, form, onNext }: Props) {
 
           {paisOrigen && (
             <div className="space-y-1.5">
-              <Label className="text-muted-foreground text-sm">Nacionalidad</Label>
+              <Label className="text-muted-foreground text-sm">Nacionalidad (incluye doble nacionalidad)</Label>
               <Select
                 onValueChange={(v) => setValue("nacionalidad", v)}
                 value={nacionalidad || ""}
               >
                 <SelectTrigger className="bg-secondary/80 border-border text-foreground min-h-[52px] text-base">
-                  <SelectValue placeholder="Selecciona" />
+                  <SelectValue placeholder="Selecciona tu nacionalidad" />
                 </SelectTrigger>
                 <SelectContent>
-                  {COUNTRIES.map((c) => (
-                    <SelectItem key={c.nationality} value={c.nationality}>
-                      <span className="mr-2">{c.flag}</span> {c.nationality}
+                  {ALL_NATIONALITIES.map((nat) => (
+                    <SelectItem key={nat} value={nat}>
+                      {nat}
                     </SelectItem>
                   ))}
                 </SelectContent>

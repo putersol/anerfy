@@ -24,6 +24,20 @@ export const COUNTRIES = [
   { flag: "\u{1F1E7}\u{1F1F7}", name: "Brasil", nationality: "Brasileña" },
 ];
 
+// All nationalities for the nationality dropdown (LATAM + European for dual citizenship)
+export const ALL_NATIONALITIES = [
+  // Latinoamericanas
+  "Mexicana", "Colombiana", "Argentina", "Venezolana", "Ecuatoriana",
+  "Peruana", "Chilena", "Boliviana", "Paraguaya", "Uruguaya",
+  "Costarricense", "Panameña", "Guatemalteca", "Hondureña", "Salvadoreña",
+  "Nicaragüense", "Dominicana", "Cubana", "Puertorriqueña", "Española", "Brasileña",
+  // Europeas
+  "Alemana", "Italiana", "Francesa", "Portuguesa", "Británica",
+  "Holandesa", "Belga", "Suiza", "Austriaca", "Sueca",
+  "Noruega", "Danesa", "Finlandesa", "Polaca", "Rumana",
+  "Húngara", "Checa", "Griega", "Irlandesa", "Croata",
+];
+
 export type QuestionType =
   | "text" | "number" | "radio" | "cards" | "select"
   | "textarea" | "checkbox-multi" | "country"
