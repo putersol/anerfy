@@ -128,7 +128,7 @@ export default function Admin() {
   }
 
   async function fetchTokens() {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("diagnostic_tokens")
       .select("*")
       .order("created_at", { ascending: false })
