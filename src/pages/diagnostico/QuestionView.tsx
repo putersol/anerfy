@@ -227,7 +227,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
       aniosExperiencia: { min: 0, max: 50 },
       horasPorSemana: { min: 1, max: 80 },
     };
-    const constraints = numConstraints[fieldName] || {};
+    const constraints: { min?: number; max?: number } = numConstraints[fieldName] || {};
     return (
       <Shell q={question}>
         <div className="w-full max-w-sm" onKeyDown={handleKeyDown}>
@@ -418,7 +418,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
 
 function Shell({ q, children }: { q: QuestionDef; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
+    <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 pb-8">
       <div className="text-center mb-10 w-full max-w-lg">
         <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">
           {q.group}

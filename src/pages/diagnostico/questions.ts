@@ -137,7 +137,7 @@ export const QUESTIONS: QuestionDef[] = [
     { value: "fsp", label: "FSP (Fachsprachprüfung)" }, { value: "kenntnis", label: "Kenntnisprüfung" },
     { value: "ambos", label: "Ambos" }, { value: "ninguno", label: "Ninguno / Aún no" },
   ] },
-  { field: "tieneBerufserlaubnis", type: "radio", label: "¿Has iniciado algún trámite de Berufserlaubnis?", helper: "Permiso temporal de ejercicio médico — no es obligatorio tenerlo aún", group: "Estado del Proceso", groupIcon: "", required: true },
+  
 
   // ── Situación Financiera ──
   { field: "dineroAhorrado", type: "cards", label: "¿Cuánto dinero tienes ahorrado para el proceso?", helper: "Incluye cursos de idioma, visa, vuelos y primeros meses", group: "Situación Financiera", groupIcon: "", required: true, options: [
