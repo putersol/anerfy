@@ -517,17 +517,19 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
           className="max-w-md mx-auto space-y-6"
         >
           <div className="text-center">
-            <div className="w-20 h-20 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto mb-4">
-              <Stethoscope className="w-10 h-10 text-emerald-400" />
-            </div>
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+              className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto mb-4"
+            >
+              <span className="text-3xl">✓</span>
+            </motion.div>
             <h2 className="text-2xl font-bold text-foreground mb-2">
-              Diagnóstico completado
+              ¡Diagnóstico completado!
             </h2>
             <p className="text-muted-foreground text-sm">
-              Hemos recibido tus respuestas, {data.nombreCompleto.split(" ")[0] || ""}.
-            </p>
-            <p className="text-muted-foreground text-xs mt-2 max-w-sm mx-auto">
-              Este diagnóstico es una evaluación inicial. En tu asesoría personalizada profundizaremos en cada aspecto de tu caso.
+              Gracias, {data.nombreCompleto.split(" ")[0] || ""}. Hemos recibido toda tu información.
             </p>
           </div>
 
@@ -578,26 +580,63 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
             ))}
           </div>
 
-          {/* Next steps */}
-          <div className="bg-primary/10 border border-primary/20 rounded-xl p-4">
-            <h3 className="text-primary font-semibold text-sm mb-2">Siguientes pasos</h3>
-            <ul className="text-muted-foreground text-sm space-y-1.5">
-              <li>1. Un asesor revisará tu diagnóstico</li>
-              <li>2. Recibirás un plan personalizado</li>
-              <li>3. Agenda tu asesoría para resolver dudas</li>
-            </ul>
+          {/* Detailed next steps */}
+          <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 space-y-4">
+            <h3 className="text-primary font-semibold text-base">¿Qué sigue ahora?</h3>
+            <div className="space-y-3">
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">1</div>
+                <div>
+                  <p className="text-foreground text-sm font-medium">Revisión por un asesor</p>
+                  <p className="text-muted-foreground text-xs">Un asesor de Anerfy analizará tu diagnóstico en las próximas 24-48 horas y preparará un plan personalizado para tu caso.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">2</div>
+                <div>
+                  <p className="text-foreground text-sm font-medium">Recibirás tu plan por WhatsApp</p>
+                  <p className="text-muted-foreground text-xs">Te contactaremos con un resumen de tus fortalezas, áreas de mejora y los pasos concretos que recomendamos según tu perfil.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">3</div>
+                <div>
+                  <p className="text-foreground text-sm font-medium">Agenda tu asesoría personalizada</p>
+                  <p className="text-muted-foreground text-xs">En una videollamada o llamada de 30 min revisaremos juntos tu caso, resolveremos dudas y definiremos tu ruta hacia Alemania.</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* WhatsApp CTA */}
-          <a
-            href="https://wa.me/4915257607594"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-semibold py-3.5 rounded-full transition-colors"
-          >
-            <MessageCircle className="w-5 h-5" />
-            Agenda tu asesoría por WhatsApp
-          </a>
+          {/* Primary CTA — WhatsApp */}
+          <div className="space-y-3">
+            <a
+              href="https://wa.me/4915257607594?text=Hola%2C%20acabo%20de%20completar%20mi%20diagn%C3%B3stico%20en%20Anerfy%20y%20me%20gustar%C3%ADa%20agendar%20mi%20asesor%C3%ADa."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-semibold py-4 rounded-full transition-colors text-base"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Agendar asesoría por WhatsApp
+            </a>
+            <p className="text-center text-muted-foreground text-xs">
+              ¿Prefieres que te contactemos nosotros? Escríbenos y te respondemos en menos de 24h.
+            </p>
+          </div>
+
+          {/* Secondary CTA */}
+          <div className="bg-secondary/80 border border-border rounded-xl p-4 text-center space-y-2">
+            <p className="text-secondary-foreground text-sm font-medium">¿Tienes más preguntas?</p>
+            <p className="text-muted-foreground text-xs">Nuestro equipo está disponible para ayudarte en cada paso del proceso.</p>
+            <a
+              href="https://wa.me/4915257607594"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-primary text-sm font-medium hover:underline mt-1"
+            >
+              <MessageCircle className="w-4 h-4" /> Escríbenos por WhatsApp
+            </a>
+          </div>
 
           <button
             className="w-full border border-border text-muted-foreground hover:text-foreground hover:bg-secondary py-3 rounded-full transition-colors"
