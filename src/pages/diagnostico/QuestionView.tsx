@@ -102,7 +102,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
             </button>
           ))}
         </div>
-        {!question.required && <SkipBtn onClick={onNext} />}
+        {!question.required && <div className="mt-6"><SkipBtn onClick={onNext} /></div>}
         <ErrorMsg errors={errors} field={question.field} />
       </Shell>
     );
@@ -131,7 +131,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
             </SelectContent>
           </Select>
         </div>
-        {!question.required && <SkipBtn onClick={onNext} />}
+        {!question.required && <div className="mt-6"><SkipBtn onClick={onNext} /></div>}
         <ErrorMsg errors={errors} field={question.field} />
       </Shell>
     );
