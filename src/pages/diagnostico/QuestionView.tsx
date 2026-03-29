@@ -418,7 +418,7 @@ export default function QuestionView({ question, form, onNext }: Props) {
 
 function Shell({ q, children }: { q: QuestionDef; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
+    <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 pb-8">
       <div className="text-center mb-10 w-full max-w-lg">
         <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">
           {q.group}
