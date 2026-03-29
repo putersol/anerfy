@@ -17,6 +17,8 @@ const ADMIN_PASSWORD = "anerfy2026";
 interface Submission {
   id: number;
   submission_id: string;
+  email: string | null;
+  token_id: string | null;
   nombre_completo: string;
   pais_origen: string;
   nacionalidad: string;
