@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      diagnostic_tokens: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          email: string
+          expires_at: string | null
+          id: number
+          nombre: string | null
+          submission_id: string | null
+          token: string
+          used: boolean | null
+          used_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          email: string
+          expires_at?: string | null
+          id?: never
+          nombre?: string | null
+          submission_id?: string | null
+          token: string
+          used?: boolean | null
+          used_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          email?: string
+          expires_at?: string | null
+          id?: never
+          nombre?: string | null
+          submission_id?: string | null
+          token?: string
+          used?: boolean | null
+          used_at?: string | null
+        }
+        Relationships: []
+      }
       diagnostico_submissions: {
         Row: {
           anio_graduacion: string
@@ -34,6 +73,7 @@ export type Database = {
           documentos: Json
           donde_contactos: string | null
           edad: string
+          email: string | null
           envio_documentos: string
           especialidad_interes: string | null
           estado_civil: string
@@ -73,6 +113,7 @@ export type Database = {
           tiene_especialidad: string
           tiene_hijos: string
           tipo_visa: string
+          token_id: string | null
           universidad: string
           updated_at: string
           viaja_con_pareja: string
@@ -98,6 +139,7 @@ export type Database = {
           documentos?: Json
           donde_contactos?: string | null
           edad: string
+          email?: string | null
           envio_documentos: string
           especialidad_interes?: string | null
           estado_civil: string
@@ -137,6 +179,7 @@ export type Database = {
           tiene_especialidad: string
           tiene_hijos: string
           tipo_visa: string
+          token_id?: string | null
           universidad: string
           updated_at?: string
           viaja_con_pareja: string
@@ -162,6 +205,7 @@ export type Database = {
           documentos?: Json
           donde_contactos?: string | null
           edad?: string
+          email?: string | null
           envio_documentos?: string
           especialidad_interes?: string | null
           estado_civil?: string
@@ -201,6 +245,7 @@ export type Database = {
           tiene_especialidad?: string
           tiene_hijos?: string
           tipo_visa?: string
+          token_id?: string | null
           universidad?: string
           updated_at?: string
           viaja_con_pareja?: string
@@ -258,6 +303,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      payments: {
+        Row: {
+          amount_cents: number | null
+          created_at: string
+          currency: string | null
+          email: string
+          id: number
+          nombre: string | null
+          payment_id: string
+          product: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount_cents?: number | null
+          created_at?: string
+          currency?: string | null
+          email: string
+          id?: never
+          nombre?: string | null
+          payment_id?: string
+          product?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number | null
+          created_at?: string
+          currency?: string | null
+          email?: string
+          id?: never
+          nombre?: string | null
+          payment_id?: string
+          product?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       waitlist: {
         Row: {
