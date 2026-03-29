@@ -207,7 +207,8 @@ export default function Admin() {
       (s) =>
         s.nombre_completo.toLowerCase().includes(q) ||
         s.pais_origen.toLowerCase().includes(q) ||
-        s.clasificacion.toLowerCase().includes(q)
+        s.clasificacion.toLowerCase().includes(q) ||
+        (s.email && s.email.toLowerCase().includes(q))
     );
   }, [submissions, search]);
 
