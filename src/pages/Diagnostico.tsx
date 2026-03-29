@@ -117,7 +117,7 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
       const { error } = await supabase.from("diagnostico_submissions").insert({
         submission_id: submissionId,
         token_id: tokenData?.token || null,
-        email: tokenData?.email || null,
+        email: data.email || tokenData?.email || null,
         nombre_completo: data.nombreCompleto,
         pais_origen: data.paisOrigen,
         nacionalidad: data.nacionalidad,
