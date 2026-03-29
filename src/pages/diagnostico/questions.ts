@@ -175,6 +175,7 @@ export const CONDITION_FIELDS: (keyof DiagnosticoForm)[] = [
   "tieneContactosAlemania", "tieneEspecialidad", "tieneCertificado",
   "estudiaActualmente", "envioDocumentos", "viajaConPareja",
   "estadoCivil", "viajaSolo", "tieneHijos", "haAplicadoHospitales",
+  "puedeEstudiarIntensivo",
 ];
 
 export function getVisibleQuestions(
