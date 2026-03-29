@@ -164,7 +164,7 @@ export const QUESTIONS: QuestionDef[] = [
     { value: "no_se", label: "No estoy seguro/a" },
   ] },
   { field: "puedeEstudiarIntensivo", type: "radio", label: "¿Puedes estudiar alemán de forma intensiva?", helper: "20+ horas por semana acelera mucho el proceso", group: "Tiempo y Planificación", groupIcon: "", required: true },
-  { field: "puedeDedicar1a2Horas", type: "radio", label: "¿Puedes dedicar al menos 1-2 horas diarias?", helper: "La constancia es más importante que la intensidad", group: "Tiempo y Planificación", groupIcon: "", required: true },
+  { field: "puedeDedicar1a2Horas", type: "radio", label: "¿Puedes dedicar al menos 1-2 horas diarias?", helper: "La constancia es más importante que la intensidad", group: "Tiempo y Planificación", groupIcon: "", required: false, condition: { field: "puedeEstudiarIntensivo", values: ["no"] } },
 
   // ── Motivación (single screen) ──
   { field: "motivacion", type: "motivation", label: "¿Por qué quieres ejercer medicina en Alemania?", helper: "Cuéntanos tu historia, tus motivaciones y tus metas.", group: "Motivación Personal", groupIcon: "", required: true },
@@ -175,6 +175,7 @@ export const CONDITION_FIELDS: (keyof DiagnosticoForm)[] = [
   "tieneContactosAlemania", "tieneEspecialidad", "tieneCertificado",
   "estudiaActualmente", "envioDocumentos", "viajaConPareja",
   "estadoCivil", "viajaSolo", "tieneHijos", "haAplicadoHospitales",
+  "puedeEstudiarIntensivo",
 ];
 
 export function getVisibleQuestions(
