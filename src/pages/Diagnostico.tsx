@@ -317,7 +317,10 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
             </div>
 
             <button
-              onClick={() => setStarted(true)}
+              onClick={() => {
+                createInitialRow();
+                setStarted(true);
+              }}
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90 text-base py-4 rounded-full font-semibold transition-colors flex items-center justify-center gap-1"
             >
               Comenzar diagnóstico
