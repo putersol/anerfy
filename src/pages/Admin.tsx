@@ -206,10 +206,11 @@ export default function Admin() {
     const q = search.toLowerCase();
     return submissions.filter(
       (s) =>
-        s.nombre_completo.toLowerCase().includes(q) ||
-        s.pais_origen.toLowerCase().includes(q) ||
-        s.clasificacion.toLowerCase().includes(q) ||
-        (s.email && s.email.toLowerCase().includes(q))
+        (s.nombre_completo && s.nombre_completo.toLowerCase().includes(q)) ||
+        (s.pais_origen && s.pais_origen.toLowerCase().includes(q)) ||
+        (s.clasificacion && s.clasificacion.toLowerCase().includes(q)) ||
+        (s.email && s.email.toLowerCase().includes(q)) ||
+        (s.status && s.status.toLowerCase().includes(q))
     );
   }, [submissions, search]);
 
