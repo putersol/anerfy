@@ -77,6 +77,7 @@ interface Submission {
   score_estrategia: number;
   score_total: number;
   clasificacion: string;
+  status: string;
   created_at: string;
 }
 
