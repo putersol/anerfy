@@ -28,6 +28,65 @@ interface DiagnosticoProps {
   tokenData?: TokenData;
 }
 
+// Helper to build the DB payload from form data
+function buildPayload(data: DiagnosticoForm, tokenData?: TokenData) {
+  return {
+    token_id: tokenData?.token || null,
+    email: data.email || tokenData?.email || null,
+    nombre_completo: data.nombreCompleto || null,
+    pais_origen: data.paisOrigen || null,
+    nacionalidad: data.nacionalidad || null,
+    edad: data.edad || null,
+    estado_civil: data.estadoCivil || null,
+    viaja_solo: data.viajaSolo || null,
+    tiene_hijos: data.tieneHijos || null,
+    viaja_mascota: data.viajaMascota || null,
+    ciudad_preferida: data.ciudadPreferida || null,
+    bundesland_preferido: data.bundeslandPreferido || null,
+    tiene_contactos_alemania: data.tieneContactosAlemania || null,
+    donde_contactos: data.dondeContactos || null,
+    universidad: data.universidad || null,
+    anio_graduacion: data.anioGraduacion || null,
+    realizo_internado: data.realizoInternado || null,
+    tiene_especialidad: data.tieneEspecialidad || null,
+    cual_especialidad: data.cualEspecialidad || null,
+    anios_experiencia: data.aniosExperiencia || null,
+    areas_trabajo: data.areasTrabajo || null,
+    nivel_aleman: data.nivelAleman || null,
+    tiene_certificado: data.tieneCertificado || null,
+    cual_certificado: data.cualCertificado || null,
+    estudia_actualmente: data.estudiaActualmente || null,
+    horas_por_semana: data.horasPorSemana || null,
+    estudio_aleman_medico: data.estudioAlemanMedico || null,
+    presento_fsp: data.presentoFSP || null,
+    presento_kenntnis: data.presentoKenntnis || null,
+    documentos: data.documentos || {},
+    envio_documentos: data.envioDocumentos || null,
+    bundesland_envio: data.bundeslandEnvio || null,
+    recibio_respuesta: data.recibioRespuesta || null,
+    solicitaron_examen: data.solicitaronExamen || null,
+    tiene_berufserlaubnis: data.tieneBerufserlaubnis || null,
+    tiene_approbation: data.tieneApprobation || null,
+    tipo_visa: data.tipoVisa || null,
+    viaja_con_pareja: data.viajaConPareja || null,
+    pareja_habla_aleman: data.parejaHablaAleman || null,
+    nivel_aleman_pareja: data.nivelAlemanPareja || null,
+    pareja_profesion: data.parejaProfesion || null,
+    dinero_ahorrado: data.dineroAhorrado || null,
+    puede_abrir_sperrkonto: data.puedeAbrirSperrkonto || null,
+    apoyo_familiar: data.apoyoFamiliar || null,
+    dispuesto_ciudades_pequenas: data.dispuestoCiudadesPequenas || null,
+    especialidad_interes: data.especialidadInteres || null,
+    dispuesto_especialidades: data.dispuestoEspecialidades || [],
+    ha_aplicado_hospitales: data.haAplicadoHospitales || null,
+    ha_tenido_entrevistas: data.haTenidoEntrevistas || null,
+    cuando_viajar: data.cuandoViajar || null,
+    puede_estudiar_intensivo: data.puedeEstudiarIntensivo || null,
+    puede_dedicar_1a2_horas: data.puedeDedicar1a2Horas || null,
+    motivacion: data.motivacion || null,
+  };
+}
+
 export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
   const [started, setStarted] = useState(false);
   const [qIndex, setQIndex] = useState(0);
@@ -35,6 +94,8 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
   const [showScore, setShowScore] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const submissionIdRef = useRef<string>(crypto.randomUUID());
+  const rowCreatedRef = useRef(false);
   const { toast } = useToast();
 
   const form = useForm<DiagnosticoForm>({
@@ -85,7 +146,33 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
   const totalScreens = totalQ + 1;
   const progress = showScore ? 100 : ((qIndex + 1) / totalScreens) * 100;
 
+  // ─── Progressive save: create row on start, update on each step ───
+  const createInitialRow = useCallback(async () => {
+    if (rowCreatedRef.current) return;
+    rowCreatedRef.current = true;
+    const { error } = await supabase.from("diagnostico_submissions").insert({
+      submission_id: submissionIdRef.current,
+      token_id: tokenData?.token || null,
+      email: tokenData?.email || null,
+      status: "in_progress",
+    } as any);
+    if (error) console.error("Error creating initial row:", error);
+  }, [tokenData]);
+
+  const saveProgress = useCallback(async () => {
+    if (!rowCreatedRef.current) return;
+    const data = form.getValues();
+    const payload = buildPayload(data, tokenData);
+    const { error } = await supabase
+      .from("diagnostico_submissions")
+      .update(payload as any)
+      .eq("submission_id", submissionIdRef.current);
+    if (error) console.error("Error saving progress:", error);
+  }, [form, tokenData]);
+
   const goNext = useCallback(() => {
+    // Save progress in background on each step
+    saveProgress();
     if (qIndex < totalQ - 1) {
       setDirection(1);
       setQIndex((i) => i + 1);
@@ -93,9 +180,10 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
       setDirection(1);
       setShowScore(true);
     }
-  }, [qIndex, totalQ]);
+  }, [qIndex, totalQ, saveProgress]);
 
   const goBack = useCallback(() => {
+    saveProgress();
     if (showScore) {
       setShowScore(false);
       setDirection(-1);
@@ -105,87 +193,36 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
       setDirection(-1);
       setQIndex((i) => i - 1);
     }
-  }, [qIndex, showScore]);
+  }, [qIndex, showScore, saveProgress]);
 
   const onSubmit = useCallback(async () => {
     setSubmitting(true);
     const data = form.getValues();
     const scores = calculateScores(data);
-    const submissionId = crypto.randomUUID();
 
     try {
-      const { error } = await supabase.from("diagnostico_submissions").insert({
-        submission_id: submissionId,
-        token_id: tokenData?.token || null,
-        email: data.email || tokenData?.email || null,
-        nombre_completo: data.nombreCompleto,
-        pais_origen: data.paisOrigen,
-        nacionalidad: data.nacionalidad,
-        edad: data.edad,
-        estado_civil: data.estadoCivil,
-        viaja_solo: data.viajaSolo,
-        tiene_hijos: data.tieneHijos || null,
-        viaja_mascota: data.viajaMascota || null,
-        ciudad_preferida: data.ciudadPreferida || null,
-        bundesland_preferido: data.bundeslandPreferido || null,
-        tiene_contactos_alemania: data.tieneContactosAlemania,
-        donde_contactos: data.dondeContactos || null,
-        universidad: data.universidad,
-        anio_graduacion: data.anioGraduacion,
-        realizo_internado: data.realizoInternado,
-        tiene_especialidad: data.tieneEspecialidad,
-        cual_especialidad: data.cualEspecialidad || null,
-        anios_experiencia: data.aniosExperiencia,
-        areas_trabajo: data.areasTrabajo,
-        nivel_aleman: data.nivelAleman,
-        tiene_certificado: data.tieneCertificado,
-        cual_certificado: data.cualCertificado || null,
-        estudia_actualmente: data.estudiaActualmente,
-        horas_por_semana: data.horasPorSemana || null,
-        estudio_aleman_medico: data.estudioAlemanMedico,
-        presento_fsp: data.presentoFSP || null,
-        presento_kenntnis: data.presentoKenntnis || null,
-        documentos: data.documentos,
-        envio_documentos: data.envioDocumentos,
-        bundesland_envio: data.bundeslandEnvio || null,
-        recibio_respuesta: data.recibioRespuesta || null,
-        solicitaron_examen: data.solicitaronExamen || null,
-        tiene_berufserlaubnis: data.tieneBerufserlaubnis,
-        tiene_approbation: data.tieneApprobation || null,
-        tipo_visa: data.tipoVisa || null,
-        viaja_con_pareja: data.viajaConPareja || null,
-        pareja_habla_aleman: data.parejaHablaAleman || null,
-        nivel_aleman_pareja: data.nivelAlemanPareja || null,
-        pareja_profesion: data.parejaProfesion || null,
-        dinero_ahorrado: data.dineroAhorrado,
-        puede_abrir_sperrkonto: data.puedeAbrirSperrkonto,
-        apoyo_familiar: data.apoyoFamiliar || null,
-        dispuesto_ciudades_pequenas: data.dispuestoCiudadesPequenas,
-        especialidad_interes: data.especialidadInteres || null,
-        dispuesto_especialidades: data.dispuestoEspecialidades || [],
-        ha_aplicado_hospitales: data.haAplicadoHospitales,
-        cuales_hospitales: data.cualesHospitales || null,
-        ha_tenido_entrevistas: data.haTenidoEntrevistas || null,
-        cuando_viajar: data.cuandoViajar,
-        puede_estudiar_intensivo: data.puedeEstudiarIntensivo,
-        puede_dedicar_1a2_horas: data.puedeDedicar1a2Horas,
-        motivacion: data.motivacion,
-        score_idioma: scores.idioma,
-        score_documentos: scores.documentos,
-        score_homologacion: scores.homologacion,
-        score_finanzas: scores.finanzas,
-        score_estrategia: scores.estrategia,
-        score_total: scores.total,
-        clasificacion: scores.clasificacion,
-      });
+      const payload = buildPayload(data, tokenData);
+      const { error } = await supabase
+        .from("diagnostico_submissions")
+        .update({
+          ...payload,
+          score_idioma: scores.idioma,
+          score_documentos: scores.documentos,
+          score_homologacion: scores.homologacion,
+          score_finanzas: scores.finanzas,
+          score_estrategia: scores.estrategia,
+          score_total: scores.total,
+          clasificacion: scores.clasificacion,
+          status: "completed",
+        } as any)
+        .eq("submission_id", submissionIdRef.current);
 
       if (error) {
         console.error("Supabase error:", error);
-        // Don't throw — still show results even if DB save fails
       }
 
       if (tokenData?.token) {
-        await markTokenUsed(tokenData.token, submissionId);
+        await markTokenUsed(tokenData.token, submissionIdRef.current);
       }
 
       setSubmitted(true);
