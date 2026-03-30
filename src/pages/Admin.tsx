@@ -546,8 +546,12 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-white font-medium truncate">{s.nombre_completo}</span>
-            <span className={`text-xs font-medium ${classColor(s.clasificacion)}`}>{s.clasificacion}</span>
+            <span className="text-white font-medium truncate">{s.nombre_completo || "—"}</span>
+            {s.status === "in_progress" ? (
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">En progreso</span>
+            ) : (
+              <span className={`text-xs font-medium ${classColor(s.clasificacion)}`}>{s.clasificacion}</span>
+            )}
           </div>
           <div className="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
             <span>{s.pais_origen}</span>
