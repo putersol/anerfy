@@ -109,10 +109,22 @@ export default function Admin() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (authed) {
-      fetchSubmissions();
-      fetchTokens();
-    }
+    if (!authed) return;
+    fetchSubmissions();
+    fetchTokens();
+
+    // Realtime sync
+    const channel = supabase
+      .channel('admin-sync')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'diagnostico_submissions' }, () => {
+        fetchSubmissions();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'diagnostic_tokens' }, () => {
+        fetchTokens();
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
   }, [authed]);
 
   async function fetchSubmissions() {
