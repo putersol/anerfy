@@ -77,6 +77,7 @@ interface Submission {
   score_estrategia: number;
   score_total: number;
   clasificacion: string;
+  status: string;
   created_at: string;
 }
 
@@ -205,10 +206,11 @@ export default function Admin() {
     const q = search.toLowerCase();
     return submissions.filter(
       (s) =>
-        s.nombre_completo.toLowerCase().includes(q) ||
-        s.pais_origen.toLowerCase().includes(q) ||
-        s.clasificacion.toLowerCase().includes(q) ||
-        (s.email && s.email.toLowerCase().includes(q))
+        (s.nombre_completo && s.nombre_completo.toLowerCase().includes(q)) ||
+        (s.pais_origen && s.pais_origen.toLowerCase().includes(q)) ||
+        (s.clasificacion && s.clasificacion.toLowerCase().includes(q)) ||
+        (s.email && s.email.toLowerCase().includes(q)) ||
+        (s.status && s.status.toLowerCase().includes(q))
     );
   }, [submissions, search]);
 
@@ -545,8 +547,12 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-white font-medium truncate">{s.nombre_completo}</span>
-            <span className={`text-xs font-medium ${classColor(s.clasificacion)}`}>{s.clasificacion}</span>
+            <span className="text-white font-medium truncate">{s.nombre_completo || "—"}</span>
+            {s.status === "in_progress" ? (
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">En progreso</span>
+            ) : (
+              <span className={`text-xs font-medium ${classColor(s.clasificacion)}`}>{s.clasificacion}</span>
+            )}
           </div>
           <div className="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
             <span>{s.pais_origen}</span>

@@ -55,10 +55,10 @@ export type Database = {
       }
       diagnostico_submissions: {
         Row: {
-          anio_graduacion: string
-          anios_experiencia: string
-          apoyo_familiar: string
-          areas_trabajo: string
+          anio_graduacion: string | null
+          anios_experiencia: string | null
+          apoyo_familiar: string | null
+          areas_trabajo: string | null
           bundesland_envio: string | null
           bundesland_preferido: string | null
           ciudad_preferida: string | null
@@ -66,37 +66,37 @@ export type Database = {
           created_at: string
           cual_certificado: string | null
           cual_especialidad: string | null
-          cuando_viajar: string
-          dinero_ahorrado: string
-          dispuesto_ciudades_pequenas: string
+          cuando_viajar: string | null
+          dinero_ahorrado: string | null
+          dispuesto_ciudades_pequenas: string | null
           dispuesto_especialidades: Json | null
           documentos: Json
           donde_contactos: string | null
-          edad: string
+          edad: string | null
           email: string | null
-          envio_documentos: string
+          envio_documentos: string | null
           especialidad_interes: string | null
-          estado_civil: string
-          estudia_actualmente: string
-          estudio_aleman_medico: string
-          ha_aplicado_hospitales: string
-          ha_tenido_entrevistas: string
+          estado_civil: string | null
+          estudia_actualmente: string | null
+          estudio_aleman_medico: string | null
+          ha_aplicado_hospitales: string | null
+          ha_tenido_entrevistas: string | null
           horas_por_semana: string | null
           id: number
-          motivacion: string
-          nacionalidad: string
-          nivel_aleman: string
+          motivacion: string | null
+          nacionalidad: string | null
+          nivel_aleman: string | null
           nivel_aleman_pareja: string | null
-          nombre_completo: string
-          pais_origen: string
+          nombre_completo: string | null
+          pais_origen: string | null
           pareja_habla_aleman: string | null
           pareja_profesion: string | null
-          presento_fsp: string
-          presento_kenntnis: string
-          puede_abrir_sperrkonto: string
-          puede_dedicar_1a2_horas: string
-          puede_estudiar_intensivo: string
-          realizo_internado: string
+          presento_fsp: string | null
+          presento_kenntnis: string | null
+          puede_abrir_sperrkonto: string | null
+          puede_dedicar_1a2_horas: string | null
+          puede_estudiar_intensivo: string | null
+          realizo_internado: string | null
           recibio_respuesta: string | null
           score_documentos: number
           score_estrategia: number
@@ -105,26 +105,27 @@ export type Database = {
           score_idioma: number
           score_total: number
           solicitaron_examen: string | null
+          status: string
           submission_id: string
-          tiene_approbation: string
-          tiene_berufserlaubnis: string
-          tiene_certificado: string
-          tiene_contactos_alemania: string
-          tiene_especialidad: string
-          tiene_hijos: string
-          tipo_visa: string
+          tiene_approbation: string | null
+          tiene_berufserlaubnis: string | null
+          tiene_certificado: string | null
+          tiene_contactos_alemania: string | null
+          tiene_especialidad: string | null
+          tiene_hijos: string | null
+          tipo_visa: string | null
           token_id: string | null
-          universidad: string
+          universidad: string | null
           updated_at: string
-          viaja_con_pareja: string
-          viaja_mascota: string
-          viaja_solo: string
+          viaja_con_pareja: string | null
+          viaja_mascota: string | null
+          viaja_solo: string | null
         }
         Insert: {
-          anio_graduacion: string
-          anios_experiencia: string
-          apoyo_familiar: string
-          areas_trabajo: string
+          anio_graduacion?: string | null
+          anios_experiencia?: string | null
+          apoyo_familiar?: string | null
+          areas_trabajo?: string | null
           bundesland_envio?: string | null
           bundesland_preferido?: string | null
           ciudad_preferida?: string | null
@@ -132,37 +133,37 @@ export type Database = {
           created_at?: string
           cual_certificado?: string | null
           cual_especialidad?: string | null
-          cuando_viajar: string
-          dinero_ahorrado: string
-          dispuesto_ciudades_pequenas: string
+          cuando_viajar?: string | null
+          dinero_ahorrado?: string | null
+          dispuesto_ciudades_pequenas?: string | null
           dispuesto_especialidades?: Json | null
           documentos?: Json
           donde_contactos?: string | null
-          edad: string
+          edad?: string | null
           email?: string | null
-          envio_documentos: string
+          envio_documentos?: string | null
           especialidad_interes?: string | null
-          estado_civil: string
-          estudia_actualmente: string
-          estudio_aleman_medico: string
-          ha_aplicado_hospitales: string
-          ha_tenido_entrevistas: string
+          estado_civil?: string | null
+          estudia_actualmente?: string | null
+          estudio_aleman_medico?: string | null
+          ha_aplicado_hospitales?: string | null
+          ha_tenido_entrevistas?: string | null
           horas_por_semana?: string | null
           id?: never
-          motivacion: string
-          nacionalidad: string
-          nivel_aleman: string
+          motivacion?: string | null
+          nacionalidad?: string | null
+          nivel_aleman?: string | null
           nivel_aleman_pareja?: string | null
-          nombre_completo: string
-          pais_origen: string
+          nombre_completo?: string | null
+          pais_origen?: string | null
           pareja_habla_aleman?: string | null
           pareja_profesion?: string | null
-          presento_fsp: string
-          presento_kenntnis: string
-          puede_abrir_sperrkonto: string
-          puede_dedicar_1a2_horas: string
-          puede_estudiar_intensivo: string
-          realizo_internado: string
+          presento_fsp?: string | null
+          presento_kenntnis?: string | null
+          puede_abrir_sperrkonto?: string | null
+          puede_dedicar_1a2_horas?: string | null
+          puede_estudiar_intensivo?: string | null
+          realizo_internado?: string | null
           recibio_respuesta?: string | null
           score_documentos?: number
           score_estrategia?: number
@@ -171,26 +172,27 @@ export type Database = {
           score_idioma?: number
           score_total?: number
           solicitaron_examen?: string | null
+          status?: string
           submission_id?: string
-          tiene_approbation: string
-          tiene_berufserlaubnis: string
-          tiene_certificado: string
-          tiene_contactos_alemania: string
-          tiene_especialidad: string
-          tiene_hijos: string
-          tipo_visa: string
+          tiene_approbation?: string | null
+          tiene_berufserlaubnis?: string | null
+          tiene_certificado?: string | null
+          tiene_contactos_alemania?: string | null
+          tiene_especialidad?: string | null
+          tiene_hijos?: string | null
+          tipo_visa?: string | null
           token_id?: string | null
-          universidad: string
+          universidad?: string | null
           updated_at?: string
-          viaja_con_pareja: string
-          viaja_mascota: string
-          viaja_solo: string
+          viaja_con_pareja?: string | null
+          viaja_mascota?: string | null
+          viaja_solo?: string | null
         }
         Update: {
-          anio_graduacion?: string
-          anios_experiencia?: string
-          apoyo_familiar?: string
-          areas_trabajo?: string
+          anio_graduacion?: string | null
+          anios_experiencia?: string | null
+          apoyo_familiar?: string | null
+          areas_trabajo?: string | null
           bundesland_envio?: string | null
           bundesland_preferido?: string | null
           ciudad_preferida?: string | null
@@ -198,37 +200,37 @@ export type Database = {
           created_at?: string
           cual_certificado?: string | null
           cual_especialidad?: string | null
-          cuando_viajar?: string
-          dinero_ahorrado?: string
-          dispuesto_ciudades_pequenas?: string
+          cuando_viajar?: string | null
+          dinero_ahorrado?: string | null
+          dispuesto_ciudades_pequenas?: string | null
           dispuesto_especialidades?: Json | null
           documentos?: Json
           donde_contactos?: string | null
-          edad?: string
+          edad?: string | null
           email?: string | null
-          envio_documentos?: string
+          envio_documentos?: string | null
           especialidad_interes?: string | null
-          estado_civil?: string
-          estudia_actualmente?: string
-          estudio_aleman_medico?: string
-          ha_aplicado_hospitales?: string
-          ha_tenido_entrevistas?: string
+          estado_civil?: string | null
+          estudia_actualmente?: string | null
+          estudio_aleman_medico?: string | null
+          ha_aplicado_hospitales?: string | null
+          ha_tenido_entrevistas?: string | null
           horas_por_semana?: string | null
           id?: never
-          motivacion?: string
-          nacionalidad?: string
-          nivel_aleman?: string
+          motivacion?: string | null
+          nacionalidad?: string | null
+          nivel_aleman?: string | null
           nivel_aleman_pareja?: string | null
-          nombre_completo?: string
-          pais_origen?: string
+          nombre_completo?: string | null
+          pais_origen?: string | null
           pareja_habla_aleman?: string | null
           pareja_profesion?: string | null
-          presento_fsp?: string
-          presento_kenntnis?: string
-          puede_abrir_sperrkonto?: string
-          puede_dedicar_1a2_horas?: string
-          puede_estudiar_intensivo?: string
-          realizo_internado?: string
+          presento_fsp?: string | null
+          presento_kenntnis?: string | null
+          puede_abrir_sperrkonto?: string | null
+          puede_dedicar_1a2_horas?: string | null
+          puede_estudiar_intensivo?: string | null
+          realizo_internado?: string | null
           recibio_respuesta?: string | null
           score_documentos?: number
           score_estrategia?: number
@@ -237,20 +239,21 @@ export type Database = {
           score_idioma?: number
           score_total?: number
           solicitaron_examen?: string | null
+          status?: string
           submission_id?: string
-          tiene_approbation?: string
-          tiene_berufserlaubnis?: string
-          tiene_certificado?: string
-          tiene_contactos_alemania?: string
-          tiene_especialidad?: string
-          tiene_hijos?: string
-          tipo_visa?: string
+          tiene_approbation?: string | null
+          tiene_berufserlaubnis?: string | null
+          tiene_certificado?: string | null
+          tiene_contactos_alemania?: string | null
+          tiene_especialidad?: string | null
+          tiene_hijos?: string | null
+          tipo_visa?: string | null
           token_id?: string | null
-          universidad?: string
+          universidad?: string | null
           updated_at?: string
-          viaja_con_pareja?: string
-          viaja_mascota?: string
-          viaja_solo?: string
+          viaja_con_pareja?: string | null
+          viaja_mascota?: string | null
+          viaja_solo?: string | null
         }
         Relationships: []
       }
