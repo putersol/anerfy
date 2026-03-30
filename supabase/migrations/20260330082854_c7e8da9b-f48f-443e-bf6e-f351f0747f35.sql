@@ -1,0 +1,2 @@
+ALTER PUBLICATION supabase_realtime ADD TABLE public.diagnostico_submissions;
+ALTER PUBLICATION supabase_realtime ADD TABLE public.diagnostic_tokens;
