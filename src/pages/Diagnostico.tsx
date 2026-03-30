@@ -413,6 +413,16 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Save reminder footer */}
+      {!showScore && (
+        <div className="relative z-10 text-center pb-4">
+          <p className="text-xs text-muted-foreground/60 flex items-center justify-center gap-1">
+            <Shield className="w-3 h-3" />
+            Tu progreso se guarda automáticamente
+          </p>
+        </div>
+      )}
     </div>
   );
 }
