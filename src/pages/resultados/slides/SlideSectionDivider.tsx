@@ -58,4 +58,5 @@ const SlideSectionDivider = forwardRef<HTMLDivElement, Props>(({ title, subtitle
 });
 
 SlideSectionDivider.displayName = 'SlideSectionDivider';
+
 export default SlideSectionDivider;
