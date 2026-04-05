@@ -646,6 +646,18 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
                   </p>
                 </div>
               )}
+
+              {/* Results dashboard button */}
+              {s.status === 'completed' && (
+                <Button
+                  onClick={() => navigate(`/resultados/${s.submission_id}`)}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  size="sm"
+                >
+                  <Presentation className="w-4 h-4 mr-2" />
+                  Ver resultados — Dashboard interactivo
+                </Button>
+              )}
             </div>
           </motion.div>
         )}
