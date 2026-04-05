@@ -12,9 +12,14 @@ import SlideSectionDivider from './slides/SlideSectionDivider';
 import SlideScoreDashboard from './slides/SlideScoreDashboard';
 import SlideRoadmap from './slides/SlideRoadmap';
 import SlideStrengthsGaps from './slides/SlideStrengthsGaps';
+import SlideLanguageTimeline from './slides/SlideLanguageTimeline';
+import SlideActionPlan from './slides/SlideActionPlan';
+import SlideCompetitiveProfile from './slides/SlideCompetitiveProfile';
+import SlideNextSteps from './slides/SlideNextSteps';
+import SlideExecutiveSummary from './slides/SlideExecutiveSummary';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 
-const TOTAL_SLIDES = 6;
+const TOTAL_SLIDES = 13;
 
 export default function ResultsDashboard() {
   const { submissionId } = useParams();
@@ -65,12 +70,32 @@ export default function ResultsDashboard() {
   const scores = calculateDashboardScores(submission);
 
   const slides = [
+    // 1. Cover
     <SlideCover key="cover" submission={submission} />,
+    // 2. TOC
     <SlideTOC key="toc" scores={scores} onNavigate={goTo} />,
+    // 3. Section: Estado Actual
     <SlideSectionDivider key="div1" title="¿Dónde Estás Hoy?" subtitle="Estado Actual" description="Diagnóstico y posicionamiento — Evaluación completa del punto de partida" />,
+    // 4. Score Dashboard
     <SlideScoreDashboard key="score" submission={submission} scores={scores} />,
+    // 5. Roadmap 9 stages
     <SlideRoadmap key="roadmap" submission={submission} scores={scores} />,
+    // 6. Strengths vs Gaps
     <SlideStrengthsGaps key="gaps" submission={submission} scores={scores} />,
+    // 7. Section: Recursos
+    <SlideSectionDivider key="div2" title="Recursos e Inversión Necesaria" subtitle="Planificación" description="Presupuesto real y timeline de idioma" />,
+    // 8. Language Timeline
+    <SlideLanguageTimeline key="lang" submission={submission} scores={scores} />,
+    // 9. Section: Plan de Acción
+    <SlideSectionDivider key="div3" title="Ejecución — Plan de Acción" subtitle="Primeros 90 Días" description="Tareas concretas priorizadas por mes" />,
+    // 10. 90-Day Action Plan
+    <SlideActionPlan key="action" submission={submission} scores={scores} />,
+    // 11. Competitive Profile
+    <SlideCompetitiveProfile key="comp" submission={submission} scores={scores} />,
+    // 12. Next Steps
+    <SlideNextSteps key="next" submission={submission} scores={scores} />,
+    // 13. Executive Summary
+    <SlideExecutiveSummary key="summary" submission={submission} scores={scores} />,
   ];
 
   return (
@@ -88,6 +113,7 @@ export default function ResultsDashboard() {
           </span>
         </div>
         <div className="flex items-center gap-2">
+          <span className="text-xs text-muted-foreground font-mono">{currentSlide + 1}/{TOTAL_SLIDES}</span>
           <button
             onClick={() => {
               if (!document.fullscreenElement) document.documentElement.requestFullscreen();
@@ -127,15 +153,15 @@ export default function ResultsDashboard() {
         </button>
 
         {/* Dots */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           {Array.from({ length: TOTAL_SLIDES }).map((_, i) => (
             <button
               key={i}
               onClick={() => goTo(i)}
-              className={`w-2 h-2 rounded-full transition-all ${
+              className={`h-1.5 rounded-full transition-all ${
                 i === currentSlide
-                  ? 'bg-primary w-6'
-                  : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
+                  ? 'bg-primary w-4'
+                  : 'bg-muted-foreground/20 w-1.5 hover:bg-muted-foreground/40'
               }`}
             />
           ))}
