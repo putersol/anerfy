@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Circle, AlertTriangle } from 'lucide-react';
 import { RoadmapStage, getRoadmapStages, DashboardScores, calculateTimeline } from '@/lib/dashboardScoring';
@@ -28,12 +29,12 @@ function stageLabel(status: RoadmapStage['status']) {
   return 'PENDIENTE';
 }
 
-export default function SlideRoadmap({ submission, scores }: Props) {
+const SlideRoadmap = forwardRef<HTMLDivElement, Props>(({ submission, scores }, ref) => {
   const stages = getRoadmapStages(submission, scores);
   const timeline = calculateTimeline(submission.nivel_aleman || 'Ninguno', scores);
 
   return (
-    <div className="h-full flex flex-col justify-center px-8 sm:px-12">
+    <div ref={ref} className="h-full flex flex-col justify-center px-8 sm:px-12">
       <motion.h2
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -50,7 +51,6 @@ export default function SlideRoadmap({ submission, scores }: Props) {
         Tu posición actual en el proceso
       </motion.p>
 
-      {/* Stages grid */}
       <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-5 gap-2">
         {stages.map((stage, i) => (
           <motion.div
@@ -78,7 +78,6 @@ export default function SlideRoadmap({ submission, scores }: Props) {
         ))}
       </div>
 
-      {/* Timeline estimate */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -106,4 +105,7 @@ export default function SlideRoadmap({ submission, scores }: Props) {
       </motion.div>
     </div>
   );
-}
+});
+
+SlideRoadmap.displayName = 'SlideRoadmap';
+export default SlideRoadmap;

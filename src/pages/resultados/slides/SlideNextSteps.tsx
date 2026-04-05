@@ -1,5 +1,6 @@
+import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
-import { Clock, Target } from 'lucide-react';
+import { Clock, Target, AlertTriangle } from 'lucide-react';
 import { DashboardScores, getGaps, getRuralAlert } from '@/lib/dashboardScoring';
 
 interface Props {
@@ -20,7 +21,6 @@ function generateNextSteps(s: any, scores: DashboardScores): NextAction[] {
   const docs = s.documentos || {};
   const rural = getRuralAlert(s.pais_origen);
 
-  // Rural blocking
   if (rural && rural.level === 'critico' && s.realizo_internado !== 'si') {
     actions.push({
       title: 'Completar servicio social/rural',
@@ -30,7 +30,6 @@ function generateNextSteps(s: any, scores: DashboardScores): NextAction[] {
     });
   }
 
-  // Language
   if (['Ninguno', 'A1'].includes(nivel)) {
     actions.push({
       title: 'Inscribirse en curso de alemán A1',
@@ -41,13 +40,12 @@ function generateNextSteps(s: any, scores: DashboardScores): NextAction[] {
   } else if (['A2', 'B1'].includes(nivel)) {
     actions.push({
       title: `Inscribir examen ${nivel === 'A2' ? 'B1' : 'B2'}`,
-      description: `Preparar y agendar examen de certificación del siguiente nivel`,
+      description: 'Preparar y agendar examen de certificación del siguiente nivel',
       deadline: 'Próximos 7 días',
       critical: 'Cada mes sin avanzar retrasa todo el timeline',
     });
   }
 
-  // Passport
   if (docs.doc_8 !== 'tengo') {
     actions.push({
       title: 'Renovar/solicitar pasaporte',
@@ -57,7 +55,6 @@ function generateNextSteps(s: any, scores: DashboardScores): NextAction[] {
     });
   }
 
-  // Sperrkonto
   if (s.puede_abrir_sperrkonto !== 'si' && scores.finanzas < 14) {
     actions.push({
       title: 'Investigar opciones de Sperrkonto',
@@ -67,7 +64,6 @@ function generateNextSteps(s: any, scores: DashboardScores): NextAction[] {
     });
   }
 
-  // Anabin
   actions.push({
     title: `Verificar ${s.universidad || 'universidad'} en Anabin`,
     description: 'Buscar clasificación H+ en base de datos Anabin para tu universidad',
@@ -78,11 +74,11 @@ function generateNextSteps(s: any, scores: DashboardScores): NextAction[] {
   return actions.slice(0, 4);
 }
 
-export default function SlideNextSteps({ submission, scores }: Props) {
+const SlideNextSteps = forwardRef<HTMLDivElement, Props>(({ submission, scores }, ref) => {
   const actions = generateNextSteps(submission, scores);
 
   return (
-    <div className="h-full flex flex-col justify-center px-8 sm:px-16">
+    <div ref={ref} className="h-full flex flex-col justify-center px-8 sm:px-16">
       <motion.h2
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -106,7 +102,7 @@ export default function SlideNextSteps({ submission, scores }: Props) {
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.2 + i * 0.12 }}
-            className="rounded-xl border border-border bg-secondary/30 p-4"
+            className="rounded-xl border border-border bg-secondary/30 p-4 hover:border-primary/20 transition-colors"
           >
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
@@ -132,4 +128,7 @@ export default function SlideNextSteps({ submission, scores }: Props) {
       </div>
     </div>
   );
-}
+});
+
+SlideNextSteps.displayName = 'SlideNextSteps';
+export default SlideNextSteps;

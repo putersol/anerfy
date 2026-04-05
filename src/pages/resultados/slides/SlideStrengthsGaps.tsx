@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { DashboardScores, getStrengths, getGaps } from '@/lib/dashboardScoring';
@@ -7,12 +8,12 @@ interface Props {
   scores: DashboardScores;
 }
 
-export default function SlideStrengthsGaps({ submission, scores }: Props) {
+const SlideStrengthsGaps = forwardRef<HTMLDivElement, Props>(({ submission, scores }, ref) => {
   const strengths = getStrengths(submission, scores);
   const gaps = getGaps(submission, scores);
 
   return (
-    <div className="h-full flex flex-col justify-center px-8 sm:px-16">
+    <div ref={ref} className="h-full flex flex-col justify-center px-8 sm:px-16">
       <motion.h2
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -30,7 +31,6 @@ export default function SlideStrengthsGaps({ submission, scores }: Props) {
       </motion.p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Strengths */}
         <div>
           <h3 className="text-sm font-semibold text-success flex items-center gap-2 mb-4">
             <CheckCircle2 className="w-4 h-4" />
@@ -54,7 +54,6 @@ export default function SlideStrengthsGaps({ submission, scores }: Props) {
           </div>
         </div>
 
-        {/* Gaps */}
         <div>
           <h3 className="text-sm font-semibold text-destructive flex items-center gap-2 mb-4">
             <XCircle className="w-4 h-4" />
@@ -80,4 +79,7 @@ export default function SlideStrengthsGaps({ submission, scores }: Props) {
       </div>
     </div>
   );
-}
+});
+
+SlideStrengthsGaps.displayName = 'SlideStrengthsGaps';
+export default SlideStrengthsGaps;
