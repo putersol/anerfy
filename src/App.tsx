@@ -24,6 +24,7 @@ import Auth from "./pages/Auth";
 import Diagnostico from "./pages/Diagnostico";
 import DiagnosticoGated from "./pages/DiagnosticoGated";
 import Admin from "./pages/Admin";
+import ResultsDashboard from "./pages/resultados/ResultsDashboard";
 import { Loader2 } from "lucide-react";
 
 const queryClient = new QueryClient();
@@ -56,6 +57,8 @@ const AppRoutes = () => (
     <Route path="/diagnostico" element={<DiagnosticoGated />} />
     <Route path="/diagnostico/:token" element={<DiagnosticoGated />} />
     <Route path="/admin" element={<Admin />} />
+    <Route path="/resultados/:submissionId" element={<ResultsDashboard />} />
+    <Route path="/mapa" element={<GameMap />} />
     <Route path="/mapa" element={<GameMap />} />
     
     {/* Routes with ProfileSync */}

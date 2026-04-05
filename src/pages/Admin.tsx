@@ -1,9 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   Lock, LogOut, Download, Link2, ChevronDown, ChevronUp,
   BarChart3, Users, Globe, TrendingUp, Search, X,
-  Plus, Copy, Check, Ticket, Trash2,
+  Plus, Copy, Check, Ticket, Trash2, Presentation,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -545,6 +546,7 @@ function StatCard({ icon, label, value, suffix }: { icon: React.ReactNode; label
 }
 
 function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Submission; expanded: boolean; onToggle: () => void }) {
+  const navigate = useNavigate();
   return (
     <Card className="bg-white/[0.03] border-white/10 overflow-hidden">
       <button onClick={onToggle} className="w-full p-4 flex items-center gap-4 text-left hover:bg-white/[0.02] transition-colors">
@@ -643,6 +645,18 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
                     {s.motivacion}
                   </p>
                 </div>
+              )}
+
+              {/* Results dashboard button */}
+              {s.status === 'completed' && (
+                <Button
+                  onClick={() => navigate(`/resultados/${s.submission_id}`)}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  size="sm"
+                >
+                  <Presentation className="w-4 h-4 mr-2" />
+                  Ver resultados — Dashboard interactivo
+                </Button>
               )}
             </div>
           </motion.div>
