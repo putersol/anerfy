@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { DashboardScores, calculateTimeline, getCompetitiveProfile, getStrengths, getGaps } from '@/lib/dashboardScoring';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
@@ -7,7 +8,7 @@ interface Props {
   scores: DashboardScores;
 }
 
-export default function SlideExecutiveSummary({ submission, scores }: Props) {
+const SlideExecutiveSummary = forwardRef<HTMLDivElement, Props>(({ submission, scores }, ref) => {
   const timeline = calculateTimeline(submission.nivel_aleman || 'Ninguno', scores);
   const profile = getCompetitiveProfile(scores);
   const strengths = getStrengths(submission, scores);
@@ -20,12 +21,11 @@ export default function SlideExecutiveSummary({ submission, scores }: Props) {
     { value: profile.percentile, label: 'Perfil competitivo', sub: 'vs. candidatos' },
   ];
 
-  // Auto-generated advantage summary
   const topStrength = strengths[0] || 'Perfil en desarrollo';
   const topGap = gaps[0] || 'Sin brechas críticas';
 
   return (
-    <div className="h-full flex flex-col justify-center px-8 sm:px-16">
+    <div ref={ref} className="h-full flex flex-col justify-center px-8 sm:px-16">
       <motion.h2
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -50,10 +50,10 @@ export default function SlideExecutiveSummary({ submission, scores }: Props) {
             initial={{ y: 15, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 + i * 0.1 }}
-            className="rounded-xl border border-border bg-secondary/30 p-3 text-center"
+            className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-center"
           >
-            <p className="text-lg font-bold text-primary">{stat.value}</p>
-            <p className="text-[10px] text-muted-foreground mt-0.5">{stat.label}</p>
+            <p className="text-xl font-bold text-primary">{stat.value}</p>
+            <p className="text-[10px] text-muted-foreground mt-1">{stat.label}</p>
             <p className="text-[9px] text-muted-foreground/60">{stat.sub}</p>
           </motion.div>
         ))}
@@ -65,28 +65,28 @@ export default function SlideExecutiveSummary({ submission, scores }: Props) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="rounded-xl border border-success/20 bg-success/5 p-3"
+          className="rounded-xl border border-success/20 bg-success/5 p-4"
         >
-          <p className="text-[10px] font-semibold text-success uppercase tracking-wider mb-1">Ventaja Competitiva</p>
-          <p className="text-xs text-foreground">{topStrength}</p>
+          <p className="text-[10px] font-semibold text-success uppercase tracking-wider mb-1.5">Ventaja Competitiva</p>
+          <p className="text-xs text-foreground leading-relaxed">{topStrength}</p>
         </motion.div>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className="rounded-xl border border-primary/20 bg-primary/5 p-3"
+          className="rounded-xl border border-primary/20 bg-primary/5 p-4"
         >
-          <p className="text-[10px] font-semibold text-primary uppercase tracking-wider mb-1">Timeline Completo</p>
-          <p className="text-xs text-foreground">{timeline.monthsToB2} meses idioma → {timeline.totalToApprobation} meses total</p>
+          <p className="text-[10px] font-semibold text-primary uppercase tracking-wider mb-1.5">Timeline Completo</p>
+          <p className="text-xs text-foreground leading-relaxed">{timeline.monthsToB2} meses idioma → {timeline.totalToApprobation} meses total</p>
         </motion.div>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          className="rounded-xl border border-warning/20 bg-warning/5 p-3"
+          className="rounded-xl border border-warning/20 bg-warning/5 p-4"
         >
-          <p className="text-[10px] font-semibold text-warning uppercase tracking-wider mb-1">Prioridad Hoy</p>
-          <p className="text-xs text-foreground">{topGap}</p>
+          <p className="text-[10px] font-semibold text-warning uppercase tracking-wider mb-1.5">Prioridad Hoy</p>
+          <p className="text-xs text-foreground leading-relaxed">{topGap}</p>
         </motion.div>
       </div>
 
@@ -95,16 +95,19 @@ export default function SlideExecutiveSummary({ submission, scores }: Props) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
-        className="text-center space-y-3"
+        className="text-center space-y-4 pt-2"
       >
-        <p className="text-sm text-muted-foreground italic">
+        <p className="text-sm text-muted-foreground italic leading-relaxed">
           Con dedicación intensiva al alemán + inversión planificada + tu perfil favorable = <span className="text-primary font-semibold">Approbation ALCANZABLE</span>
         </p>
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-2 opacity-60">
           <img src={anerfyLogo} alt="Anerfy" className="h-5 brightness-0 invert" />
           <span className="text-xs text-muted-foreground">¿Preguntas? Contacto ANERFY para seguimiento personalizado</span>
         </div>
       </motion.div>
     </div>
   );
-}
+});
+
+SlideExecutiveSummary.displayName = 'SlideExecutiveSummary';
+export default SlideExecutiveSummary;

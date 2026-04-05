@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { DashboardScores, PillarDetail, getPillarDetails } from '@/lib/dashboardScoring';
 
@@ -14,7 +15,15 @@ const PILLAR_LABELS: Record<string, string> = {
   estrategia: 'ESTRATEGIA',
 };
 
-export default function SlideScoreDashboard({ submission, scores }: Props) {
+const PILLAR_ICONS: Record<string, string> = {
+  idioma: '🗣️',
+  documentos: '📄',
+  homologacion: '🏥',
+  finanzas: '💰',
+  estrategia: '🎯',
+};
+
+const SlideScoreDashboard = forwardRef<HTMLDivElement, Props>(({ submission, scores }, ref) => {
   const details = getPillarDetails(submission, scores);
   const circumference = 2 * Math.PI * 56;
   const strokeDash = (scores.total / 100) * circumference;
@@ -26,7 +35,7 @@ export default function SlideScoreDashboard({ submission, scores }: Props) {
       : 'bg-destructive/20 text-destructive border-destructive/30';
 
   return (
-    <div className="h-full flex flex-col justify-center px-8 sm:px-16">
+    <div ref={ref} className="h-full flex flex-col justify-center px-8 sm:px-16">
       <motion.h2
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -51,25 +60,25 @@ export default function SlideScoreDashboard({ submission, scores }: Props) {
           transition={{ delay: 0.2, type: 'spring' }}
           className="relative flex-shrink-0"
         >
-          <svg width="140" height="140" viewBox="0 0 140 140">
-            <circle cx="70" cy="70" r="56" fill="none" stroke="hsl(var(--secondary))" strokeWidth="8" />
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <circle cx="80" cy="80" r="56" fill="none" stroke="hsl(var(--secondary))" strokeWidth="10" />
             <motion.circle
-              cx="70" cy="70" r="56" fill="none"
+              cx="80" cy="80" r="56" fill="none"
               stroke="hsl(var(--primary))"
-              strokeWidth="8"
+              strokeWidth="10"
               strokeLinecap="round"
               strokeDasharray={circumference}
               initial={{ strokeDashoffset: circumference }}
               animate={{ strokeDashoffset: circumference - strokeDash }}
               transition={{ delay: 0.4, duration: 1.2, ease: 'easeOut' }}
-              transform="rotate(-90 70 70)"
+              transform="rotate(-90 80 80)"
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-bold text-foreground">{scores.total}</span>
+            <span className="text-4xl font-bold text-foreground">{scores.total}</span>
             <span className="text-xs text-muted-foreground">/100</span>
           </div>
-          <div className={`mt-3 text-center`}>
+          <div className="mt-3 text-center">
             <span className={`text-xs font-semibold px-3 py-1 rounded-full border ${routeColor}`}>
               {scores.routeLabel}
             </span>
@@ -85,8 +94,9 @@ export default function SlideScoreDashboard({ submission, scores }: Props) {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.3 + i * 0.1 }}
             >
-              <div className="flex items-center justify-between mb-1">
+              <div className="flex items-center justify-between mb-1.5">
                 <div className="flex items-center gap-2">
+                  <span className="text-sm">{PILLAR_ICONS[key]}</span>
                   <span className="text-sm font-medium text-foreground">{PILLAR_LABELS[key]}</span>
                   <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${
                     detail.status === 'COMPLETO' ? 'bg-success/20 text-success' :
@@ -99,7 +109,7 @@ export default function SlideScoreDashboard({ submission, scores }: Props) {
                 </div>
                 <span className="text-sm font-mono text-muted-foreground">{detail.score}/20</span>
               </div>
-              <div className="h-2 rounded-full bg-secondary overflow-hidden">
+              <div className="h-2.5 rounded-full bg-secondary overflow-hidden">
                 <motion.div
                   className="h-full rounded-full"
                   style={{ backgroundColor: detail.color }}
@@ -108,11 +118,14 @@ export default function SlideScoreDashboard({ submission, scores }: Props) {
                   transition={{ delay: 0.5 + i * 0.1, duration: 0.8 }}
                 />
               </div>
-              <p className="text-xs text-muted-foreground mt-0.5">{detail.explanation}</p>
+              <p className="text-xs text-muted-foreground mt-1">{detail.explanation}</p>
             </motion.div>
           ))}
         </div>
       </div>
     </div>
   );
-}
+});
+
+SlideScoreDashboard.displayName = 'SlideScoreDashboard';
+export default SlideScoreDashboard;

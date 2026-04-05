@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { DashboardScores, getRuralAlert } from '@/lib/dashboardScoring';
 
@@ -17,11 +18,9 @@ function generateMonthTasks(s: any, scores: DashboardScores, month: 1 | 2 | 3): 
   const rural = getRuralAlert(s.pais_origen);
 
   if (month === 1) {
-    // Rural alert
     if (rural && rural.level === 'critico' && s.realizo_internado !== 'si') {
       tasks.push({ title: `Completar servicio social/rural — ${s.pais_origen}`, priority: 'alta' });
     }
-    // Language
     if (['Ninguno', 'A1'].includes(nivel)) {
       tasks.push({ title: 'Inscripción curso alemán A1 presencial / Goethe online', priority: 'alta' });
     } else if (nivel === 'A2') {
@@ -29,12 +28,10 @@ function generateMonthTasks(s: any, scores: DashboardScores, month: 1 | 2 | 3): 
     } else if (nivel === 'B1') {
       tasks.push({ title: 'Preparación intensiva B2 — inscribir examen Goethe/telc', priority: 'alta' });
     }
-    // Passport
     const docs = s.documentos || {};
     if (docs.doc_8 !== 'tengo') {
       tasks.push({ title: 'Solicitar/renovar pasaporte válido 12+ meses', priority: 'alta' });
     }
-    // University docs
     if (docs.doc_0 !== 'tengo') {
       tasks.push({ title: `Solicitar título original — ${s.universidad || 'universidad'}`, priority: 'media' });
     }
@@ -42,25 +39,20 @@ function generateMonthTasks(s: any, scores: DashboardScores, month: 1 | 2 | 3): 
       tasks.push({ title: 'Verificar universidad en base Anabin H+', priority: 'media' });
     }
   } else if (month === 2) {
-    // Language continuation
     if (['Ninguno', 'A1', 'A2'].includes(nivel)) {
       tasks.push({ title: 'Continuar curso de alemán — mínimo 15h/semana', priority: 'alta' });
     }
-    // Apostille
     const docs = s.documentos || {};
     if (docs.doc_0 !== 'tengo' || docs.doc_1 !== 'tengo') {
       tasks.push({ title: 'Iniciar apostilla de título y notas', priority: 'alta' });
     }
-    // Translations
     if (docs.doc_2 !== 'tengo') {
       tasks.push({ title: 'Buscar traductor jurado certificado', priority: 'media' });
     }
-    // Financial
     if (scores.finanzas < 14) {
       tasks.push({ title: 'Abrir plan de ahorro mensual para Sperrkonto', priority: 'media' });
     }
   } else {
-    // Month 3
     if (['Ninguno', 'A1', 'A2', 'B1'].includes(nivel)) {
       tasks.push({ title: 'Inscribir examen de certificación del nivel actual', priority: 'alta' });
     }
@@ -77,12 +69,13 @@ function generateMonthTasks(s: any, scores: DashboardScores, month: 1 | 2 | 3): 
 }
 
 const MONTH_LABELS = ['MES 1 — Fundamentos', 'MES 2 — Consolidación', 'MES 3 — Aceleración'];
+const MONTH_COLORS = ['border-primary/20', 'border-warning/20', 'border-success/20'];
 
-export default function SlideActionPlan({ submission, scores }: Props) {
+const SlideActionPlan = forwardRef<HTMLDivElement, Props>(({ submission, scores }, ref) => {
   const months = [1, 2, 3] as const;
 
   return (
-    <div className="h-full flex flex-col justify-center px-8 sm:px-12">
+    <div ref={ref} className="h-full flex flex-col justify-center px-8 sm:px-12">
       <motion.h2
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -108,18 +101,15 @@ export default function SlideActionPlan({ submission, scores }: Props) {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 + mi * 0.15 }}
-              className="rounded-xl border border-border bg-secondary/30 p-4"
+              className={`rounded-xl border bg-secondary/30 p-4 ${MONTH_COLORS[mi]}`}
             >
               <h3 className="text-xs font-semibold text-primary mb-3 tracking-wider uppercase">
                 {MONTH_LABELS[mi]}
               </h3>
               <div className="space-y-2.5">
                 {tasks.map((task, ti) => (
-                  <div
-                    key={ti}
-                    className="flex items-start gap-2 text-sm"
-                  >
-                    <span className={`mt-0.5 w-1.5 h-1.5 rounded-full shrink-0 ${
+                  <div key={ti} className="flex items-start gap-2 text-sm">
+                    <span className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${
                       task.priority === 'alta' ? 'bg-destructive' : 'bg-warning'
                     }`} />
                     <span className="text-foreground leading-tight">{task.title}</span>
@@ -135,4 +125,7 @@ export default function SlideActionPlan({ submission, scores }: Props) {
       </div>
     </div>
   );
-}
+});
+
+SlideActionPlan.displayName = 'SlideActionPlan';
+export default SlideActionPlan;

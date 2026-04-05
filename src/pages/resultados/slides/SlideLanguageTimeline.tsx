@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { calculateTimeline, DashboardScores } from '@/lib/dashboardScoring';
 
@@ -21,13 +22,12 @@ function getCurrentLevelIndex(nivel: string): number {
   return map[nivel] ?? 0;
 }
 
-export default function SlideLanguageTimeline({ submission, scores }: Props) {
+const SlideLanguageTimeline = forwardRef<HTMLDivElement, Props>(({ submission, scores }, ref) => {
   const nivel = submission.nivel_aleman || 'Ninguno';
   const currentIdx = getCurrentLevelIndex(nivel);
   const timeline = calculateTimeline(nivel, scores);
   const isAdvanced = currentIdx >= 4;
 
-  // Build transition steps from current to target
   const steps: { from: string; to: string; key: string }[] = [];
   for (let i = currentIdx; i < LEVELS.length - 1; i++) {
     steps.push({ from: LEVELS[i], to: LEVELS[i + 1], key: `${LEVELS[i]}→${LEVELS[i + 1]}` });
@@ -37,7 +37,7 @@ export default function SlideLanguageTimeline({ submission, scores }: Props) {
   let accHours = 0;
 
   return (
-    <div className="h-full flex flex-col justify-center px-8 sm:px-16">
+    <div ref={ref} className="h-full flex flex-col justify-center px-8 sm:px-16">
       <motion.h2
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -56,13 +56,10 @@ export default function SlideLanguageTimeline({ submission, scores }: Props) {
           : `Ruta desde ${nivel || 'A0'} hasta B2 + C1 Médico`}
       </motion.p>
 
-      {/* Level progression */}
       <div className="space-y-3">
         {steps.map((step, i) => {
           const detail = LEVEL_DETAILS[step.key];
           if (!detail) return null;
-          const prevMonths = accMonths;
-          const prevHours = accHours;
           const mRange = detail.months.split('-').map(Number);
           const hRange = detail.hours.split('-').map(Number);
           accMonths += (mRange[0] + (mRange[1] || mRange[0])) / 2;
@@ -76,7 +73,6 @@ export default function SlideLanguageTimeline({ submission, scores }: Props) {
               transition={{ delay: 0.2 + i * 0.1 }}
               className="flex items-stretch gap-4"
             >
-              {/* Timeline line */}
               <div className="flex flex-col items-center w-8">
                 <div className={`w-3 h-3 rounded-full border-2 ${
                   i === 0 ? 'bg-primary border-primary' : 'bg-secondary border-border'
@@ -84,7 +80,6 @@ export default function SlideLanguageTimeline({ submission, scores }: Props) {
                 {i < steps.length - 1 && <div className="flex-1 w-px bg-border" />}
               </div>
 
-              {/* Content */}
               <div className="flex-1 pb-4">
                 <div className="flex items-center gap-3 mb-1">
                   <span className="text-sm font-semibold text-foreground">{step.from} → {step.to}</span>
@@ -110,7 +105,6 @@ export default function SlideLanguageTimeline({ submission, scores }: Props) {
         })}
       </div>
 
-      {/* B2 callout */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -118,9 +112,12 @@ export default function SlideLanguageTimeline({ submission, scores }: Props) {
         className="mt-4 p-3 rounded-xl bg-warning/10 border border-warning/20"
       >
         <p className="text-xs text-warning font-medium">
-          Nota: El nivel B2 es requisito absoluto e innegociable; sin certificación B2 válida no se podrá abrir expediente.
+          ⚠️ El nivel B2 es requisito absoluto e innegociable; sin certificación B2 válida no se podrá abrir expediente.
         </p>
       </motion.div>
     </div>
   );
-}
+});
+
+SlideLanguageTimeline.displayName = 'SlideLanguageTimeline';
+export default SlideLanguageTimeline;
