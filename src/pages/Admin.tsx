@@ -1,9 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   Lock, LogOut, Download, Link2, ChevronDown, ChevronUp,
   BarChart3, Users, Globe, TrendingUp, Search, X,
-  Plus, Copy, Check, Ticket, Trash2,
+  Plus, Copy, Check, Ticket, Trash2, Presentation,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
