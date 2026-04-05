@@ -24,6 +24,7 @@ import Auth from "./pages/Auth";
 import Diagnostico from "./pages/Diagnostico";
 import DiagnosticoGated from "./pages/DiagnosticoGated";
 import Admin from "./pages/Admin";
+import ResultsDashboard from "./pages/resultados/ResultsDashboard";
 import { Loader2 } from "lucide-react";
 
 const queryClient = new QueryClient();
