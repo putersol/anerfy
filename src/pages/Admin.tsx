@@ -546,6 +546,7 @@ function StatCard({ icon, label, value, suffix }: { icon: React.ReactNode; label
 }
 
 function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Submission; expanded: boolean; onToggle: () => void }) {
+  const navigate = useNavigate();
   return (
     <Card className="bg-white/[0.03] border-white/10 overflow-hidden">
       <button onClick={onToggle} className="w-full p-4 flex items-center gap-4 text-left hover:bg-white/[0.02] transition-colors">
