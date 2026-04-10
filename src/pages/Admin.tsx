@@ -178,7 +178,25 @@ export default function Admin() {
     if (error) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } else {
-      toast({ title: "Token generado", description: `Link listo para ${tokenEmail}` });
+      // Send email with diagnostic link
+      const diagnosticUrl = `${window.location.origin}/diagnostico/${token}`;
+      const idempotencyKey = `diagnostic-link-${token}`;
+      try {
+        await supabase.functions.invoke('send-transactional-email', {
+          body: {
+            templateName: 'diagnostic-link',
+            recipientEmail: tokenEmail.trim(),
+            idempotencyKey,
+            templateData: {
+              nombre: tokenNombre.trim() || undefined,
+              diagnosticUrl,
+            },
+          },
+        });
+        toast({ title: "Token generado y email enviado", description: `Link enviado a ${tokenEmail}` });
+      } catch {
+        toast({ title: "Token generado", description: `Link listo pero el email no pudo enviarse` });
+      }
       setTokenEmail("");
       setTokenNombre("");
       fetchTokens();
