@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Maximize, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -106,7 +106,9 @@ export default function ResultsDashboard() {
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-card/50 backdrop-blur-sm z-10">
         <div className="flex items-center gap-3">
-          <img src={anerfyLogo} alt="Anerfy" className="h-6 brightness-0 invert" />
+          <Link to="/" className="hover:opacity-80 transition-opacity">
+            <img src={anerfyLogo} alt="Anerfy" className="h-6 brightness-0 invert" />
+          </Link>
           <div className="h-4 w-px bg-border" />
           <span className="text-xs text-muted-foreground">
             {submission.nombre_completo || 'Caso'} — Resultados
