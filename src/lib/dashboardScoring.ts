@@ -1,6 +1,21 @@
 // Enhanced scoring engine for the Results Dashboard
 // Reads from diagnostico_submissions row and calculates 5-pillar scores
 
+const EU_NATIONALITIES = new Set([
+  'Alemania', 'Austria', 'Bélgica', 'Bulgaria', 'Chipre', 'Croacia',
+  'Dinamarca', 'Eslovaquia', 'Eslovenia', 'España', 'Estonia', 'Finlandia',
+  'Francia', 'Grecia', 'Hungría', 'Irlanda', 'Italia', 'Letonia', 'Lituania',
+  'Luxemburgo', 'Malta', 'Países Bajos', 'Polonia', 'Portugal', 'República Checa',
+  'Rumanía', 'Suecia',
+  // EEA + Switzerland (same free movement rights)
+  'Noruega', 'Islandia', 'Liechtenstein', 'Suiza',
+]);
+
+export function isEuNational(nacionalidad: string | null | undefined): boolean {
+  if (!nacionalidad) return false;
+  return EU_NATIONALITIES.has(nacionalidad);
+}
+
 export interface DashboardScores {
   idioma: number;
   documentos: number;
@@ -76,13 +91,15 @@ export function calculateDashboardScores(s: any): DashboardScores {
   homologacion = Math.min(20, homologacion);
 
   // Pillar 4: FINANZAS (0-20)
+  const euNational = isEuNational(s.nacionalidad);
   let finanzas = 0;
   const dinero = s.dinero_ahorrado;
   if (dinero === 'mas_20000') finanzas = 14;
   else if (dinero === '10000_20000') finanzas = 10;
   else if (dinero === '5000_10000') finanzas = 6;
   else if (dinero === 'menos_5000') finanzas = 2;
-  if (s.puede_abrir_sperrkonto === 'si') finanzas += 4;
+  // EU/EEA nationals don't need Sperrkonto — auto-grant those points
+  if (euNational || s.puede_abrir_sperrkonto === 'si') finanzas += 4;
   if (s.apoyo_familiar === 'si') finanzas += 2;
   finanzas = Math.min(20, finanzas);
 
@@ -200,7 +217,7 @@ export interface TimelineEstimate {
   investmentRange: string;
 }
 
-export function calculateTimeline(nivelAleman: string, scores: DashboardScores): TimelineEstimate {
+export function calculateTimeline(nivelAleman: string, scores: DashboardScores, submission?: any): TimelineEstimate {
   const timelines: Record<string, { months: string; hours: string }> = {
     'Ninguno': { months: '14-18', hours: '550-700' },
     'A1': { months: '11-15', hours: '470-600' },
@@ -212,6 +229,7 @@ export function calculateTimeline(nivelAleman: string, scores: DashboardScores):
   };
 
   const t = timelines[nivelAleman] || timelines['Ninguno'];
+  const euNational = isEuNational(submission?.nacionalidad);
 
   // Investment calc
   let minInv = 0, maxInv = 0;
@@ -219,7 +237,7 @@ export function calculateTimeline(nivelAleman: string, scores: DashboardScores):
     minInv += 3000; maxInv += 8000; // language
   }
   minInv += 800; maxInv += 2000; // docs
-  if (scores.finanzas < 14) { minInv += 12324; maxInv += 12324; } // sperrkonto
+  if (!euNational && scores.finanzas < 14) { minInv += 11904; maxInv += 11904; } // sperrkonto
   minInv += 5000; maxInv += 10000; // living
   minInv += 1500; maxInv += 3000; // FSP
   minInv += 2000; maxInv += 5000; // contingency
@@ -265,10 +283,11 @@ export function getGaps(s: any, scores: DashboardScores): string[] {
     const missing = Object.values(docs).filter(v => v !== 'tengo').length;
     gaps.push(`${missing} documentos pendientes: apostillas y traducciones`);
   }
-  if (scores.finanzas < 14) {
-    gaps.push('Sperrkonto €12.324 obligatorio');
+  const euNational = isEuNational(s.nacionalidad);
+  if (scores.finanzas < 14 && !euNational) {
+    gaps.push('Sperrkonto €11.904 obligatorio');
   }
-  if (s.puede_abrir_sperrkonto !== 'si') {
+  if (!euNational && s.puede_abrir_sperrkonto !== 'si') {
     gaps.push('Cuenta bloqueada aún no disponible');
   }
   if (scores.homologacion < 5) {

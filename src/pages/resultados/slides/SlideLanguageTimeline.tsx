@@ -25,7 +25,7 @@ function getCurrentLevelIndex(nivel: string): number {
 const SlideLanguageTimeline = forwardRef<HTMLDivElement, Props>(({ submission, scores }, ref) => {
   const nivel = submission.nivel_aleman || 'Ninguno';
   const currentIdx = getCurrentLevelIndex(nivel);
-  const timeline = calculateTimeline(nivel, scores);
+  const timeline = calculateTimeline(nivel, scores, submission);
   const isAdvanced = currentIdx >= 4;
 
   const steps: { from: string; to: string; key: string }[] = [];
