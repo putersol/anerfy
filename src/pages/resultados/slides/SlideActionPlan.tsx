@@ -50,8 +50,8 @@ function generateMonthTasks(s: any, scores: DashboardScores, month: 1 | 2 | 3): 
     if (docs.doc_2 !== 'tengo') {
       tasks.push({ title: 'Buscar traductor jurado certificado', priority: 'media' });
     }
-    if (scores.finanzas < 14) {
-      tasks.push({ title: 'Abrir plan de ahorro mensual para Sperrkonto', priority: 'media' });
+    if (!euNational && scores.finanzas < 14) {
+      tasks.push({ title: `Abrir plan de ahorro mensual para Sperrkonto (${SPERRKONTO_LABEL})`, priority: 'media' });
     }
   } else {
     if (['Ninguno', 'A1', 'A2', 'B1'].includes(nivel)) {
