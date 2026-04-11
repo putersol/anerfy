@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import { Clock, Target, AlertTriangle } from 'lucide-react';
-import { DashboardScores, getGaps, getRuralAlert } from '@/lib/dashboardScoring';
+import { DashboardScores, getGaps, getRuralAlert, SPERRKONTO_LABEL } from '@/lib/dashboardScoring';
 
 interface Props {
   submission: any;
