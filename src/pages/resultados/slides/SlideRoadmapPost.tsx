@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
-import { Stethoscope, Shield, TrendingUp, Clock, ArrowRight, Star } from 'lucide-react';
+import { Shield, TrendingUp, Clock, ArrowRight, Star } from 'lucide-react';
 import { DashboardScores } from '@/lib/dashboardScoring';
 
 interface Props {
@@ -10,34 +10,22 @@ interface Props {
 
 const services = [
   {
-    id: 'aleman-medico',
-    icon: Stethoscope,
-    title: 'Alemán Médico con Alberto',
-    subtitle: 'Preparación FSP & Comunicación Clínica',
-    description: 'Curso especializado de alemán médico: terminología, anamnesis, documentación clínica y simulacros de examen FSP.',
-    tags: ['Fachsprachprüfung', 'Anamnese', 'Arztbriefe'],
-    color: 'from-blue-500/20 to-cyan-500/20',
-    borderColor: 'border-blue-500/30',
-    iconColor: 'text-blue-400',
-    trigger: 'A partir de nivel B1',
-  },
-  {
     id: 'seguros-finanzas',
     icon: Shield,
-    title: 'Seguros y Finanzas',
-    subtitle: 'Hispano Akademie',
-    description: 'Asesoría integral en seguros de salud, responsabilidad civil, Sperrkonto, impuestos y planificación financiera en Alemania.',
-    tags: ['Krankenversicherung', 'Sperrkonto', 'Steuern'],
+    title: 'Plan de Ahorro Personalizado',
+    subtitle: 'Anerfy',
+    description: 'Asesoría integral para armar tu plan de ahorro a la medida: cuánto necesitas, en cuánto tiempo y cómo llegar a los €25.000–30.000 que requieres para emigrar a Alemania.',
+    tags: ['Sperrkonto', 'Ahorro', 'Planificación'],
     color: 'from-emerald-500/20 to-green-500/20',
     borderColor: 'border-emerald-500/30',
     iconColor: 'text-emerald-400',
-    trigger: '3 meses antes de viajar',
+    trigger: 'Desde hoy',
   },
   {
     id: 'seguimiento',
     icon: TrendingUp,
     title: 'Seguimiento Personalizado',
-    subtitle: 'Acompañamiento continuo',
+    subtitle: 'Anerfy',
     description: 'Check-ins mensuales de progreso, alertas de deadlines, ajustes de ruta y soporte en momentos críticos del proceso.',
     tags: ['Progreso', 'Deadlines', 'Soporte'],
     color: 'from-violet-500/20 to-purple-500/20',
