@@ -17,14 +17,14 @@ const DiagnosticLinkEmail = ({ nombre, diagnosticUrl }: DiagnosticLinkProps) => 
     <Head />
     <Preview>10 minutos que pueden ahorrarte meses de proceso</Preview>
     <Body style={main}>
-      {/* Dark header — matching website */}
+      {/* Clean header */}
       <Section style={headerBand}>
         <Container style={headerContainer}>
           <table cellPadding="0" cellSpacing="0" style={{ margin: '0 auto' }}>
             <tr>
               <td style={{ verticalAlign: 'middle', paddingRight: '10px' }}>
-                <Img src={LOGO_URL} alt="" width="28" height="28"
-                  style={{ display: 'block', filter: 'brightness(0) invert(1)' }} />
+                <Img src={LOGO_URL} alt="" width="24" height="24"
+                  style={{ display: 'block' }} />
               </td>
               <td style={{ verticalAlign: 'middle' }}>
                 <Text style={logoText}>ANERFY</Text>
@@ -69,7 +69,7 @@ const DiagnosticLinkEmail = ({ nombre, diagnosticUrl }: DiagnosticLinkProps) => 
         </Text>
       </Container>
 
-      {/* Dark footer */}
+      {/* Simple footer */}
       <Section style={footerBand}>
         <Container style={footerContainer}>
           <Text style={footerTagline}>Anerkennung + Simplify</Text>
@@ -89,22 +89,24 @@ export const template = {
   },
 } satisfies TemplateEntry
 
-// ── Brand tokens (from index.css) ──
-const BG_DARK = '#0d1117'
+// ── Brand tokens ──
 const PRIMARY = '#1a56db'
 const DARK_TEXT = '#0f172a'
 const BODY_TEXT = '#334155'
-const MUTED = '#838a96'
+const MUTED = '#94a3b8'
+const BORDER = '#e2e8f0'
+const LIGHT_BG = '#f8fafc'
 
 const main = {
-  backgroundColor: '#ffffff',
+  backgroundColor: LIGHT_BG,
   fontFamily: "'Geist', 'Space Grotesk', 'Segoe UI', Arial, sans-serif",
   margin: '0',
   padding: '0',
 }
 const headerBand = {
-  backgroundColor: BG_DARK,
-  padding: '20px 0',
+  backgroundColor: '#ffffff',
+  padding: '24px 0',
+  borderBottom: `1px solid ${BORDER}`,
 }
 const headerContainer = {
   maxWidth: '520px',
@@ -115,7 +117,7 @@ const headerContainer = {
 const logoText = {
   fontSize: '14px',
   fontWeight: '700' as const,
-  color: '#ffffff',
+  color: PRIMARY,
   letterSpacing: '3.5px',
   margin: '0',
   lineHeight: '1',
@@ -124,6 +126,9 @@ const container = {
   padding: '36px 28px 24px',
   maxWidth: '520px',
   margin: '0 auto',
+  backgroundColor: '#ffffff',
+  borderLeft: `1px solid ${BORDER}`,
+  borderRight: `1px solid ${BORDER}`,
 }
 const h1 = {
   fontSize: '20px',
@@ -162,26 +167,26 @@ const linkNote = {
   margin: '0 0 24px',
   textAlign: 'center' as const,
 }
-const hr = { borderColor: '#e2e8f0', margin: '24px 0' }
+const hr = { borderColor: BORDER, margin: '24px 0' }
 const footer = {
   fontSize: '14px',
   color: BODY_TEXT,
   lineHeight: '1.5',
 }
 const footerBand = {
-  backgroundColor: BG_DARK,
-  padding: '14px 0',
-  textAlign: 'center' as const,
+  backgroundColor: '#ffffff',
+  padding: '16px 0',
+  borderTop: `1px solid ${BORDER}`,
 }
 const footerContainer = {
   maxWidth: '520px',
   margin: '0 auto',
   padding: '0 28px',
+  textAlign: 'center' as const,
 }
 const footerTagline = {
   fontSize: '11px',
-  color: '#eff1f5',
+  color: MUTED,
   margin: '0',
   letterSpacing: '0.5px',
-  opacity: '0.6',
 }
