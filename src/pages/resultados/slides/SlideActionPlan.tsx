@@ -61,8 +61,8 @@ function generateMonthTasks(s: any, scores: DashboardScores, month: 1 | 2 | 3): 
     if (!s.bundesland_preferido || s.bundesland_preferido === 'No sé aún') {
       tasks.push({ title: 'Investigar Bundesländer — comparar requisitos y tiempos', priority: 'media' });
     }
-    if (scores.finanzas < 10) {
-      tasks.push({ title: 'Activar plan de ahorro — meta: €12.324 Sperrkonto', priority: 'media' });
+    if (!euNational && scores.finanzas < 10) {
+      tasks.push({ title: `Activar plan de ahorro — meta: ${SPERRKONTO_LABEL} Sperrkonto`, priority: 'media' });
     }
   }
 
