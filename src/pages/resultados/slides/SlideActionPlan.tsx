@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
-import { DashboardScores, getRuralAlert } from '@/lib/dashboardScoring';
+import { DashboardScores, getRuralAlert, isEuNational, SPERRKONTO_LABEL } from '@/lib/dashboardScoring';
 
 interface Props {
   submission: any;
@@ -16,6 +16,7 @@ function generateMonthTasks(s: any, scores: DashboardScores, month: 1 | 2 | 3): 
   const tasks: Task[] = [];
   const nivel = s.nivel_aleman || 'Ninguno';
   const rural = getRuralAlert(s.pais_origen);
+  const euNational = isEuNational(s.nacionalidad);
 
   if (month === 1) {
     if (rural && rural.level === 'critico' && s.realizo_internado !== 'si') {
@@ -49,8 +50,8 @@ function generateMonthTasks(s: any, scores: DashboardScores, month: 1 | 2 | 3): 
     if (docs.doc_2 !== 'tengo') {
       tasks.push({ title: 'Buscar traductor jurado certificado', priority: 'media' });
     }
-    if (scores.finanzas < 14) {
-      tasks.push({ title: 'Abrir plan de ahorro mensual para Sperrkonto', priority: 'media' });
+    if (!euNational && scores.finanzas < 14) {
+      tasks.push({ title: `Abrir plan de ahorro mensual para Sperrkonto (${SPERRKONTO_LABEL})`, priority: 'media' });
     }
   } else {
     if (['Ninguno', 'A1', 'A2', 'B1'].includes(nivel)) {
@@ -60,8 +61,8 @@ function generateMonthTasks(s: any, scores: DashboardScores, month: 1 | 2 | 3): 
     if (!s.bundesland_preferido || s.bundesland_preferido === 'No sé aún') {
       tasks.push({ title: 'Investigar Bundesländer — comparar requisitos y tiempos', priority: 'media' });
     }
-    if (scores.finanzas < 10) {
-      tasks.push({ title: 'Activar plan de ahorro — meta: €12.324 Sperrkonto', priority: 'media' });
+    if (!euNational && scores.finanzas < 10) {
+      tasks.push({ title: `Activar plan de ahorro — meta: ${SPERRKONTO_LABEL} Sperrkonto`, priority: 'media' });
     }
   }
 
