@@ -182,11 +182,11 @@ const SlideNextSteps = forwardRef<HTMLDivElement, Props>(({ submission, scores }
               <div className="flex justify-between text-xs">
                 <span className="font-semibold text-foreground">Total estimado</span>
                 <span className="font-bold text-primary">
-                  €{(Math.round(finance.totalMin / 1000) * 1000).toLocaleString('de-DE')}–{(Math.round(finance.totalMax / 1000) * 1000).toLocaleString('de-DE')}
+                  €25.000–€28.000
                 </span>
               </div>
               <p className="text-[10px] text-muted-foreground mt-1">
-                Mínimo €25.000–30.000 para vivir un año en Alemania mientras presentas la FSP
+                Inversión total requerida para vivir un año en Alemania mientras presentas la FSP
               </p>
             </div>
           </motion.div>
