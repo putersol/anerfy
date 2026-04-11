@@ -17,10 +17,20 @@ const DiagnosticLinkEmail = ({ nombre, diagnosticUrl }: DiagnosticLinkProps) => 
     <Head />
     <Preview>10 minutos que pueden ahorrarte meses de proceso</Preview>
     <Body style={main}>
-      {/* Dark header band — matches website nav */}
+      {/* Dark header — matching website */}
       <Section style={headerBand}>
         <Container style={headerContainer}>
-          <Img src={LOGO_URL} alt="ANERFY" width="120" height="auto" style={logoImg} />
+          <table cellPadding="0" cellSpacing="0" style={{ margin: '0 auto' }}>
+            <tr>
+              <td style={{ verticalAlign: 'middle', paddingRight: '10px' }}>
+                <Img src={LOGO_URL} alt="" width="28" height="28"
+                  style={{ display: 'block', filter: 'brightness(0) invert(1)' }} />
+              </td>
+              <td style={{ verticalAlign: 'middle' }}>
+                <Text style={logoText}>ANERFY</Text>
+              </td>
+            </tr>
+          </table>
         </Container>
       </Section>
 
@@ -59,10 +69,10 @@ const DiagnosticLinkEmail = ({ nombre, diagnosticUrl }: DiagnosticLinkProps) => 
         </Text>
       </Container>
 
-      {/* Dark footer band */}
+      {/* Dark footer */}
       <Section style={footerBand}>
         <Container style={footerContainer}>
-          <Text style={footerText}>Anerkennung + Simplify</Text>
+          <Text style={footerTagline}>Anerkennung + Simplify</Text>
         </Container>
       </Section>
     </Body>
@@ -80,17 +90,11 @@ export const template = {
 } satisfies TemplateEntry
 
 // ── Brand tokens (from index.css) ──
-// --background: 220 30% 6%  → #0d1117
-// --primary: 220 80% 48%    → #1a56db
-// --foreground: 220 10% 95% → #eff1f5
-// --muted-foreground: 220 10% 55% → #838a96
 const BG_DARK = '#0d1117'
 const PRIMARY = '#1a56db'
-const FG_LIGHT = '#eff1f5'
-const MUTED = '#838a96'
 const DARK_TEXT = '#0f172a'
 const BODY_TEXT = '#334155'
-const BORDER = '#1e293b'
+const MUTED = '#838a96'
 
 const main = {
   backgroundColor: '#ffffff',
@@ -98,23 +102,24 @@ const main = {
   margin: '0',
   padding: '0',
 }
-
-// Dark header matching website nav
 const headerBand = {
   backgroundColor: BG_DARK,
-  padding: '24px 0',
-  textAlign: 'center' as const,
+  padding: '20px 0',
 }
 const headerContainer = {
   maxWidth: '520px',
   margin: '0 auto',
   padding: '0 28px',
+  textAlign: 'center' as const,
 }
-const logoImg = {
-  margin: '0 auto',
-  display: 'block' as const,
+const logoText = {
+  fontSize: '14px',
+  fontWeight: '700' as const,
+  color: '#ffffff',
+  letterSpacing: '3.5px',
+  margin: '0',
+  lineHeight: '1',
 }
-
 const container = {
   padding: '36px 28px 24px',
   maxWidth: '520px',
@@ -163,11 +168,9 @@ const footer = {
   color: BODY_TEXT,
   lineHeight: '1.5',
 }
-
-// Dark footer band
 const footerBand = {
   backgroundColor: BG_DARK,
-  padding: '16px 0',
+  padding: '14px 0',
   textAlign: 'center' as const,
 }
 const footerContainer = {
@@ -175,9 +178,10 @@ const footerContainer = {
   margin: '0 auto',
   padding: '0 28px',
 }
-const footerText = {
+const footerTagline = {
   fontSize: '11px',
-  color: MUTED,
+  color: '#eff1f5',
   margin: '0',
   letterSpacing: '0.5px',
+  opacity: '0.6',
 }
