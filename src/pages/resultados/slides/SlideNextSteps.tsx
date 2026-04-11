@@ -242,10 +242,10 @@ const SlideNextSteps = forwardRef<HTMLDivElement, Props>(({ submission, scores }
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                  Asesoría Financiera Anerfy
+                  Plan de Ahorro Personalizado — Anerfy
                 </h4>
                 <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">
-                  Te brindamos una asesoría personalizada con uno de nuestros expertos para elaborar tu plan de ahorro y cumplir tu meta de venirte a Alemania a ejercer como médica.
+                  Necesitas mínimo €25.000–30.000 para emigrar a Alemania. Uno de nuestros expertos te arma un plan de ahorro a la medida según tu situación actual, para que llegues con todo cubierto: idioma, documentos, Sperrkonto y tu primer año viviendo en Alemania.
                 </p>
               </div>
               <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
