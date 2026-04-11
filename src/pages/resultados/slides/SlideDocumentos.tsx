@@ -27,7 +27,7 @@ const STATUS_CONFIG = {
   no_tengo: { icon: XCircle, label: 'Pendiente', colorClass: 'text-destructive', bgClass: 'bg-destructive/5 border-destructive/10' },
 };
 
-const SlideDocumentos = forwardRef<HTMLDivElement, Props>(({ submission, scores }, ref) => {
+const SlideDocumentos = forwardRef<HTMLDivElement, Props>(({ submission, scores: _scores }, ref) => {
   const docs = (submission.documentos || {}) as Record<string, string>;
 
   const docItems = DOCUMENT_NAMES.map((name, i) => {
