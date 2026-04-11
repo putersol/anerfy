@@ -17,9 +17,10 @@ import SlideActionPlan from './slides/SlideActionPlan';
 import SlideCompetitiveProfile from './slides/SlideCompetitiveProfile';
 import SlideNextSteps from './slides/SlideNextSteps';
 import SlideExecutiveSummary from './slides/SlideExecutiveSummary';
+import SlideRoadmapPost from './slides/SlideRoadmapPost';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 
-const TOTAL_SLIDES = 13;
+const TOTAL_SLIDES = 14;
 
 export default function ResultsDashboard() {
   const { submissionId } = useParams();
