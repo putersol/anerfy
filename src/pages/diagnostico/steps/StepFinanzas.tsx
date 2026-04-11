@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DiagnosticoForm } from "../schema";
 import { RadioPills, SectionDivider } from "../components";
+import { SPERRKONTO_LABEL } from "@/lib/dashboardScoring";
 
 interface Props {
   form: UseFormReturn<DiagnosticoForm>;
@@ -30,7 +31,7 @@ export default function StepFinanzas({ form }: Props) {
         {errors.dineroAhorrado && <p className="text-red-400 text-sm mt-1">{errors.dineroAhorrado.message}</p>}
       </div>
 
-      <RadioPills form={form} name="puedeAbrirSperrkonto" label="¿Puedes abrir un Sperrkonto?" helper="Cuenta bloqueada de ~11.208 EUR, obligatoria para varias visas" />
+      <RadioPills form={form} name="puedeAbrirSperrkonto" label="¿Puedes abrir un Sperrkonto?" helper={`Cuenta bloqueada de ${SPERRKONTO_LABEL}, obligatoria para varias visas`} />
 
       <SectionDivider />
 

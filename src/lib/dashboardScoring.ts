@@ -16,6 +16,9 @@ export function isEuNational(nacionalidad: string | null | undefined): boolean {
   return EU_NATIONALITIES.has(nacionalidad);
 }
 
+export const SPERRKONTO_AMOUNT = 11904;
+export const SPERRKONTO_LABEL = '€11.904';
+
 export interface DashboardScores {
   idioma: number;
   documentos: number;
@@ -237,7 +240,7 @@ export function calculateTimeline(nivelAleman: string, scores: DashboardScores, 
     minInv += 3000; maxInv += 8000; // language
   }
   minInv += 800; maxInv += 2000; // docs
-  if (!euNational && scores.finanzas < 14) { minInv += 11904; maxInv += 11904; } // sperrkonto
+  if (!euNational && scores.finanzas < 14) { minInv += SPERRKONTO_AMOUNT; maxInv += SPERRKONTO_AMOUNT; } // sperrkonto
   minInv += 5000; maxInv += 10000; // living
   minInv += 1500; maxInv += 3000; // FSP
   minInv += 2000; maxInv += 5000; // contingency
@@ -285,7 +288,7 @@ export function getGaps(s: any, scores: DashboardScores): string[] {
   }
   const euNational = isEuNational(s.nacionalidad);
   if (scores.finanzas < 14 && !euNational) {
-    gaps.push('Sperrkonto €11.904 obligatorio');
+    gaps.push(`Sperrkonto ${SPERRKONTO_LABEL} obligatorio`);
   }
   if (!euNational && s.puede_abrir_sperrkonto !== 'si') {
     gaps.push('Cuenta bloqueada aún no disponible');
