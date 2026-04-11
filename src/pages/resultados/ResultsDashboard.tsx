@@ -95,7 +95,9 @@ export default function ResultsDashboard() {
     <SlideCompetitiveProfile key="comp" submission={submission} scores={scores} />,
     // 12. Next Steps
     <SlideNextSteps key="next" submission={submission} scores={scores} />,
-    // 13. Executive Summary
+    // 13. Roadmap Post-Asesoría
+    <SlideRoadmapPost key="roadmap-post" submission={submission} scores={scores} />,
+    // 14. Executive Summary
     <SlideExecutiveSummary key="summary" submission={submission} scores={scores} />,
   ];
 
