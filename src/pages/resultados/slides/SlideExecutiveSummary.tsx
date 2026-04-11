@@ -9,7 +9,7 @@ interface Props {
 }
 
 const SlideExecutiveSummary = forwardRef<HTMLDivElement, Props>(({ submission, scores }, ref) => {
-  const timeline = calculateTimeline(submission.nivel_aleman || 'Ninguno', scores);
+  const timeline = calculateTimeline(submission.nivel_aleman || 'Ninguno', scores, submission);
   const profile = getCompetitiveProfile(scores);
   const strengths = getStrengths(submission, scores);
   const gaps = getGaps(submission, scores);

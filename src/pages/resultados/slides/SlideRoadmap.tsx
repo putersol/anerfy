@@ -31,7 +31,7 @@ function stageLabel(status: RoadmapStage['status']) {
 
 const SlideRoadmap = forwardRef<HTMLDivElement, Props>(({ submission, scores }, ref) => {
   const stages = getRoadmapStages(submission, scores);
-  const timeline = calculateTimeline(submission.nivel_aleman || 'Ninguno', scores);
+  const timeline = calculateTimeline(submission.nivel_aleman || 'Ninguno', scores, submission);
 
   return (
     <div ref={ref} className="h-full flex flex-col justify-center px-8 sm:px-12">
