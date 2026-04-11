@@ -13,12 +13,16 @@ interface DiagnosticLinkProps {
 
 const DiagnosticLinkEmail = ({ nombre, diagnosticUrl }: DiagnosticLinkProps) => (
   <Html lang="es" dir="ltr">
-    <Head />
-    <Preview>Tu diagnóstico migratorio personalizado te espera — {SITE_NAME}</Preview>
+    <Head>
+      <meta name="x-mailer" content="Anerfy" />
+    </Head>
+    <Preview>10 minutos que pueden ahorrarte meses de proceso</Preview>
     <Body style={main}>
       <Container style={container}>
+        {/* Logo text — matches Space Grotesk bold brand */}
         <Section style={headerSection}>
-          <Text style={logo}>{SITE_NAME}</Text>
+          <Text style={logo}>ANERFY</Text>
+          <Text style={tagline}>Anerkennung + Simplify</Text>
         </Section>
 
         <Heading style={h1}>
@@ -26,40 +30,32 @@ const DiagnosticLinkEmail = ({ nombre, diagnosticUrl }: DiagnosticLinkProps) => 
         </Heading>
 
         <Text style={text}>
-          Hemos preparado tu acceso exclusivo al <strong>Diagnóstico Migratorio</strong> de {SITE_NAME}.
-          Este cuestionario evaluará tu situación actual y generará un plan de acción personalizado
-          para tu proceso de homologación médica en Alemania.
+          Te preparamos el <strong>Diagnóstico Migratorio</strong>.
         </Text>
 
         <Text style={text}>
-          El diagnóstico toma aproximadamente <strong>10-15 minutos</strong> y cubre:
-        </Text>
-
-        <Text style={listText}>
-          📋 Documentación y estado de proceso{'\n'}
-          🗣️ Nivel de idioma alemán{'\n'}
-          💰 Situación financiera{'\n'}
-          🎯 Estrategia de homologación{'\n'}
-          📊 Score competitivo personalizado
+          Son 10-15 minutos donde evaluamos en qué punto estás con tu
+          homologación — documentación, idioma, estrategia, financiamiento —
+          y al final te generamos un plan de acción basado en tu situación,
+          no uno genérico.
         </Text>
 
         {diagnosticUrl && (
           <Section style={buttonSection}>
             <Button style={button} href={diagnosticUrl}>
-              Comenzar mi diagnóstico →
+              Comenzar mi diagnóstico
             </Button>
           </Section>
         )}
 
         <Text style={smallText}>
-          Este link es personal e intransferible. Solo puede usarse una vez.
+          El link es personal y solo se puede usar una vez.
         </Text>
 
         <Hr style={hr} />
 
         <Text style={footer}>
-          Con tu mejor interés en mente,{'\n'}
-          El equipo de {SITE_NAME}
+          — Equipo Anerfy
         </Text>
       </Container>
     </Body>
@@ -68,32 +64,80 @@ const DiagnosticLinkEmail = ({ nombre, diagnosticUrl }: DiagnosticLinkProps) => 
 
 export const template = {
   component: DiagnosticLinkEmail,
-  subject: 'Tu diagnóstico migratorio está listo — Anerfy',
+  subject: 'Tu diagnóstico migratorio está listo',
   displayName: 'Link de diagnóstico',
   previewData: {
     nombre: 'María Laura',
-    diagnosticUrl: 'https://anerfy.lovable.app/diagnostico/abc12345',
+    diagnosticUrl: 'https://anerfy.com/diagnostico/abc12345',
   },
 } satisfies TemplateEntry
 
-// Styles — brand: primary blue #1d4ed8, dark background theme adapted for white email bg
-const main = { backgroundColor: '#ffffff', fontFamily: "'Geist', Arial, sans-serif" }
-const container = { padding: '32px 24px', maxWidth: '560px', margin: '0 auto' }
-const headerSection = { marginBottom: '24px' }
-const logo = { fontSize: '20px', fontWeight: '700' as const, color: '#1d4ed8', margin: '0' }
-const h1 = { fontSize: '22px', fontWeight: '600' as const, color: '#111827', margin: '0 0 16px' }
-const text = { fontSize: '15px', color: '#374151', lineHeight: '1.6', margin: '0 0 16px' }
-const listText = { fontSize: '14px', color: '#374151', lineHeight: '2', margin: '0 0 20px', whiteSpace: 'pre-line' as const }
-const buttonSection = { textAlign: 'center' as const, margin: '24px 0' }
+// Brand: navy blue primary hsl(220, 80%, 48%) ≈ #1a56db
+// Font: Geist / Space Grotesk fallback to Arial
+const PRIMARY = '#1a56db'
+const DARK = '#0f172a'
+const GRAY = '#475569'
+const LIGHT_GRAY = '#94a3b8'
+const BORDER = '#e2e8f0'
+
+const main = {
+  backgroundColor: '#ffffff',
+  fontFamily: "'Geist', 'Space Grotesk', 'Segoe UI', Arial, sans-serif",
+}
+const container = {
+  padding: '40px 28px 32px',
+  maxWidth: '520px',
+  margin: '0 auto',
+}
+const headerSection = { marginBottom: '32px' }
+const logo = {
+  fontSize: '18px',
+  fontWeight: '700' as const,
+  color: DARK,
+  letterSpacing: '2px',
+  margin: '0',
+}
+const tagline = {
+  fontSize: '11px',
+  color: LIGHT_GRAY,
+  margin: '2px 0 0',
+  letterSpacing: '0.5px',
+}
+const h1 = {
+  fontSize: '20px',
+  fontWeight: '600' as const,
+  color: DARK,
+  margin: '0 0 20px',
+}
+const text = {
+  fontSize: '15px',
+  color: GRAY,
+  lineHeight: '1.7',
+  margin: '0 0 16px',
+}
+const buttonSection = {
+  textAlign: 'center' as const,
+  margin: '28px 0',
+}
 const button = {
-  backgroundColor: '#1d4ed8',
+  backgroundColor: PRIMARY,
   color: '#ffffff',
   fontSize: '15px',
   fontWeight: '600' as const,
-  padding: '12px 28px',
+  padding: '14px 32px',
   borderRadius: '8px',
   textDecoration: 'none',
+  display: 'inline-block',
 }
-const smallText = { fontSize: '12px', color: '#9ca3af', margin: '0 0 24px', textAlign: 'center' as const }
-const hr = { borderColor: '#e5e7eb', margin: '24px 0' }
-const footer = { fontSize: '13px', color: '#6b7280', lineHeight: '1.5', whiteSpace: 'pre-line' as const }
+const smallText = {
+  fontSize: '13px',
+  color: LIGHT_GRAY,
+  margin: '0 0 24px',
+  textAlign: 'center' as const,
+}
+const hr = { borderColor: BORDER, margin: '24px 0' }
+const footer = {
+  fontSize: '14px',
+  color: GRAY,
+  lineHeight: '1.5',
+}
