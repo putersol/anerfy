@@ -16,6 +16,9 @@ function generateMonthTasks(s: any, scores: DashboardScores, month: 1 | 2 | 3): 
   const tasks: Task[] = [];
   const nivel = s.nivel_aleman || 'Ninguno';
   const rural = getRuralAlert(s.pais_origen);
+  const euNational = isEuNational(s.nacionalidad);
+  const nivel = s.nivel_aleman || 'Ninguno';
+  const rural = getRuralAlert(s.pais_origen);
 
   if (month === 1) {
     if (rural && rural.level === 'critico' && s.realizo_internado !== 'si') {
