@@ -12,6 +12,7 @@ import SlideSectionDivider from './slides/SlideSectionDivider';
 import SlideScoreDashboard from './slides/SlideScoreDashboard';
 import SlideRoadmap from './slides/SlideRoadmap';
 import SlideStrengthsGaps from './slides/SlideStrengthsGaps';
+import SlideDocumentos from './slides/SlideDocumentos';
 import SlideLanguageTimeline from './slides/SlideLanguageTimeline';
 import SlideActionPlan from './slides/SlideActionPlan';
 import SlideCompetitiveProfile from './slides/SlideCompetitiveProfile';
@@ -20,7 +21,7 @@ import SlideExecutiveSummary from './slides/SlideExecutiveSummary';
 import SlideRoadmapPost from './slides/SlideRoadmapPost';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 
-const TOTAL_SLIDES = 14;
+const TOTAL_SLIDES = 15;
 
 export default function ResultsDashboard() {
   const { submissionId } = useParams();
@@ -83,7 +84,9 @@ export default function ResultsDashboard() {
     <SlideRoadmap key="roadmap" submission={submission} scores={scores} />,
     // 6. Strengths vs Gaps
     <SlideStrengthsGaps key="gaps" submission={submission} scores={scores} />,
-    // 7. Section: Recursos
+    // 7. Documentos
+    <SlideDocumentos key="docs" submission={submission} scores={scores} />,
+    // 8. Section: Recursos
     <SlideSectionDivider key="div2" title="Recursos e Inversión Necesaria" subtitle="Planificación" description="Presupuesto real y timeline de idioma" />,
     // 8. Language Timeline
     <SlideLanguageTimeline key="lang" submission={submission} scores={scores} />,
