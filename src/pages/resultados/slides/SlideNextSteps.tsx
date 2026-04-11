@@ -58,7 +58,7 @@ function generateNextSteps(s: any, scores: DashboardScores): NextAction[] {
   if (s.puede_abrir_sperrkonto !== 'si' && scores.finanzas < 14) {
     actions.push({
       title: 'Investigar opciones de Sperrkonto',
-      description: 'Comparar Expatrio, Fintiba, Deutsche Bank — abrir cuenta bloqueada €12.324',
+      description: `Comparar Expatrio, Fintiba, Deutsche Bank — abrir cuenta bloqueada ${SPERRKONTO_LABEL}`,
       deadline: 'Próximos 14 días',
       critical: 'Obligatorio para visa de búsqueda de empleo y estudiante',
     });
