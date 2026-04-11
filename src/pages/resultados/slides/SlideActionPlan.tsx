@@ -37,7 +37,7 @@ function generateMonthTasks(s: any, scores: DashboardScores, month: 1 | 2 | 3): 
       tasks.push({ title: `Solicitar título original — ${s.universidad || 'universidad'}`, priority: 'media' });
     }
     if (tasks.length < 3) {
-      tasks.push({ title: 'Verificar universidad en base Anabin H+', priority: 'media' });
+      tasks.push({ title: 'Revisar requisitos documentales de tu universidad y Bundesland objetivo', priority: 'media' });
     }
   } else if (month === 2) {
     if (['Ninguno', 'A1', 'A2'].includes(nivel)) {
