@@ -277,7 +277,7 @@ const SlideNextSteps = forwardRef<HTMLDivElement, Props>(({ submission, scores }
 
           {/* Product 3: Virtus FSP */}
           <a
-            href="https://anerfy.com/services"
+            href="https://virtus-akademie.thinkific.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="block rounded-xl border border-border bg-gradient-to-r from-secondary/50 to-secondary/20 p-4 hover:border-primary/30 transition-all group"
@@ -288,10 +288,33 @@ const SlideNextSteps = forwardRef<HTMLDivElement, Props>(({ submission, scores }
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                  Preparación FSP — Virtus
+                  Preparación FSP — Virtus Akademie
                 </h4>
                 <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">
                   ¿Ya alcanzaste tu B2 y necesitas iniciar la presentación de tu FSP? Nuestros partners de Virtus son expertos en este importante proceso para ayudarte a preparar y aprobar tu Fachsprachprüfung.
+                </p>
+              </div>
+              <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
+            </div>
+          </a>
+
+          {/* Product 4: Hispano Akademie */}
+          <a
+            href="https://hispanoakademie.de"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block rounded-xl border border-border bg-gradient-to-r from-secondary/50 to-secondary/20 p-4 hover:border-primary/30 transition-all group"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                <Languages className="w-7 h-7 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                  Cursos de Alemán — Hispano Akademie
+                </h4>
+                <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">
+                  Aprende alemán con profesores especializados en hispanohablantes. Cursos intensivos y regulares desde A1 hasta C1, adaptados a profesionales de la salud.
                 </p>
               </div>
               <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
