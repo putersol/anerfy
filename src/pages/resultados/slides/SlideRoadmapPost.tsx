@@ -14,7 +14,7 @@ const services = [
     icon: Shield,
     title: 'Plan de Ahorro Personalizado',
     subtitle: 'Anerfy',
-    description: 'Asesoría integral para armar tu plan de ahorro a la medida: cuánto necesitas, en cuánto tiempo y cómo llegar a los €25.000–30.000 que requieres para emigrar a Alemania.',
+    description: 'Asesoría integral para armar tu plan de ahorro a la medida: cuánto necesitas, en cuánto tiempo y cómo llegar a los €25.000–28.000 que requieres para emigrar a Alemania.',
     tags: ['Sperrkonto', 'Ahorro', 'Planificación'],
     color: 'from-emerald-500/20 to-green-500/20',
     borderColor: 'border-emerald-500/30',
