@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
-import { Stethoscope, Shield, TrendingUp, Clock, ArrowRight, Star } from 'lucide-react';
+import { Shield, TrendingUp, Clock, ArrowRight, Star } from 'lucide-react';
 import { DashboardScores } from '@/lib/dashboardScoring';
 
 interface Props {
