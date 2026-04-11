@@ -282,10 +282,11 @@ export function getGaps(s: any, scores: DashboardScores): string[] {
     const missing = Object.values(docs).filter(v => v !== 'tengo').length;
     gaps.push(`${missing} documentos pendientes: apostillas y traducciones`);
   }
-  if (scores.finanzas < 14) {
-    gaps.push('Sperrkonto €12.324 obligatorio');
+  const euNational = isEuNational(s.nacionalidad);
+  if (scores.finanzas < 14 && !euNational) {
+    gaps.push('Sperrkonto €11.904 obligatorio');
   }
-  if (s.puede_abrir_sperrkonto !== 'si') {
+  if (!euNational && s.puede_abrir_sperrkonto !== 'si') {
     gaps.push('Cuenta bloqueada aún no disponible');
   }
   if (scores.homologacion < 5) {
