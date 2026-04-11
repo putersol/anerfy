@@ -60,23 +60,25 @@ const SlideScoreDashboard = forwardRef<HTMLDivElement, Props>(({ submission, sco
           transition={{ delay: 0.2, type: 'spring' }}
           className="relative flex-shrink-0"
         >
-          <svg width="160" height="160" viewBox="0 0 160 160">
-            <circle cx="80" cy="80" r="56" fill="none" stroke="hsl(var(--secondary))" strokeWidth="10" />
-            <motion.circle
-              cx="80" cy="80" r="56" fill="none"
-              stroke="hsl(var(--primary))"
-              strokeWidth="10"
-              strokeLinecap="round"
-              strokeDasharray={circumference}
-              initial={{ strokeDashoffset: circumference }}
-              animate={{ strokeDashoffset: circumference - strokeDash }}
-              transition={{ delay: 0.4, duration: 1.2, ease: 'easeOut' }}
-              transform="rotate(-90 80 80)"
-            />
-          </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-4xl font-bold text-foreground">{scores.total}</span>
-            <span className="text-xs text-muted-foreground">/100</span>
+          <div className="relative w-[160px] h-[160px]">
+            <svg width="160" height="160" viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="56" fill="none" stroke="hsl(var(--secondary))" strokeWidth="10" />
+              <motion.circle
+                cx="80" cy="80" r="56" fill="none"
+                stroke="hsl(var(--primary))"
+                strokeWidth="10"
+                strokeLinecap="round"
+                strokeDasharray={circumference}
+                initial={{ strokeDashoffset: circumference }}
+                animate={{ strokeDashoffset: circumference - strokeDash }}
+                transition={{ delay: 0.4, duration: 1.2, ease: 'easeOut' }}
+                transform="rotate(-90 80 80)"
+              />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-4xl font-bold text-foreground leading-none">{scores.total}</span>
+              <span className="text-xs text-muted-foreground">/100</span>
+            </div>
           </div>
           <div className="mt-3 text-center">
             <span className={`text-xs font-semibold px-3 py-1 rounded-full border ${routeColor}`}>
