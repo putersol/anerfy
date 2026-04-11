@@ -105,8 +105,7 @@ const main = {
 }
 const headerBand = {
   backgroundColor: '#ffffff',
-  padding: '24px 0',
-  borderBottom: `1px solid ${BORDER}`,
+  padding: '28px 0 0',
 }
 const headerContainer = {
   maxWidth: '520px',
@@ -123,12 +122,10 @@ const logoText = {
   lineHeight: '1',
 }
 const container = {
-  padding: '36px 28px 24px',
+  padding: '32px 28px 24px',
   maxWidth: '520px',
   margin: '0 auto',
   backgroundColor: '#ffffff',
-  borderLeft: `1px solid ${BORDER}`,
-  borderRight: `1px solid ${BORDER}`,
 }
 const h1 = {
   fontSize: '20px',
@@ -175,8 +172,7 @@ const footer = {
 }
 const footerBand = {
   backgroundColor: '#ffffff',
-  padding: '16px 0',
-  borderTop: `1px solid ${BORDER}`,
+  padding: '0 0 28px',
 }
 const footerContainer = {
   maxWidth: '520px',
