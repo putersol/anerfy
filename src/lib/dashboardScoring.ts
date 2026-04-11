@@ -91,13 +91,15 @@ export function calculateDashboardScores(s: any): DashboardScores {
   homologacion = Math.min(20, homologacion);
 
   // Pillar 4: FINANZAS (0-20)
+  const euNational = isEuNational(s.nacionalidad);
   let finanzas = 0;
   const dinero = s.dinero_ahorrado;
   if (dinero === 'mas_20000') finanzas = 14;
   else if (dinero === '10000_20000') finanzas = 10;
   else if (dinero === '5000_10000') finanzas = 6;
   else if (dinero === 'menos_5000') finanzas = 2;
-  if (s.puede_abrir_sperrkonto === 'si') finanzas += 4;
+  // EU/EEA nationals don't need Sperrkonto — auto-grant those points
+  if (euNational || s.puede_abrir_sperrkonto === 'si') finanzas += 4;
   if (s.apoyo_familiar === 'si') finanzas += 2;
   finanzas = Math.min(20, finanzas);
 
