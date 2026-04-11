@@ -265,7 +265,7 @@ export function calculateTimeline(nivelAleman: string, scores: DashboardScores, 
     monthsToB2: t.months,
     hoursRequired: t.hours,
     totalToApprobation: totalMonths,
-    investmentRange: `€${Math.round(minInv / 1000)}k-€${Math.round(maxInv / 1000)}k`,
+    investmentRange: '€25k–€28k',
   };
 }
 
