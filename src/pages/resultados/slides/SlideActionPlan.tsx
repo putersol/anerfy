@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
-import { DashboardScores, getRuralAlert } from '@/lib/dashboardScoring';
+import { DashboardScores, getRuralAlert, isEuNational, SPERRKONTO_LABEL } from '@/lib/dashboardScoring';
 
 interface Props {
   submission: any;
