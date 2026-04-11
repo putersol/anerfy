@@ -2,6 +2,7 @@
 // Reads from diagnostico_submissions row and calculates 5-pillar scores
 
 const EU_NATIONALITIES = new Set([
+  // Country names
   'Alemania', 'Austria', 'Bélgica', 'Bulgaria', 'Chipre', 'Croacia',
   'Dinamarca', 'Eslovaquia', 'Eslovenia', 'España', 'Estonia', 'Finlandia',
   'Francia', 'Grecia', 'Hungría', 'Irlanda', 'Italia', 'Letonia', 'Lituania',
@@ -9,6 +10,17 @@ const EU_NATIONALITIES = new Set([
   'Rumanía', 'Suecia',
   // EEA + Switzerland (same free movement rights)
   'Noruega', 'Islandia', 'Liechtenstein', 'Suiza',
+  // Demonyms (gentilicios) — how nacionalidad is stored in DB
+  'Alemana', 'Alemán', 'Austriaca', 'Austriaco', 'Belga', 'Búlgara', 'Búlgaro',
+  'Chipriota', 'Croata', 'Danesa', 'Danés', 'Eslovaca', 'Eslovaco',
+  'Eslovena', 'Esloveno', 'Española', 'Español', 'Estonia', 'Estonio', 'Estoniana',
+  'Finlandesa', 'Finlandés', 'Francesa', 'Francés', 'Griega', 'Griego',
+  'Húngara', 'Húngaro', 'Irlandesa', 'Irlandés', 'Italiana', 'Italiano',
+  'Letona', 'Letón', 'Lituana', 'Lituano', 'Luxemburguesa', 'Luxemburgués',
+  'Maltesa', 'Maltés', 'Neerlandesa', 'Neerlandés', 'Holandesa', 'Holandés',
+  'Polaca', 'Polaco', 'Portuguesa', 'Portugués', 'Checa', 'Checo',
+  'Rumana', 'Rumano', 'Sueca', 'Sueco',
+  'Noruega', 'Noruego', 'Islandesa', 'Islandés', 'Suiza', 'Suizo',
 ]);
 
 export function isEuNational(nacionalidad: string | null | undefined): boolean {
