@@ -1,10 +1,11 @@
 import * as React from 'npm:react@18.3.1'
 import {
-  Body, Container, Head, Heading, Html, Preview, Text, Button, Hr, Section,
+  Body, Container, Head, Heading, Html, Preview, Text, Button, Hr, Section, Img,
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
 const SITE_NAME = "Anerfy"
+const LOGO_URL = "https://omtmccscfnxqagmpdxnw.supabase.co/storage/v1/object/public/email-assets/anerfy-logo-dark.png"
 
 interface DiagnosticLinkProps {
   nombre?: string
@@ -13,24 +14,23 @@ interface DiagnosticLinkProps {
 
 const DiagnosticLinkEmail = ({ nombre, diagnosticUrl }: DiagnosticLinkProps) => (
   <Html lang="es" dir="ltr">
-    <Head>
-      <meta name="x-mailer" content="Anerfy" />
-    </Head>
+    <Head />
     <Preview>10 minutos que pueden ahorrarte meses de proceso</Preview>
     <Body style={main}>
-      <Container style={container}>
-        {/* Logo text — matches Space Grotesk bold brand */}
-        <Section style={headerSection}>
-          <Text style={logo}>ANERFY</Text>
-          <Text style={tagline}>Anerkennung + Simplify</Text>
-        </Section>
+      {/* Dark header band — matches website nav */}
+      <Section style={headerBand}>
+        <Container style={headerContainer}>
+          <Img src={LOGO_URL} alt="ANERFY" width="120" height="auto" style={logoImg} />
+        </Container>
+      </Section>
 
+      <Container style={container}>
         <Heading style={h1}>
           {nombre ? `Hola ${nombre},` : 'Hola,'}
         </Heading>
 
         <Text style={text}>
-          Te preparamos el <strong>Diagnóstico Migratorio</strong>.
+          Te preparamos el <strong style={bold}>Diagnóstico Migratorio</strong>.
         </Text>
 
         <Text style={text}>
@@ -48,7 +48,7 @@ const DiagnosticLinkEmail = ({ nombre, diagnosticUrl }: DiagnosticLinkProps) => 
           </Section>
         )}
 
-        <Text style={smallText}>
+        <Text style={linkNote}>
           El link es personal y solo se puede usar una vez.
         </Text>
 
@@ -58,6 +58,13 @@ const DiagnosticLinkEmail = ({ nombre, diagnosticUrl }: DiagnosticLinkProps) => 
           — Equipo Anerfy
         </Text>
       </Container>
+
+      {/* Dark footer band */}
+      <Section style={footerBand}>
+        <Container style={footerContainer}>
+          <Text style={footerText}>Anerkennung + Simplify</Text>
+        </Container>
+      </Section>
     </Body>
   </Html>
 )
@@ -72,48 +79,63 @@ export const template = {
   },
 } satisfies TemplateEntry
 
-// Brand: navy blue primary hsl(220, 80%, 48%) ≈ #1a56db
-// Font: Geist / Space Grotesk fallback to Arial
+// ── Brand tokens (from index.css) ──
+// --background: 220 30% 6%  → #0d1117
+// --primary: 220 80% 48%    → #1a56db
+// --foreground: 220 10% 95% → #eff1f5
+// --muted-foreground: 220 10% 55% → #838a96
+const BG_DARK = '#0d1117'
 const PRIMARY = '#1a56db'
-const DARK = '#0f172a'
-const GRAY = '#475569'
-const LIGHT_GRAY = '#94a3b8'
-const BORDER = '#e2e8f0'
+const FG_LIGHT = '#eff1f5'
+const MUTED = '#838a96'
+const DARK_TEXT = '#0f172a'
+const BODY_TEXT = '#334155'
+const BORDER = '#1e293b'
 
 const main = {
   backgroundColor: '#ffffff',
   fontFamily: "'Geist', 'Space Grotesk', 'Segoe UI', Arial, sans-serif",
+  margin: '0',
+  padding: '0',
 }
-const container = {
-  padding: '40px 28px 32px',
+
+// Dark header matching website nav
+const headerBand = {
+  backgroundColor: BG_DARK,
+  padding: '24px 0',
+  textAlign: 'center' as const,
+}
+const headerContainer = {
   maxWidth: '520px',
   margin: '0 auto',
+  padding: '0 28px',
 }
-const headerSection = { marginBottom: '32px' }
-const logo = {
-  fontSize: '18px',
-  fontWeight: '700' as const,
-  color: DARK,
-  letterSpacing: '2px',
-  margin: '0',
+const logoImg = {
+  margin: '0 auto',
+  display: 'block' as const,
 }
-const tagline = {
-  fontSize: '11px',
-  color: LIGHT_GRAY,
-  margin: '2px 0 0',
-  letterSpacing: '0.5px',
+
+const container = {
+  padding: '36px 28px 24px',
+  maxWidth: '520px',
+  margin: '0 auto',
 }
 const h1 = {
   fontSize: '20px',
   fontWeight: '600' as const,
-  color: DARK,
+  color: DARK_TEXT,
   margin: '0 0 20px',
+  lineHeight: '1.3',
 }
 const text = {
   fontSize: '15px',
-  color: GRAY,
+  color: BODY_TEXT,
   lineHeight: '1.7',
   margin: '0 0 16px',
+}
+const bold = {
+  color: DARK_TEXT,
+  fontWeight: '600' as const,
 }
 const buttonSection = {
   textAlign: 'center' as const,
@@ -124,20 +146,38 @@ const button = {
   color: '#ffffff',
   fontSize: '15px',
   fontWeight: '600' as const,
-  padding: '14px 32px',
+  padding: '14px 36px',
   borderRadius: '8px',
   textDecoration: 'none',
   display: 'inline-block',
 }
-const smallText = {
+const linkNote = {
   fontSize: '13px',
-  color: LIGHT_GRAY,
+  color: MUTED,
   margin: '0 0 24px',
   textAlign: 'center' as const,
 }
-const hr = { borderColor: BORDER, margin: '24px 0' }
+const hr = { borderColor: '#e2e8f0', margin: '24px 0' }
 const footer = {
   fontSize: '14px',
-  color: GRAY,
+  color: BODY_TEXT,
   lineHeight: '1.5',
+}
+
+// Dark footer band
+const footerBand = {
+  backgroundColor: BG_DARK,
+  padding: '16px 0',
+  textAlign: 'center' as const,
+}
+const footerContainer = {
+  maxWidth: '520px',
+  margin: '0 auto',
+  padding: '0 28px',
+}
+const footerText = {
+  fontSize: '11px',
+  color: MUTED,
+  margin: '0',
+  letterSpacing: '0.5px',
 }
