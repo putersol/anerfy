@@ -217,7 +217,7 @@ export interface TimelineEstimate {
   investmentRange: string;
 }
 
-export function calculateTimeline(nivelAleman: string, scores: DashboardScores): TimelineEstimate {
+export function calculateTimeline(nivelAleman: string, scores: DashboardScores, submission?: any): TimelineEstimate {
   const timelines: Record<string, { months: string; hours: string }> = {
     'Ninguno': { months: '14-18', hours: '550-700' },
     'A1': { months: '11-15', hours: '470-600' },
@@ -229,6 +229,7 @@ export function calculateTimeline(nivelAleman: string, scores: DashboardScores):
   };
 
   const t = timelines[nivelAleman] || timelines['Ninguno'];
+  const euNational = isEuNational(submission?.nacionalidad);
 
   // Investment calc
   let minInv = 0, maxInv = 0;
@@ -236,7 +237,7 @@ export function calculateTimeline(nivelAleman: string, scores: DashboardScores):
     minInv += 3000; maxInv += 8000; // language
   }
   minInv += 800; maxInv += 2000; // docs
-  if (scores.finanzas < 14) { minInv += 12324; maxInv += 12324; } // sperrkonto
+  if (!euNational && scores.finanzas < 14) { minInv += 11904; maxInv += 11904; } // sperrkonto
   minInv += 5000; maxInv += 10000; // living
   minInv += 1500; maxInv += 3000; // FSP
   minInv += 2000; maxInv += 5000; // contingency
