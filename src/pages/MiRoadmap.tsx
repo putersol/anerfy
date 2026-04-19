@@ -28,6 +28,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { generatePersonalizedRoadmap, getTotalTasks, getCompletedCount, RoadmapPhase } from '@/lib/roadmapGenerator';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 import torito from '@/assets/torito-mascot.png';
+import roadmapBg from '@/assets/roadmap-bg.jpg';
 
 interface ProgressRow {
   task_id: string;
