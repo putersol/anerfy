@@ -64,6 +64,7 @@ const AppRoutes = () => (
     <Route path="/resultados/:submissionId" element={<ResultsDashboard />} />
     <Route path="/mi-roadmap" element={<MiRoadmapLogin />} />
     <Route path="/mi-roadmap/acceso" element={<MiRoadmapAccess />} />
+    <Route path="/mi-roadmap/demo" element={<MiRoadmap />} />
     <Route path="/mi-roadmap/:submissionId" element={<MiRoadmap />} />
     <Route path="/mapa" element={<GameMap />} />
     <Route path="/unsubscribe" element={<Unsubscribe />} />
