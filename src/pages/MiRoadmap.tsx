@@ -560,7 +560,18 @@ export default function MiRoadmap() {
                 })}
               </div>
 
-              <div className="border-t border-border p-4 safe-area-inset-bottom">
+              <div className="border-t border-border p-4 safe-area-inset-bottom space-y-2">
+                <a
+                  href={`https://wa.me/4915123456789?text=${encodeURIComponent(`Hola, necesito ayuda con la fase: ${openPhase.title}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <Button variant="outline" className="w-full gap-2" size="lg">
+                    <Calendar className="w-4 h-4" />
+                    Agendar llamada de ayuda
+                  </Button>
+                </a>
                 <Button onClick={() => setOpenPhase(null)} className="w-full" size="lg">
                   Listo
                 </Button>
