@@ -46,6 +46,77 @@ const PHASE_ICONS: Record<string, React.ComponentType<{ className?: string }>> =
   fase_finanzas: Wallet,
 };
 
+interface PhaseNodeProps {
+  phase: RoadmapPhase;
+  Icon: React.ComponentType<any>;
+  stats: { done: number; total: number; pct: number; complete: boolean };
+  isActive: boolean;
+  isLocked: boolean;
+  isComplete: boolean;
+  index: number;
+  nodeRef: React.RefObject<HTMLDivElement> | null;
+  onOpen: () => void;
+}
+
+function PhaseNode({ phase, Icon, stats, isActive, isLocked, isComplete, index, nodeRef, onOpen }: PhaseNodeProps) {
+  return (
+    <motion.div
+      ref={nodeRef}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: index * 0.08, type: 'spring', stiffness: 200 }}
+      className="flex flex-col items-center"
+    >
+      <button
+        onClick={() => !isLocked && onOpen()}
+        disabled={isLocked}
+        className={`
+          relative w-20 h-20 rounded-full flex items-center justify-center
+          transition-all duration-200 active:scale-95
+          ${isComplete
+            ? 'bg-gradient-to-br from-success to-success/70 shadow-[0_6px_0_hsl(var(--success)/0.4)] hover:shadow-[0_4px_0_hsl(var(--success)/0.4)] hover:translate-y-0.5'
+            : isActive
+              ? 'bg-gradient-to-br from-primary to-primary/70 shadow-[0_6px_0_hsl(var(--primary)/0.4)] hover:shadow-[0_4px_0_hsl(var(--primary)/0.4)] hover:translate-y-0.5 ring-4 ring-primary/20 animate-pulse'
+              : isLocked
+                ? 'bg-muted shadow-[0_4px_0_hsl(var(--border))] cursor-not-allowed opacity-60'
+                : 'bg-secondary shadow-[0_4px_0_hsl(var(--border))]'
+          }
+        `}
+      >
+        {isComplete ? (
+          <CheckCircle2 className="w-9 h-9 text-white" strokeWidth={2.5} />
+        ) : isLocked ? (
+          <Lock className="w-7 h-7 text-muted-foreground" />
+        ) : (
+          <Icon className="w-9 h-9 text-white" strokeWidth={2} />
+        )}
+        {!isLocked && !isComplete && stats.done > 0 && (
+          <div className="absolute -top-1 -right-1 bg-amber-400 text-[10px] font-bold rounded-full w-6 h-6 flex items-center justify-center text-amber-950 border-2 border-background">
+            {stats.done}
+          </div>
+        )}
+        {isComplete && (
+          <motion.div
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            className="absolute -top-2 -right-2 bg-amber-400 rounded-full p-1 border-2 border-background"
+          >
+            <Star className="w-3 h-3 text-amber-950 fill-amber-950" />
+          </motion.div>
+        )}
+      </button>
+      <div className="mt-2 text-center max-w-[140px]">
+        <p className={`text-xs font-semibold leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground'}`}>
+          {phase.title.replace(/^Fase \d+ — /, '')}
+        </p>
+        <p className="text-[10px] text-muted-foreground mt-0.5">
+          {stats.done}/{stats.total} · {stats.pct}%
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 const DEMO_SUBMISSION = {
   submission_id: 'demo',
   email: 'demo@anerfy.com',
@@ -276,110 +347,121 @@ export default function MiRoadmap() {
       {/* Camino zigzag */}
       <div className="max-w-md mx-auto px-4 py-8">
         <div className="relative">
+          {/* Línea SVG zigzag de fondo */}
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <pattern id="dots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+                <circle cx="4" cy="4" r="1.5" className="fill-border" />
+              </pattern>
+            </defs>
+          </svg>
+
           {phases.map((phase, i) => {
             const stats = phaseStats[i];
             const isActive = i === activeIndex;
             const isLocked = i > activeIndex;
             const isComplete = stats.complete;
             const Icon = PHASE_ICONS[phase.id] || Star;
-            // zigzag: par = izquierda, impar = derecha
-            const side = i % 2 === 0 ? 'left' : 'right';
-            const offsetClass = side === 'left' ? '-translate-x-16' : 'translate-x-16';
+            // zigzag fuerte: par = izquierda extrema, impar = derecha extrema
+            const isLeft = i % 2 === 0;
+            const Connector = i < phases.length - 1 ? (
+              <div className="flex justify-center w-full my-1" aria-hidden="true">
+                <div className="flex flex-col gap-1.5">
+                  {[0, 1, 2, 3].map(d => (
+                    <div key={d} className="w-1.5 h-1.5 rounded-full bg-border" />
+                  ))}
+                </div>
+              </div>
+            ) : null;
 
             return (
-              <div key={phase.id} className="relative flex flex-col items-center mb-2">
-                {/* Línea conectora hacia el siguiente */}
-                {i < phases.length - 1 && (
-                  <div className="absolute top-20 left-1/2 -translate-x-1/2 w-1 h-24 bg-gradient-to-b from-border via-border to-transparent rounded-full" />
-                )}
-
-                <motion.div
-                  ref={isActive ? activeNodeRef : null}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.08, type: 'spring', stiffness: 200 }}
-                  className={`relative ${offsetClass} flex flex-col items-center`}
-                >
-                  {/* Mascota torito junto al nodo activo */}
-                  {isActive && !isComplete && (
+              <div key={phase.id}>
+                <div className={`grid grid-cols-2 gap-2 items-center ${isLeft ? '' : ''}`}>
+                  {/* Columna izquierda */}
+                  <div className={`flex ${isLeft ? 'justify-start' : 'justify-end'} relative`}>
+                    {isLeft && (
+                      <PhaseNode
+                        phase={phase}
+                        Icon={Icon}
+                        stats={stats}
+                        isActive={isActive}
+                        isLocked={isLocked}
+                        isComplete={isComplete}
+                        index={i}
+                        nodeRef={isActive ? activeNodeRef : null}
+                        onOpen={() => setOpenPhase(phase)}
+                      />
+                    )}
+                  </div>
+                  {/* Columna derecha */}
+                  <div className={`flex ${isLeft ? 'justify-start' : 'justify-end'} relative`}>
+                    {!isLeft && (
+                      <PhaseNode
+                        phase={phase}
+                        Icon={Icon}
+                        stats={stats}
+                        isActive={isActive}
+                        isLocked={isLocked}
+                        isComplete={isComplete}
+                        index={i}
+                        nodeRef={isActive ? activeNodeRef : null}
+                        onOpen={() => setOpenPhase(phase)}
+                      />
+                    )}
+                    {/* Torito en la columna opuesta al nodo activo */}
+                    {isActive && !isComplete && isLeft && (
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center"
+                      >
+                        <div className="bg-card border border-border rounded-xl px-2 py-1 shadow-md mb-1">
+                          <p className="text-[10px] font-semibold whitespace-nowrap">¡Vamos! 💪</p>
+                        </div>
+                        <motion.img
+                          src={torito}
+                          alt="Tu guía"
+                          width={88}
+                          height={88}
+                          className="w-22 h-22 drop-shadow-xl"
+                          style={{ width: 88, height: 88 }}
+                          animate={{ y: [0, -6, 0] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                        />
+                      </motion.div>
+                    )}
+                  </div>
+                  {/* Si nodo está a la derecha, torito en la izquierda */}
+                  {isActive && !isComplete && !isLeft && (
                     <motion.div
-                      initial={{ opacity: 0, x: side === 'left' ? 30 : -30 }}
+                      initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.4 }}
-                      className={`absolute top-2 ${side === 'left' ? 'left-24' : 'right-24'} z-10`}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center"
+                      style={{ position: 'absolute' }}
                     >
+                      <div className="bg-card border border-border rounded-xl px-2 py-1 shadow-md mb-1">
+                        <p className="text-[10px] font-semibold whitespace-nowrap">¡Vamos! 💪</p>
+                      </div>
                       <motion.img
                         src={torito}
                         alt="Tu guía"
-                        width={80}
-                        height={80}
-                        className="w-20 h-20 drop-shadow-lg"
+                        width={88}
+                        height={88}
+                        className="drop-shadow-xl"
+                        style={{ width: 88, height: 88 }}
                         animate={{ y: [0, -6, 0] }}
                         transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                       />
-                      <div className={`absolute -top-1 ${side === 'left' ? '-left-2' : '-right-2'} bg-card border border-border rounded-xl px-2 py-1 shadow-md whitespace-nowrap`}>
-                        <p className="text-[10px] font-semibold">¡Vamos! 💪</p>
-                      </div>
                     </motion.div>
                   )}
-
-                  {/* Nodo botón */}
-                  <button
-                    onClick={() => !isLocked && setOpenPhase(phase)}
-                    disabled={isLocked}
-                    className={`
-                      relative w-20 h-20 rounded-full flex items-center justify-center
-                      transition-all duration-200 active:scale-95
-                      ${isComplete
-                        ? 'bg-gradient-to-br from-success to-success/70 shadow-[0_6px_0_hsl(var(--success)/0.4)] hover:shadow-[0_4px_0_hsl(var(--success)/0.4)] hover:translate-y-0.5'
-                        : isActive
-                          ? 'bg-gradient-to-br from-primary to-primary/70 shadow-[0_6px_0_hsl(var(--primary)/0.4)] hover:shadow-[0_4px_0_hsl(var(--primary)/0.4)] hover:translate-y-0.5 ring-4 ring-primary/20'
-                          : isLocked
-                            ? 'bg-muted shadow-[0_4px_0_hsl(var(--border))] cursor-not-allowed opacity-60'
-                            : 'bg-secondary shadow-[0_4px_0_hsl(var(--border))]'
-                      }
-                    `}
-                  >
-                    {isComplete ? (
-                      <CheckCircle2 className="w-9 h-9 text-white" strokeWidth={2.5} />
-                    ) : isLocked ? (
-                      <Lock className="w-7 h-7 text-muted-foreground" />
-                    ) : (
-                      <Icon className="w-9 h-9 text-white" strokeWidth={2} />
-                    )}
-
-                    {/* Badge progreso */}
-                    {!isLocked && !isComplete && stats.done > 0 && (
-                      <div className="absolute -top-1 -right-1 bg-amber-400 text-[10px] font-bold rounded-full w-6 h-6 flex items-center justify-center text-amber-950 border-2 border-background">
-                        {stats.done}
-                      </div>
-                    )}
-
-                    {/* Estrella final si está completa */}
-                    {isComplete && (
-                      <motion.div
-                        initial={{ scale: 0, rotate: -180 }}
-                        animate={{ scale: 1, rotate: 0 }}
-                        className="absolute -top-2 -right-2 bg-amber-400 rounded-full p-1 border-2 border-background"
-                      >
-                        <Star className="w-3 h-3 text-amber-950 fill-amber-950" />
-                      </motion.div>
-                    )}
-                  </button>
-
-                  {/* Etiqueta debajo */}
-                  <div className="mt-2 text-center max-w-[140px]">
-                    <p className={`text-xs font-semibold leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground'}`}>
-                      {phase.title.replace(/^Fase \d+ — /, '')}
-                    </p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">
-                      {stats.done}/{stats.total} · {stats.pct}%
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Espacio entre nodos */}
-                <div className="h-12" />
+                </div>
+                {Connector}
               </div>
             );
           })}
