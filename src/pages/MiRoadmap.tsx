@@ -9,7 +9,8 @@ import { Progress } from '@/components/ui/progress';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { generatePersonalizedRoadmap, getTotalTasks, getCompletedCount, RoadmapPhase } from '@/lib/roadmapGenerator';
+import { useAuth } from '@/hooks/useAuth';
+import { generatePersonalizedRoadmap, getTotalTasks, getCompletedCount } from '@/lib/roadmapGenerator';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 
 interface ProgressRow {
@@ -22,6 +23,7 @@ export default function MiRoadmap() {
   const { submissionId } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(true);
   const [submission, setSubmission] = useState<any>(null);
   const [progress, setProgress] = useState<Record<string, ProgressRow>>({});
@@ -30,12 +32,13 @@ export default function MiRoadmap() {
 
   useEffect(() => {
     async function init() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session?.user) {
-        navigate('/mi-roadmap');
+      if (authLoading) return;
+
+      if (!user?.email) {
+        navigate('/mi-roadmap', { replace: true });
         return;
       }
-      setUserEmail(session.user.email || null);
+      setUserEmail(user.email);
 
       // Load submission
       const { data: sub, error: subErr } = await supabase
@@ -51,10 +54,10 @@ export default function MiRoadmap() {
       }
 
       // Verify this submission belongs to the logged-in user
-      if (sub.email?.toLowerCase() !== session.user.email?.toLowerCase()) {
+      if (sub.email?.toLowerCase() !== user.email.toLowerCase()) {
         toast({ title: 'Este roadmap no está asociado a tu email', variant: 'destructive' });
         await supabase.auth.signOut();
-        navigate('/mi-roadmap');
+        navigate('/mi-roadmap', { replace: true });
         return;
       }
 
@@ -74,7 +77,7 @@ export default function MiRoadmap() {
       setLoading(false);
     }
     init();
-  }, [submissionId, navigate, toast]);
+  }, [authLoading, user, submissionId, navigate, toast]);
 
   const phases = useMemo(() => submission ? generatePersonalizedRoadmap(submission) : [], [submission]);
 
