@@ -18,11 +18,32 @@ interface MagicLinkEmailProps {
   confirmationUrl: string
 }
 
+const buildSafeAccessUrl = (confirmationUrl: string) => {
+  try {
+    const authUrl = new URL(confirmationUrl)
+    const redirectTo = authUrl.searchParams.get('redirect_to')
+
+    if (!redirectTo) return confirmationUrl
+
+    const appUrl = new URL(redirectTo)
+    appUrl.pathname = '/mi-roadmap/acceso'
+    appUrl.search = ''
+    appUrl.hash = ''
+    appUrl.searchParams.set('next', confirmationUrl)
+
+    return appUrl.toString()
+  } catch {
+    return confirmationUrl
+  }
+}
+
 export const MagicLinkEmail = ({
   siteName,
   confirmationUrl,
-}: MagicLinkEmailProps) => (
-  <Html lang="es" dir="ltr">
+}: MagicLinkEmailProps) => {
+  const accessUrl = buildSafeAccessUrl(confirmationUrl)
+
+  return <Html lang="es" dir="ltr">
     <Head />
     <Preview>Tu enlace de acceso a tu Roadmap personalizado</Preview>
     <Body style={main}>
@@ -32,7 +53,7 @@ export const MagicLinkEmail = ({
         <Text style={text}>
           Haz clic en el botón para entrar a tu Roadmap personalizado de Anerfy y seguir tu camino hacia la Approbation en Alemania.
         </Text>
-        <Button style={button} href={confirmationUrl}>
+        <Button style={button} href={accessUrl}>
           Entrar a mi Roadmap
         </Button>
         <Text style={text}>
@@ -42,7 +63,7 @@ export const MagicLinkEmail = ({
       </Container>
     </Body>
   </Html>
-)
+}
 
 export default MagicLinkEmail
 
