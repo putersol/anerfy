@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   Lock, LogOut, Download, Link2, ChevronDown, ChevronUp,
   BarChart3, Users, Globe, TrendingUp, Search, X,
-  Plus, Copy, Check, Ticket, Trash2, Presentation,
+  Plus, Copy, Check, Ticket, Trash2, Presentation, MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -612,6 +612,8 @@ function StatCard({ icon, label, value, suffix }: { icon: React.ReactNode; label
 
 function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Submission; expanded: boolean; onToggle: () => void }) {
   const navigate = useNavigate();
+  const { pct, lastActivity } = useRoadmapProgress(s.submission_id, s.status);
+  const daysAgo = lastActivity ? Math.floor((Date.now() - new Date(lastActivity).getTime()) / 86400000) : null;
   return (
     <Card className="bg-white/[0.03] border-white/10 overflow-hidden">
       <button onClick={onToggle} className="w-full p-4 flex items-center gap-4 text-left hover:bg-white/[0.02] transition-colors">
@@ -632,6 +634,11 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
             ) : (
               <span className={`text-xs font-medium ${classColor(s.clasificacion)}`}>{s.clasificacion}</span>
             )}
+            {pct !== null && pct > 0 && (
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 flex items-center gap-1">
+                <MapPin className="w-3 h-3" /> Roadmap {pct}%
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
             <span>{s.pais_origen}</span>
@@ -640,6 +647,14 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
             {s.email && <><span>·</span><span>{s.email}</span></>}
             <span>·</span>
             <span>{formatDate(s.created_at)}</span>
+            {daysAgo !== null && (
+              <>
+                <span>·</span>
+                <span className="text-violet-400">
+                  Activo hace {daysAgo === 0 ? 'hoy' : `${daysAgo}d`}
+                </span>
+              </>
+            )}
           </div>
         </div>
 

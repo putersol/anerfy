@@ -100,7 +100,21 @@ const SlideExecutiveSummary = forwardRef<HTMLDivElement, Props>(({ submission, s
         <p className="text-sm text-muted-foreground italic leading-relaxed">
           Con dedicación intensiva al alemán + inversión planificada + tu perfil favorable = <span className="text-primary font-semibold">Approbation ALCANZABLE</span>
         </p>
-        <div className="flex items-center justify-center gap-2 opacity-60">
+
+        {/* CTA — Activar Bloque 3 */}
+        <a
+          href="/mi-roadmap"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition-opacity text-sm font-medium"
+        >
+          🚀 Activar mi Roadmap Personalizado
+        </a>
+        <p className="text-[10px] text-muted-foreground/60">
+          Recibirás un link mágico en {submission.email || 'tu email'} para acceder a tu seguimiento
+        </p>
+
+        <div className="flex items-center justify-center gap-2 opacity-60 pt-2">
           <img src={anerfyLogo} alt="Anerfy" className="h-5 brightness-0 invert" />
           <span className="text-xs text-muted-foreground">¿Preguntas? Contacto ANERFY para seguimiento personalizado</span>
         </div>
