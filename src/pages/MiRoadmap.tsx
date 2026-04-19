@@ -20,7 +20,6 @@ import {
   Calendar,
   Newspaper,
   Home,
-  ExternalLink,
   Clock,
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
