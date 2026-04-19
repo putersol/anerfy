@@ -173,6 +173,8 @@ export default function MiRoadmap() {
     };
     setProgress(p => ({ ...p, [taskId]: newRow }));
 
+    if (isDemo) return;
+
     const { error } = await supabase
       .from('client_roadmap_progress')
       .upsert({
@@ -193,6 +195,7 @@ export default function MiRoadmap() {
   const updateNote = async (taskId: string, notes: string) => {
     if (!submission || !userEmail) return;
     setProgress(p => ({ ...p, [taskId]: { ...(p[taskId] || { task_id: taskId, completed: false, notes: null }), notes } }));
+    if (isDemo) return;
     await supabase
       .from('client_roadmap_progress')
       .upsert({
