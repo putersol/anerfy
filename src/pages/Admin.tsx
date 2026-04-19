@@ -547,6 +547,53 @@ export default function Admin() {
   );
 }
 
+// Hook to load roadmap progress for a submission
+function useRoadmapProgress(submissionId: string, status: string) {
+  const [pct, setPct] = useState<number | null>(null);
+  const [lastActivity, setLastActivity] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (status !== 'completed') return;
+    let mounted = true;
+    async function load() {
+      const { data: sub } = await supabase
+        .from('diagnostico_submissions')
+        .select('*')
+        .eq('submission_id', submissionId)
+        .maybeSingle();
+      if (!sub || !mounted) return;
+      const { generatePersonalizedRoadmap, getTotalTasks, getCompletedCount } = await import('@/lib/roadmapGenerator');
+      const phases = generatePersonalizedRoadmap(sub);
+      const total = getTotalTasks(phases);
+      const { data: prog } = await supabase
+        .from('client_roadmap_progress')
+        .select('task_id, completed, completed_at')
+        .eq('submission_id', submissionId);
+      const map: Record<string, boolean> = {};
+      let latest: string | null = null;
+      (prog || []).forEach((p: any) => {
+        map[p.task_id] = p.completed;
+        if (p.completed_at && (!latest || p.completed_at > latest)) latest = p.completed_at;
+      });
+      const done = getCompletedCount(phases, map);
+      if (mounted) {
+        setPct(total > 0 ? Math.round((done / total) * 100) : 0);
+        setLastActivity(latest);
+      }
+    }
+    load();
+
+    // Realtime
+    const channel = supabase
+      .channel(`crp-${submissionId}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'client_roadmap_progress', filter: `submission_id=eq.${submissionId}` }, load)
+      .subscribe();
+    return () => { mounted = false; supabase.removeChannel(channel); };
+  }, [submissionId, status]);
+
+  return { pct, lastActivity };
+}
+
 function StatCard({ icon, label, value, suffix }: { icon: React.ReactNode; label: string; value: number; suffix?: string }) {
   return (
     <Card className="bg-white/[0.03] border-white/10">
