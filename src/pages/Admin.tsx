@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   Lock, LogOut, Download, Link2, ChevronDown, ChevronUp,
   BarChart3, Users, Globe, TrendingUp, Search, X,
-  Plus, Copy, Check, Ticket, Trash2, Presentation,
+  Plus, Copy, Check, Ticket, Trash2, Presentation, MapPin,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -547,6 +547,53 @@ export default function Admin() {
   );
 }
 
+// Hook to load roadmap progress for a submission
+function useRoadmapProgress(submissionId: string, status: string) {
+  const [pct, setPct] = useState<number | null>(null);
+  const [lastActivity, setLastActivity] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (status !== 'completed') return;
+    let mounted = true;
+    async function load() {
+      const { data: sub } = await supabase
+        .from('diagnostico_submissions')
+        .select('*')
+        .eq('submission_id', submissionId)
+        .maybeSingle();
+      if (!sub || !mounted) return;
+      const { generatePersonalizedRoadmap, getTotalTasks, getCompletedCount } = await import('@/lib/roadmapGenerator');
+      const phases = generatePersonalizedRoadmap(sub);
+      const total = getTotalTasks(phases);
+      const { data: prog } = await supabase
+        .from('client_roadmap_progress')
+        .select('task_id, completed, completed_at')
+        .eq('submission_id', submissionId);
+      const map: Record<string, boolean> = {};
+      let latest: string | null = null;
+      (prog || []).forEach((p: any) => {
+        map[p.task_id] = p.completed;
+        if (p.completed_at && (!latest || p.completed_at > latest)) latest = p.completed_at;
+      });
+      const done = getCompletedCount(phases, map);
+      if (mounted) {
+        setPct(total > 0 ? Math.round((done / total) * 100) : 0);
+        setLastActivity(latest);
+      }
+    }
+    load();
+
+    // Realtime
+    const channel = supabase
+      .channel(`crp-${submissionId}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'client_roadmap_progress', filter: `submission_id=eq.${submissionId}` }, load)
+      .subscribe();
+    return () => { mounted = false; supabase.removeChannel(channel); };
+  }, [submissionId, status]);
+
+  return { pct, lastActivity };
+}
+
 function StatCard({ icon, label, value, suffix }: { icon: React.ReactNode; label: string; value: number; suffix?: string }) {
   return (
     <Card className="bg-white/[0.03] border-white/10">
@@ -565,6 +612,8 @@ function StatCard({ icon, label, value, suffix }: { icon: React.ReactNode; label
 
 function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Submission; expanded: boolean; onToggle: () => void }) {
   const navigate = useNavigate();
+  const { pct, lastActivity } = useRoadmapProgress(s.submission_id, s.status);
+  const daysAgo = lastActivity ? Math.floor((Date.now() - new Date(lastActivity).getTime()) / 86400000) : null;
   return (
     <Card className="bg-white/[0.03] border-white/10 overflow-hidden">
       <button onClick={onToggle} className="w-full p-4 flex items-center gap-4 text-left hover:bg-white/[0.02] transition-colors">
@@ -585,6 +634,11 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
             ) : (
               <span className={`text-xs font-medium ${classColor(s.clasificacion)}`}>{s.clasificacion}</span>
             )}
+            {pct !== null && pct > 0 && (
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-300 flex items-center gap-1">
+                <MapPin className="w-3 h-3" /> Roadmap {pct}%
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
             <span>{s.pais_origen}</span>
@@ -593,6 +647,14 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
             {s.email && <><span>·</span><span>{s.email}</span></>}
             <span>·</span>
             <span>{formatDate(s.created_at)}</span>
+            {daysAgo !== null && (
+              <>
+                <span>·</span>
+                <span className="text-violet-400">
+                  Activo hace {daysAgo === 0 ? 'hoy' : `${daysAgo}d`}
+                </span>
+              </>
+            )}
           </div>
         </div>
 

@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      client_roadmap_progress: {
+        Row: {
+          completed: boolean
+          completed_at: string | null
+          created_at: string
+          email: string
+          id: string
+          notes: string | null
+          submission_id: string
+          task_id: string
+          updated_at: string
+        }
+        Insert: {
+          completed?: boolean
+          completed_at?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          notes?: string | null
+          submission_id: string
+          task_id: string
+          updated_at?: string
+        }
+        Update: {
+          completed?: boolean
+          completed_at?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          notes?: string | null
+          submission_id?: string
+          task_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       diagnostic_tokens: {
         Row: {
           created_at: string
