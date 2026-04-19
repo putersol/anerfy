@@ -10,7 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
-import { generatePersonalizedRoadmap, getTotalTasks, getCompletedCount, RoadmapPhase } from '@/lib/roadmapGenerator';
+import { generatePersonalizedRoadmap, getTotalTasks, getCompletedCount } from '@/lib/roadmapGenerator';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 
 interface ProgressRow {
