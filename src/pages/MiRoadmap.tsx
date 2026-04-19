@@ -48,7 +48,7 @@ const PHASE_ICONS: Record<string, React.ComponentType<{ className?: string }>> =
 
 interface PhaseNodeProps {
   phase: RoadmapPhase;
-  Icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  Icon: React.ComponentType<any>;
   stats: { done: number; total: number; pct: number; complete: boolean };
   isActive: boolean;
   isLocked: boolean;
