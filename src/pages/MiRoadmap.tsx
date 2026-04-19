@@ -46,19 +46,42 @@ const PHASE_ICONS: Record<string, React.ComponentType<{ className?: string }>> =
   fase_finanzas: Wallet,
 };
 
+const DEMO_SUBMISSION = {
+  submission_id: 'demo',
+  email: 'demo@anerfy.com',
+  nombre_completo: 'Dra. Demo García',
+  nacionalidad: 'Mexicana',
+  nivel_aleman: 'B1',
+  tiene_approbation: 'No',
+  tiene_berufserlaubnis: 'No',
+  presento_fsp: 'No',
+  dinero_ahorrado: '5000-10000',
+  envio_documentos: 'No',
+  recibio_respuesta: 'No',
+  documentos: {
+    doc_0: 'apostillado',
+    doc_1: 'apostillado',
+    doc_2: 'tengo',
+    doc_5: 'tengo',
+    doc_8: 'tengo',
+  },
+};
+
 export default function MiRoadmap() {
   const { submissionId } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, loading: authLoading } = useAuth();
-  const [loading, setLoading] = useState(true);
-  const [submission, setSubmission] = useState<any>(null);
+  const isDemo = submissionId === 'demo';
+  const [loading, setLoading] = useState(!isDemo);
+  const [submission, setSubmission] = useState<any>(isDemo ? DEMO_SUBMISSION : null);
   const [progress, setProgress] = useState<Record<string, ProgressRow>>({});
   const [openPhase, setOpenPhase] = useState<RoadmapPhase | null>(null);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(isDemo ? 'demo@anerfy.com' : null);
   const activeNodeRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (isDemo) return;
     async function init() {
       if (authLoading) return;
       if (!user?.email) {
@@ -101,7 +124,7 @@ export default function MiRoadmap() {
       setLoading(false);
     }
     init();
-  }, [authLoading, user, submissionId, navigate, toast]);
+  }, [authLoading, user, submissionId, navigate, toast, isDemo]);
 
   const phases = useMemo(() => (submission ? generatePersonalizedRoadmap(submission) : []), [submission]);
 
