@@ -18,7 +18,9 @@ import {
   Wallet,
   Sparkles,
   Calendar,
-  
+  Newspaper,
+  Home,
+  Clock,
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -344,6 +346,82 @@ export default function MiRoadmap() {
         <p className="text-xs text-muted-foreground mt-1">
           Toca cada nodo para ver y completar tareas
         </p>
+      </div>
+
+      {/* Islas flotantes: Noticias + Vida en Alemania */}
+      <div className="max-w-md mx-auto px-4 pt-4 pb-2 grid grid-cols-2 gap-3">
+        {/* Isla Noticias */}
+        <motion.div
+          initial={{ opacity: 0, y: 10, rotate: -1 }}
+          animate={{ opacity: 1, y: 0, rotate: -1 }}
+          whileHover={{ y: -2, rotate: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-card border border-border rounded-2xl p-3 shadow-[0_4px_0_hsl(var(--border))] relative overflow-hidden"
+        >
+          <div className="flex items-center gap-1.5 mb-2">
+            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+              <Newspaper className="w-3.5 h-3.5 text-primary" />
+            </div>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-primary">Noticias</p>
+            <div className="ml-auto w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+          </div>
+          <ul className="space-y-2">
+            <li>
+              <a
+                href="https://www.bundesregierung.de/breg-de/themen/fachkraefteeinwanderung"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block group"
+              >
+                <p className="text-[11px] font-semibold leading-tight text-foreground group-hover:text-primary transition-colors">
+                  Nueva ley de inmigración facilita reconocimiento médico
+                </p>
+                <div className="flex items-center gap-1 mt-1 text-[9px] text-muted-foreground">
+                  <Clock className="w-2.5 h-2.5" />
+                  <span>Hace 2 días</span>
+                </div>
+              </a>
+            </li>
+            <li className="pt-2 border-t border-border/50">
+              <a
+                href="https://www.aerzteblatt.de/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block group"
+              >
+                <p className="text-[11px] font-semibold leading-tight text-foreground group-hover:text-primary transition-colors">
+                  Hospitales en Bayern aumentan vacantes para extranjeros
+                </p>
+                <div className="flex items-center gap-1 mt-1 text-[9px] text-muted-foreground">
+                  <Clock className="w-2.5 h-2.5" />
+                  <span>Esta semana</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </motion.div>
+
+        {/* Isla Vida en Alemania - Próximamente */}
+        <motion.div
+          initial={{ opacity: 0, y: 10, rotate: 1 }}
+          animate={{ opacity: 1, y: 0, rotate: 1 }}
+          transition={{ delay: 0.3 }}
+          className="bg-gradient-to-br from-secondary/50 to-secondary/20 border border-dashed border-border rounded-2xl p-3 shadow-[0_4px_0_hsl(var(--border))] relative overflow-hidden"
+        >
+          <div className="flex items-center gap-1.5 mb-2">
+            <div className="w-6 h-6 rounded-full bg-amber-400/20 flex items-center justify-center">
+              <Home className="w-3.5 h-3.5 text-amber-500" />
+            </div>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Vida en DE</p>
+          </div>
+          <p className="text-[11px] font-semibold leading-tight text-foreground/80 mb-2">
+            Vivienda, taxes, escuelas, comunidad latina...
+          </p>
+          <div className="inline-flex items-center gap-1 bg-amber-400/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full">
+            <Sparkles className="w-2.5 h-2.5" />
+            <span className="text-[9px] font-bold uppercase tracking-wider">Próximamente</span>
+          </div>
+        </motion.div>
       </div>
 
       {/* Camino zigzag */}
