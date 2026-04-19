@@ -301,7 +301,24 @@ export default function MiRoadmap() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Background ilustrado fijo (parallax) */}
+      <div
+        className="fixed inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage: `url(${roadmapBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+          backgroundAttachment: 'fixed',
+        }}
+        aria-hidden="true"
+      />
+      {/* Overlay para contraste */}
+      <div
+        className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-b from-background/40 via-background/60 to-background/85"
+        aria-hidden="true"
+      />
+      <div className="relative z-10">
       {/* Header sticky */}
       <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-20">
         <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
