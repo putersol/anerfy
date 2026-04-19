@@ -28,6 +28,7 @@ import ResultsDashboard from "./pages/resultados/ResultsDashboard";
 import Unsubscribe from "./pages/Unsubscribe";
 import MiRoadmapLogin from "./pages/MiRoadmapLogin";
 import MiRoadmap from "./pages/MiRoadmap";
+import MiRoadmapAccess from "./pages/MiRoadmapAccess";
 import { Loader2 } from "lucide-react";
 
 const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ const AppRoutes = () => (
     <Route path="/admin" element={<Admin />} />
     <Route path="/resultados/:submissionId" element={<ResultsDashboard />} />
     <Route path="/mi-roadmap" element={<MiRoadmapLogin />} />
+    <Route path="/mi-roadmap/acceso" element={<MiRoadmapAccess />} />
     <Route path="/mi-roadmap/:submissionId" element={<MiRoadmap />} />
     <Route path="/mapa" element={<GameMap />} />
     <Route path="/unsubscribe" element={<Unsubscribe />} />
