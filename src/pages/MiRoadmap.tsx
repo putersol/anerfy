@@ -584,6 +584,7 @@ export default function MiRoadmap() {
           </>
         )}
       </AnimatePresence>
+      </div>
     </div>
   );
 }
