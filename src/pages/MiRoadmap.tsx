@@ -46,6 +46,77 @@ const PHASE_ICONS: Record<string, React.ComponentType<{ className?: string }>> =
   fase_finanzas: Wallet,
 };
 
+interface PhaseNodeProps {
+  phase: RoadmapPhase;
+  Icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  stats: { done: number; total: number; pct: number; complete: boolean };
+  isActive: boolean;
+  isLocked: boolean;
+  isComplete: boolean;
+  index: number;
+  nodeRef: React.RefObject<HTMLDivElement> | null;
+  onOpen: () => void;
+}
+
+function PhaseNode({ phase, Icon, stats, isActive, isLocked, isComplete, index, nodeRef, onOpen }: PhaseNodeProps) {
+  return (
+    <motion.div
+      ref={nodeRef}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: index * 0.08, type: 'spring', stiffness: 200 }}
+      className="flex flex-col items-center"
+    >
+      <button
+        onClick={() => !isLocked && onOpen()}
+        disabled={isLocked}
+        className={`
+          relative w-20 h-20 rounded-full flex items-center justify-center
+          transition-all duration-200 active:scale-95
+          ${isComplete
+            ? 'bg-gradient-to-br from-success to-success/70 shadow-[0_6px_0_hsl(var(--success)/0.4)] hover:shadow-[0_4px_0_hsl(var(--success)/0.4)] hover:translate-y-0.5'
+            : isActive
+              ? 'bg-gradient-to-br from-primary to-primary/70 shadow-[0_6px_0_hsl(var(--primary)/0.4)] hover:shadow-[0_4px_0_hsl(var(--primary)/0.4)] hover:translate-y-0.5 ring-4 ring-primary/20 animate-pulse'
+              : isLocked
+                ? 'bg-muted shadow-[0_4px_0_hsl(var(--border))] cursor-not-allowed opacity-60'
+                : 'bg-secondary shadow-[0_4px_0_hsl(var(--border))]'
+          }
+        `}
+      >
+        {isComplete ? (
+          <CheckCircle2 className="w-9 h-9 text-white" strokeWidth={2.5} />
+        ) : isLocked ? (
+          <Lock className="w-7 h-7 text-muted-foreground" />
+        ) : (
+          <Icon className="w-9 h-9 text-white" strokeWidth={2} />
+        )}
+        {!isLocked && !isComplete && stats.done > 0 && (
+          <div className="absolute -top-1 -right-1 bg-amber-400 text-[10px] font-bold rounded-full w-6 h-6 flex items-center justify-center text-amber-950 border-2 border-background">
+            {stats.done}
+          </div>
+        )}
+        {isComplete && (
+          <motion.div
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            className="absolute -top-2 -right-2 bg-amber-400 rounded-full p-1 border-2 border-background"
+          >
+            <Star className="w-3 h-3 text-amber-950 fill-amber-950" />
+          </motion.div>
+        )}
+      </button>
+      <div className="mt-2 text-center max-w-[140px]">
+        <p className={`text-xs font-semibold leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground'}`}>
+          {phase.title.replace(/^Fase \d+ — /, '')}
+        </p>
+        <p className="text-[10px] text-muted-foreground mt-0.5">
+          {stats.done}/{stats.total} · {stats.pct}%
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 const DEMO_SUBMISSION = {
   submission_id: 'demo',
   email: 'demo@anerfy.com',
