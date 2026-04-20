@@ -212,6 +212,17 @@ export default function MiRoadmap() {
         return;
       }
 
+      if (!(sub as any).client_access_unlocked) {
+        toast({
+          title: 'Acceso aún no disponible',
+          description: 'Tu roadmap se habilita después de tu asesoría de 90 min.',
+          variant: 'destructive',
+        });
+        await supabase.auth.signOut();
+        navigate('/mi-roadmap', { replace: true });
+        return;
+      }
+
       setSubmission(sub);
 
       const { data: prog } = await supabase
