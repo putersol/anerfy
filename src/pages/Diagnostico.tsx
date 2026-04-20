@@ -555,19 +555,11 @@ function ScorePreview({
 
 function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<DiagnosticoForm>> }) {
   const data = form.getValues();
-  const scores = calculateScores(data);
-  const circumference = 2 * Math.PI * 52;
-  const strokeDash = (scores.total / 100) * circumference;
-
-  let badgeColor = "bg-red-500";
-  let badgeBg = "bg-red-500/10 border-red-500/20";
-  if (scores.total >= 70) {
-    badgeColor = "bg-emerald-500";
-    badgeBg = "bg-emerald-500/10 border-emerald-500/20";
-  } else if (scores.total >= 40) {
-    badgeColor = "bg-amber-500";
-    badgeBg = "bg-amber-500/10 border-amber-500/20";
-  }
+  const firstName = (data.nombreCompleto || "").split(" ")[0] || "";
+  const waMessage = encodeURIComponent(
+    `Hola Anerfy, soy ${data.nombreCompleto || ""}. Acabo de completar mi diagnóstico y me gustaría agendar mi asesoría de 90 min para revisar mis resultados.`
+  );
+  const waLink = `https://wa.me/4917629959371?text=${waMessage}`;
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -591,55 +583,8 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
               ¡Diagnóstico completado!
             </h2>
             <p className="text-muted-foreground text-sm">
-              Gracias, {data.nombreCompleto.split(" ")[0] || ""}. Hemos recibido toda tu información.
+              Gracias, {firstName}. Tu caso ya está siendo analizado por un asesor de Anerfy.
             </p>
-          </div>
-
-          {/* Score circle */}
-          <div className="text-center">
-            <div className="relative inline-flex items-center justify-center">
-              <svg className="w-36 h-36 -rotate-90" viewBox="0 0 120 120">
-                <circle cx="60" cy="60" r="52" fill="none" stroke="hsl(var(--secondary))" strokeWidth="8" />
-                <circle
-                  cx="60" cy="60" r="52" fill="none"
-                  stroke="hsl(var(--primary))" strokeWidth="8" strokeLinecap="round"
-                  strokeDasharray={`${strokeDash} ${circumference}`}
-                />
-              </svg>
-              <div className="absolute text-center">
-                <span className="text-4xl font-bold text-foreground">{scores.total}</span>
-                <span className="text-muted-foreground text-sm block">/100</span>
-              </div>
-            </div>
-            <div className={`inline-block mt-3 px-5 py-2 rounded-full ${badgeColor}`}>
-              <span className="text-sm font-bold text-white">{scores.clasificacion}</span>
-            </div>
-          </div>
-
-          {/* Category bars */}
-          <div className={`rounded-xl p-4 border ${badgeBg} space-y-3`}>
-            {[
-              { label: "Idioma", score: scores.idioma },
-              { label: "Documentos", score: scores.documentos },
-              { label: "Homologación", score: scores.homologacion },
-              { label: "Finanzas", score: scores.finanzas },
-              { label: "Estrategia", score: scores.estrategia },
-            ].map(({ label, score }) => (
-              <div key={label} className="space-y-1">
-                <div className="flex justify-between text-sm">
-                  <span className="text-secondary-foreground">{label}</span>
-                  <span className="text-foreground font-semibold">{score}/20</span>
-                </div>
-                <div className="h-2 rounded-full bg-muted overflow-hidden">
-                  <div
-                    className={`h-full rounded-full transition-all duration-700 ${
-                      score >= 15 ? "bg-emerald-500" : score >= 8 ? "bg-amber-500" : "bg-red-500"
-                    }`}
-                    style={{ width: `${(score / 20) * 100}%` }}
-                  />
-                </div>
-              </div>
-            ))}
           </div>
 
           {/* Detailed next steps */}
@@ -649,22 +594,22 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
               <div className="flex gap-3">
                 <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">1</div>
                 <div>
-                  <p className="text-foreground text-sm font-medium">Revisión por un asesor</p>
-                  <p className="text-muted-foreground text-xs">Un asesor de Anerfy analizará tu diagnóstico en las próximas 24-48 horas y preparará un plan personalizado para tu caso.</p>
+                  <p className="text-foreground text-sm font-medium">Avísanos por WhatsApp</p>
+                  <p className="text-muted-foreground text-xs">Toca el botón verde de abajo para enviarnos un mensaje. Coordinamos la fecha de tu asesoría de 90 min.</p>
                 </div>
               </div>
               <div className="flex gap-3">
                 <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">2</div>
                 <div>
-                  <p className="text-foreground text-sm font-medium">Recibirás tu plan por WhatsApp</p>
-                  <p className="text-muted-foreground text-xs">Te contactaremos con un resumen de tus fortalezas, áreas de mejora y los pasos concretos que recomendamos según tu perfil.</p>
+                  <p className="text-foreground text-sm font-medium">Asesoría personalizada de 90 min</p>
+                  <p className="text-muted-foreground text-xs">Revisamos juntos tu caso, tus fortalezas, brechas y la mejor estrategia para tu camino a Alemania.</p>
                 </div>
               </div>
               <div className="flex gap-3">
                 <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">3</div>
                 <div>
-                  <p className="text-foreground text-sm font-medium">Agenda tu asesoría personalizada</p>
-                  <p className="text-muted-foreground text-xs">En una videollamada o llamada de 30 min revisaremos juntos tu caso, resolveremos dudas y definiremos tu ruta hacia Alemania.</p>
+                  <p className="text-foreground text-sm font-medium">Acceso a tu roadmap personalizado</p>
+                  <p className="text-muted-foreground text-xs">Después de la asesoría, te habilitaremos el acceso a tu dashboard con resultados completos y plan de acción.</p>
                 </div>
               </div>
             </div>
@@ -673,7 +618,7 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
           {/* Primary CTA — WhatsApp */}
           <div className="space-y-3">
             <a
-              href="https://wa.me/4915257607594?text=Hola%2C%20acabo%20de%20completar%20mi%20diagn%C3%B3stico%20en%20Anerfy%20y%20me%20gustar%C3%ADa%20agendar%20mi%20asesor%C3%ADa."
+              href={waLink}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-semibold py-4 rounded-full transition-colors text-base"
@@ -682,22 +627,8 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
               Agendar asesoría por WhatsApp
             </a>
             <p className="text-center text-muted-foreground text-xs">
-              ¿Prefieres que te contactemos nosotros? Escríbenos y te respondemos en menos de 24h.
+              Tus resultados estarán visibles después de tu asesoría de 90 min.
             </p>
-          </div>
-
-          {/* Secondary CTA */}
-          <div className="bg-secondary/80 border border-border rounded-xl p-4 text-center space-y-2">
-            <p className="text-secondary-foreground text-sm font-medium">¿Tienes más preguntas?</p>
-            <p className="text-muted-foreground text-xs">Nuestro equipo está disponible para ayudarte en cada paso del proceso.</p>
-            <a
-              href="https://wa.me/4915257607594"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-primary text-sm font-medium hover:underline mt-1"
-            >
-              <MessageCircle className="w-4 h-4" /> Escríbenos por WhatsApp
-            </a>
           </div>
 
           <button

@@ -99,6 +99,7 @@ export type Database = {
           bundesland_preferido: string | null
           ciudad_preferida: string | null
           clasificacion: string
+          client_access_unlocked: boolean
           created_at: string
           cual_certificado: string | null
           cual_especialidad: string | null
@@ -166,6 +167,7 @@ export type Database = {
           bundesland_preferido?: string | null
           ciudad_preferida?: string | null
           clasificacion?: string
+          client_access_unlocked?: boolean
           created_at?: string
           cual_certificado?: string | null
           cual_especialidad?: string | null
@@ -233,6 +235,7 @@ export type Database = {
           bundesland_preferido?: string | null
           ciudad_preferida?: string | null
           clasificacion?: string
+          client_access_unlocked?: boolean
           created_at?: string
           cual_certificado?: string | null
           cual_especialidad?: string | null

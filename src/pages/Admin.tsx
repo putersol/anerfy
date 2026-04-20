@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   Lock, LogOut, Download, Link2, ChevronDown, ChevronUp,
   BarChart3, Users, Globe, TrendingUp, Search, X,
-  Plus, Copy, Check, Ticket, Trash2, Presentation, MapPin,
+  Plus, Copy, Check, Ticket, Trash2, Presentation, MapPin, Unlock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -80,6 +80,7 @@ interface Submission {
   clasificacion: string;
   status: string;
   created_at: string;
+  client_access_unlocked: boolean;
 }
 
 function classColor(c: string) {
@@ -659,6 +660,32 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
+          {s.status === 'completed' && (
+            <button
+              onClick={async (e) => {
+                e.stopPropagation();
+                const next = !s.client_access_unlocked;
+                const { error } = await supabase
+                  .from('diagnostico_submissions')
+                  .update({ client_access_unlocked: next } as any)
+                  .eq('submission_id', s.submission_id);
+                if (error) {
+                  console.error(error);
+                } else {
+                  // optimistic local refresh via realtime; no-op
+                }
+              }}
+              className={`text-xs font-medium px-2.5 py-1.5 rounded-lg border transition-colors flex items-center gap-1 ${
+                s.client_access_unlocked
+                  ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20 hover:bg-emerald-500/25'
+                  : 'bg-slate-500/15 text-slate-300 border-slate-500/20 hover:bg-slate-500/25'
+              }`}
+              title={s.client_access_unlocked ? 'Acceso habilitado al cliente' : 'Habilitar acceso al cliente'}
+            >
+              {s.client_access_unlocked ? <Unlock className="w-3 h-3" /> : <Lock className="w-3 h-3" />}
+              {s.client_access_unlocked ? 'Desbloqueado' : 'Bloqueado'}
+            </button>
+          )}
           {pct !== null && pct > 0 && (
             <button
               onClick={(e) => { e.stopPropagation(); navigate(`/mi-roadmap/${s.submission_id}?admin=1`); }}
