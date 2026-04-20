@@ -26,9 +26,11 @@ const TOTAL_SLIDES = 15;
 export default function ResultsDashboard() {
   const { submissionId } = useParams();
   const navigate = useNavigate();
+  const isAdminView = new URLSearchParams(window.location.search).get('admin') === '1';
   const [submission, setSubmission] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [locked, setLocked] = useState(false);
 
   const { currentSlide, direction, goTo, next, prev } = useSlideNavigation(TOTAL_SLIDES);
 
@@ -43,17 +45,42 @@ export default function ResultsDashboard() {
       if (err || !data) {
         setError('No se encontró el caso');
       } else {
-        setSubmission(data);
+        if (!isAdminView && !(data as any).client_access_unlocked) {
+          setLocked(true);
+        } else {
+          setSubmission(data);
+        }
       }
       setLoading(false);
     }
     load();
-  }, [submissionId]);
+  }, [submissionId, isAdminView]);
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (locked) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background px-6 text-center gap-4">
+        <img src={anerfyLogo} alt="Anerfy" className="h-8 mb-2 brightness-0 invert" />
+        <h1 className="text-2xl font-semibold">Tu dashboard aún no está disponible</h1>
+        <p className="text-muted-foreground max-w-md text-sm">
+          Tus resultados se presentan durante tu asesoría personalizada de 90 min con un asesor de Anerfy.
+          Si ya completaste tu asesoría y necesitas acceso, contáctanos por WhatsApp.
+        </p>
+        <a
+          href="https://wa.me/4917629959371"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20BD5A] text-white font-semibold py-3 px-6 rounded-full transition-colors text-sm"
+        >
+          Contactar por WhatsApp
+        </a>
       </div>
     );
   }
