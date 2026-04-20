@@ -658,7 +658,18 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
           </div>
         </div>
 
-        {expanded ? <ChevronUp className="w-4 h-4 text-slate-500 shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-500 shrink-0" />}
+        <div className="flex items-center gap-2 shrink-0">
+          {pct !== null && pct > 0 && (
+            <button
+              onClick={(e) => { e.stopPropagation(); navigate(`/mi-roadmap/${s.submission_id}?admin=1`); }}
+              className="text-xs font-medium px-2.5 py-1.5 rounded-lg bg-violet-500/15 text-violet-300 border border-violet-500/20 hover:bg-violet-500/25 transition-colors flex items-center gap-1"
+              title="Ver roadmap del cliente (solo lectura)"
+            >
+              <MapPin className="w-3 h-3" /> Ver roadmap
+            </button>
+          )}
+          {expanded ? <ChevronUp className="w-4 h-4 text-slate-500" /> : <ChevronDown className="w-4 h-4 text-slate-500" />}
+        </div>
       </button>
 
       <AnimatePresence>

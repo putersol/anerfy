@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Loader2,
@@ -147,7 +147,10 @@ export default function MiRoadmap() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, loading: authLoading } = useAuth();
+  const [searchParams] = useSearchParams();
+  const isAdminView = searchParams.get('admin') === '1';
   const isDemo = submissionId === 'demo';
+  const isReadOnly = isAdminView; // admins solo pueden ver
   const [loading, setLoading] = useState(!isDemo);
   const [submission, setSubmission] = useState<any>(isDemo ? DEMO_SUBMISSION : null);
   const [progress, setProgress] = useState<Record<string, ProgressRow>>({});
@@ -158,6 +161,31 @@ export default function MiRoadmap() {
   useEffect(() => {
     if (isDemo) return;
     async function init() {
+      // Modo admin: solo lectura, sin auth de cliente
+      if (isAdminView) {
+        const { data: sub, error: subErr } = await supabase
+          .from('diagnostico_submissions')
+          .select('*')
+          .eq('submission_id', submissionId)
+          .maybeSingle();
+        if (subErr || !sub) {
+          toast({ title: 'No se encontró el diagnóstico', variant: 'destructive' });
+          setLoading(false);
+          return;
+        }
+        setSubmission(sub);
+        setUserEmail(sub.email || null);
+        const { data: prog } = await supabase
+          .from('client_roadmap_progress')
+          .select('task_id, completed, notes')
+          .eq('submission_id', submissionId);
+        const progMap: Record<string, ProgressRow> = {};
+        (prog || []).forEach((p: any) => { progMap[p.task_id] = p; });
+        setProgress(progMap);
+        setLoading(false);
+        return;
+      }
+
       if (authLoading) return;
       if (!user?.email) {
         navigate('/mi-roadmap', { replace: true });
@@ -199,7 +227,7 @@ export default function MiRoadmap() {
       setLoading(false);
     }
     init();
-  }, [authLoading, user, submissionId, navigate, toast, isDemo]);
+  }, [authLoading, user, submissionId, navigate, toast, isDemo, isAdminView]);
 
   const phases = useMemo(() => (submission ? generatePersonalizedRoadmap(submission) : []), [submission]);
 
@@ -239,6 +267,7 @@ export default function MiRoadmap() {
   }, [loading, activeIndex]);
 
   const toggleTask = async (taskId: string) => {
+    if (isReadOnly) return;
     if (!submission || !userEmail) return;
     const newCompleted = !progressMap[taskId];
     const newRow: ProgressRow = {
@@ -268,6 +297,7 @@ export default function MiRoadmap() {
   };
 
   const updateNote = async (taskId: string, notes: string) => {
+    if (isReadOnly) return;
     if (!submission || !userEmail) return;
     setProgress(p => ({ ...p, [taskId]: { ...(p[taskId] || { task_id: taskId, completed: false, notes: null }), notes } }));
     if (isDemo) return;
@@ -306,8 +336,14 @@ export default function MiRoadmap() {
 
   return (
     <div className="min-h-screen bg-background">
+      {isAdminView && (
+        <div className="bg-amber-500/15 border-b border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-medium px-4 py-2 text-center sticky top-0 z-30">
+          👁️ Modo admin · Solo lectura · {submission?.nombre_completo || submission?.email || 'Cliente'}
+          <button onClick={() => navigate('/admin')} className="ml-3 underline">Volver a /admin</button>
+        </div>
+      )}
       {/* Header sticky */}
-      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-20">
+      <header className={`border-b border-border bg-card/80 backdrop-blur-md sticky ${isAdminView ? 'top-9' : 'top-0'} z-20`}>
         <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <img src={anerfyLogo} alt="Anerfy" className="h-6 brightness-0 invert" />
@@ -317,9 +353,11 @@ export default function MiRoadmap() {
               <Trophy className="w-3.5 h-3.5 text-amber-400" />
               <span className="text-xs font-semibold text-primary">{overallPct}%</span>
             </div>
-            <Button variant="ghost" size="sm" onClick={logout} className="h-8 px-2">
-              <LogOut className="w-4 h-4" />
-            </Button>
+            {!isAdminView && (
+              <Button variant="ghost" size="sm" onClick={logout} className="h-8 px-2">
+                <LogOut className="w-4 h-4" />
+              </Button>
+            )}
           </div>
         </div>
         <div className="max-w-md mx-auto px-4 pb-3">
@@ -612,12 +650,13 @@ export default function MiRoadmap() {
                       <Checkbox
                         checked={checked}
                         onCheckedChange={() => toggleTask(task.id)}
+                        disabled={isReadOnly}
                         className="mt-0.5"
                       />
                       <div className="flex-1 min-w-0">
                         <label
-                          onClick={() => toggleTask(task.id)}
-                          className={`text-sm cursor-pointer block ${checked ? 'text-muted-foreground line-through' : 'text-foreground font-medium'}`}
+                          onClick={() => !isReadOnly && toggleTask(task.id)}
+                          className={`text-sm block ${isReadOnly ? '' : 'cursor-pointer'} ${checked ? 'text-muted-foreground line-through' : 'text-foreground font-medium'}`}
                         >
                           {task.label}
                         </label>
@@ -626,9 +665,10 @@ export default function MiRoadmap() {
                         )}
                         {checked && (
                           <Textarea
-                            placeholder="Notas (opcional)..."
+                            placeholder={isReadOnly ? 'Sin notas' : 'Notas (opcional)...'}
                             value={progress[task.id]?.notes || ''}
                             onChange={(e) => updateNote(task.id, e.target.value)}
+                            readOnly={isReadOnly}
                             className="mt-2 text-xs min-h-[60px]"
                           />
                         )}
