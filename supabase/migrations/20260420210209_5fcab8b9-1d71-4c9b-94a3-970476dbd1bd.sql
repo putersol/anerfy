@@ -1,0 +1,1 @@
+ALTER TABLE public.diagnostico_submissions ADD COLUMN IF NOT EXISTS client_access_unlocked boolean NOT NULL DEFAULT false;
