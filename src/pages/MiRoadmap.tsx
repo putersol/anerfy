@@ -336,8 +336,14 @@ export default function MiRoadmap() {
 
   return (
     <div className="min-h-screen bg-background">
+      {isAdminView && (
+        <div className="bg-amber-500/15 border-b border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-medium px-4 py-2 text-center sticky top-0 z-30">
+          👁️ Modo admin · Solo lectura · {submission?.nombre_completo || submission?.email || 'Cliente'}
+          <button onClick={() => navigate('/admin')} className="ml-3 underline">Volver a /admin</button>
+        </div>
+      )}
       {/* Header sticky */}
-      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-20">
+      <header className={`border-b border-border bg-card/80 backdrop-blur-md sticky ${isAdminView ? 'top-9' : 'top-0'} z-20`}>
         <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <img src={anerfyLogo} alt="Anerfy" className="h-6 brightness-0 invert" />
@@ -347,9 +353,11 @@ export default function MiRoadmap() {
               <Trophy className="w-3.5 h-3.5 text-amber-400" />
               <span className="text-xs font-semibold text-primary">{overallPct}%</span>
             </div>
-            <Button variant="ghost" size="sm" onClick={logout} className="h-8 px-2">
-              <LogOut className="w-4 h-4" />
-            </Button>
+            {!isAdminView && (
+              <Button variant="ghost" size="sm" onClick={logout} className="h-8 px-2">
+                <LogOut className="w-4 h-4" />
+              </Button>
+            )}
           </div>
         </div>
         <div className="max-w-md mx-auto px-4 pb-3">
