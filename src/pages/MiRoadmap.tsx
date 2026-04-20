@@ -642,12 +642,13 @@ export default function MiRoadmap() {
                       <Checkbox
                         checked={checked}
                         onCheckedChange={() => toggleTask(task.id)}
+                        disabled={isReadOnly}
                         className="mt-0.5"
                       />
                       <div className="flex-1 min-w-0">
                         <label
-                          onClick={() => toggleTask(task.id)}
-                          className={`text-sm cursor-pointer block ${checked ? 'text-muted-foreground line-through' : 'text-foreground font-medium'}`}
+                          onClick={() => !isReadOnly && toggleTask(task.id)}
+                          className={`text-sm block ${isReadOnly ? '' : 'cursor-pointer'} ${checked ? 'text-muted-foreground line-through' : 'text-foreground font-medium'}`}
                         >
                           {task.label}
                         </label>
@@ -656,9 +657,10 @@ export default function MiRoadmap() {
                         )}
                         {checked && (
                           <Textarea
-                            placeholder="Notas (opcional)..."
+                            placeholder={isReadOnly ? 'Sin notas' : 'Notas (opcional)...'}
                             value={progress[task.id]?.notes || ''}
                             onChange={(e) => updateNote(task.id, e.target.value)}
+                            readOnly={isReadOnly}
                             className="mt-2 text-xs min-h-[60px]"
                           />
                         )}
