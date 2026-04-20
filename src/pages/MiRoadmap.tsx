@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Loader2,
@@ -147,7 +147,10 @@ export default function MiRoadmap() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, loading: authLoading } = useAuth();
+  const [searchParams] = useSearchParams();
+  const isAdminView = searchParams.get('admin') === '1';
   const isDemo = submissionId === 'demo';
+  const isReadOnly = isAdminView; // admins solo pueden ver
   const [loading, setLoading] = useState(!isDemo);
   const [submission, setSubmission] = useState<any>(isDemo ? DEMO_SUBMISSION : null);
   const [progress, setProgress] = useState<Record<string, ProgressRow>>({});
@@ -158,6 +161,31 @@ export default function MiRoadmap() {
   useEffect(() => {
     if (isDemo) return;
     async function init() {
+      // Modo admin: solo lectura, sin auth de cliente
+      if (isAdminView) {
+        const { data: sub, error: subErr } = await supabase
+          .from('diagnostico_submissions')
+          .select('*')
+          .eq('submission_id', submissionId)
+          .maybeSingle();
+        if (subErr || !sub) {
+          toast({ title: 'No se encontró el diagnóstico', variant: 'destructive' });
+          setLoading(false);
+          return;
+        }
+        setSubmission(sub);
+        setUserEmail(sub.email || null);
+        const { data: prog } = await supabase
+          .from('client_roadmap_progress')
+          .select('task_id, completed, notes')
+          .eq('submission_id', submissionId);
+        const progMap: Record<string, ProgressRow> = {};
+        (prog || []).forEach((p: any) => { progMap[p.task_id] = p; });
+        setProgress(progMap);
+        setLoading(false);
+        return;
+      }
+
       if (authLoading) return;
       if (!user?.email) {
         navigate('/mi-roadmap', { replace: true });
@@ -199,7 +227,7 @@ export default function MiRoadmap() {
       setLoading(false);
     }
     init();
-  }, [authLoading, user, submissionId, navigate, toast, isDemo]);
+  }, [authLoading, user, submissionId, navigate, toast, isDemo, isAdminView]);
 
   const phases = useMemo(() => (submission ? generatePersonalizedRoadmap(submission) : []), [submission]);
 
@@ -239,6 +267,7 @@ export default function MiRoadmap() {
   }, [loading, activeIndex]);
 
   const toggleTask = async (taskId: string) => {
+    if (isReadOnly) return;
     if (!submission || !userEmail) return;
     const newCompleted = !progressMap[taskId];
     const newRow: ProgressRow = {
@@ -268,6 +297,7 @@ export default function MiRoadmap() {
   };
 
   const updateNote = async (taskId: string, notes: string) => {
+    if (isReadOnly) return;
     if (!submission || !userEmail) return;
     setProgress(p => ({ ...p, [taskId]: { ...(p[taskId] || { task_id: taskId, completed: false, notes: null }), notes } }));
     if (isDemo) return;
