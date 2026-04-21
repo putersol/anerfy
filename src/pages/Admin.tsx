@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   Lock, LogOut, Download, Link2, ChevronDown, ChevronUp,
   BarChart3, Users, Globe, TrendingUp, Search, X,
-  Plus, Copy, Check, Ticket, Trash2, Presentation, MapPin, Unlock,
+  Plus, Copy, Check, Ticket, Trash2, Presentation, MapPin, Unlock, Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
