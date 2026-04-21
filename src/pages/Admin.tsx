@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   Lock, LogOut, Download, Link2, ChevronDown, ChevronUp,
   BarChart3, Users, Globe, TrendingUp, Search, X,
-  Plus, Copy, Check, Ticket, Trash2, Presentation, MapPin, Unlock,
+  Plus, Copy, Check, Ticket, Trash2, Presentation, MapPin, Unlock, Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -615,6 +615,46 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
   const navigate = useNavigate();
   const { pct, lastActivity } = useRoadmapProgress(s.submission_id, s.status);
   const daysAgo = lastActivity ? Math.floor((Date.now() - new Date(lastActivity).getTime()) / 86400000) : null;
+  const { toast } = useToast();
+  const [sending, setSending] = useState(false);
+
+  async function sendAccessEmail(e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!s.email) {
+      toast({ title: "Sin email", description: "Esta submission no tiene email", variant: "destructive" });
+      return;
+    }
+    setSending(true);
+    const origin = window.location.origin;
+    try {
+      const { error } = await supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'acceso-presentacion',
+          recipientEmail: s.email,
+          idempotencyKey: `acceso-presentacion-${s.submission_id}-${Date.now()}`,
+          templateData: {
+            nombre: s.nombre_completo?.split(' ')[0] || undefined,
+            resultadosUrl: `${origin}/resultados/${s.submission_id}`,
+            roadmapUrl: `${origin}/mi-roadmap/${s.submission_id}`,
+          },
+        },
+      });
+      if (error) throw error;
+      // Auto-unlock if not already
+      if (!s.client_access_unlocked) {
+        await supabase
+          .from('diagnostico_submissions')
+          .update({ client_access_unlocked: true } as any)
+          .eq('submission_id', s.submission_id);
+      }
+      toast({ title: "Email enviado", description: `Acceso enviado a ${s.email}` });
+    } catch (err: any) {
+      toast({ title: "Error", description: err?.message || "No se pudo enviar", variant: "destructive" });
+    } finally {
+      setSending(false);
+    }
+  }
+
   return (
     <Card className="bg-white/[0.03] border-white/10 overflow-hidden">
       <button onClick={onToggle} className="w-full p-4 flex items-center gap-4 text-left hover:bg-white/[0.02] transition-colors">
@@ -693,6 +733,16 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
               title="Ver roadmap del cliente (solo lectura)"
             >
               <MapPin className="w-3 h-3" /> Ver roadmap
+            </button>
+          )}
+          {s.status === 'completed' && s.email && (
+            <button
+              onClick={sendAccessEmail}
+              disabled={sending}
+              className="text-xs font-medium px-2.5 py-1.5 rounded-lg bg-blue-500/15 text-blue-300 border border-blue-500/20 hover:bg-blue-500/25 transition-colors flex items-center gap-1 disabled:opacity-50"
+              title="Enviar email con acceso a presentación y roadmap"
+            >
+              <Mail className="w-3 h-3" /> {sending ? 'Enviando…' : 'Enviar acceso'}
             </button>
           )}
           {expanded ? <ChevronUp className="w-4 h-4 text-slate-500" /> : <ChevronDown className="w-4 h-4 text-slate-500" />}
