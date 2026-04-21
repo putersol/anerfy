@@ -594,12 +594,19 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
               <div className="flex gap-3">
                 <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">1</div>
                 <div>
-                  <p className="text-foreground text-sm font-medium">Agenda tu revisión con un asesor (90 min)</p>
-                  <p className="text-muted-foreground text-xs">Toca el botón verde de abajo y escríbenos por WhatsApp para coordinar la fecha de tu asesoría personalizada.</p>
+                  <p className="text-foreground text-sm font-medium">Revisa tu correo</p>
+                  <p className="text-muted-foreground text-xs">En unos minutos te llegará un email con el enlace para agendar tu asesoría de 90 min y revisar tus resultados con un asesor.</p>
                 </div>
               </div>
               <div className="flex gap-3">
                 <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">2</div>
+                <div>
+                  <p className="text-foreground text-sm font-medium">Agenda tu asesoría (90 min)</p>
+                  <p className="text-muted-foreground text-xs">También puedes coordinarla directamente por WhatsApp con el botón de abajo.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">3</div>
                 <div>
                   <p className="text-foreground text-sm font-medium">Recibe tu plan y acceso a tu perfil</p>
                   <p className="text-muted-foreground text-xs">Al terminar la llamada te enviamos tu plan al instante y te habilitamos el acceso a tu mapa de seguimiento interactivo.</p>
