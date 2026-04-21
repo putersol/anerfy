@@ -735,6 +735,16 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
               <MapPin className="w-3 h-3" /> Ver roadmap
             </button>
           )}
+          {s.status === 'completed' && s.email && (
+            <button
+              onClick={sendAccessEmail}
+              disabled={sending}
+              className="text-xs font-medium px-2.5 py-1.5 rounded-lg bg-blue-500/15 text-blue-300 border border-blue-500/20 hover:bg-blue-500/25 transition-colors flex items-center gap-1 disabled:opacity-50"
+              title="Enviar email con acceso a presentación y roadmap"
+            >
+              <Mail className="w-3 h-3" /> {sending ? 'Enviando…' : 'Enviar acceso'}
+            </button>
+          )}
           {expanded ? <ChevronUp className="w-4 h-4 text-slate-500" /> : <ChevronDown className="w-4 h-4 text-slate-500" />}
         </div>
       </button>
