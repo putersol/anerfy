@@ -594,22 +594,15 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
               <div className="flex gap-3">
                 <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">1</div>
                 <div>
-                  <p className="text-foreground text-sm font-medium">Avísanos por WhatsApp</p>
-                  <p className="text-muted-foreground text-xs">Toca el botón verde de abajo para enviarnos un mensaje. Coordinamos la fecha de tu asesoría de 90 min.</p>
+                  <p className="text-foreground text-sm font-medium">Agenda tu revisión con un asesor (90 min)</p>
+                  <p className="text-muted-foreground text-xs">Toca el botón verde de abajo y escríbenos por WhatsApp para coordinar la fecha de tu asesoría personalizada.</p>
                 </div>
               </div>
               <div className="flex gap-3">
                 <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">2</div>
                 <div>
-                  <p className="text-foreground text-sm font-medium">Asesoría personalizada de 90 min</p>
-                  <p className="text-muted-foreground text-xs">Revisamos juntos tu caso, tus fortalezas, brechas y la mejor estrategia para tu camino a Alemania.</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">3</div>
-                <div>
-                  <p className="text-foreground text-sm font-medium">Acceso a tu roadmap personalizado</p>
-                  <p className="text-muted-foreground text-xs">Después de la asesoría, te habilitaremos el acceso a tu dashboard con resultados completos y plan de acción.</p>
+                  <p className="text-foreground text-sm font-medium">Recibe tu plan y acceso a tu perfil</p>
+                  <p className="text-muted-foreground text-xs">Al terminar la llamada te enviamos tu plan al instante y te habilitamos el acceso a tu mapa de seguimiento interactivo.</p>
                 </div>
               </div>
             </div>
