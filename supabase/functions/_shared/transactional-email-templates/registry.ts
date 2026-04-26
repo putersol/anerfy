@@ -11,8 +11,10 @@ export interface TemplateEntry {
 
 import { template as diagnosticLink } from './diagnostic-link.tsx'
 import { template as accesoPresentacion } from './acceso-presentacion.tsx'
+import { template as diagnosticoNuevoAsesor } from './diagnostico-nuevo-asesor.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'diagnostic-link': diagnosticLink,
   'acceso-presentacion': accesoPresentacion,
+  'diagnostico-nuevo-asesor': diagnosticoNuevoAsesor,
 }
