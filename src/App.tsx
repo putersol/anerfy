@@ -26,6 +26,7 @@ import DiagnosticoGated from "./pages/DiagnosticoGated";
 import Admin from "./pages/Admin";
 import ResultsDashboard from "./pages/resultados/ResultsDashboard";
 import Unsubscribe from "./pages/Unsubscribe";
+import Empezar from "./pages/Empezar";
 import MiRoadmapLogin from "./pages/MiRoadmapLogin";
 import MiRoadmap from "./pages/MiRoadmap";
 import MiRoadmapAccess from "./pages/MiRoadmapAccess";
@@ -67,6 +68,7 @@ const AppRoutes = () => (
     <Route path="/mi-roadmap/demo" element={<MiRoadmap />} />
     <Route path="/mi-roadmap/:submissionId" element={<MiRoadmap />} />
     <Route path="/mapa" element={<GameMap />} />
+    <Route path="/empezar" element={<Empezar />} />
     <Route path="/unsubscribe" element={<Unsubscribe />} />
     <Route path="/mapa" element={<GameMap />} />
     
