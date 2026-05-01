@@ -626,12 +626,6 @@ function SubmittedScreen({
             </p>
           </div>
 
-          <button
-            className="w-full border border-border text-muted-foreground hover:text-foreground hover:bg-secondary py-3 rounded-full transition-colors"
-            onClick={() => (window.location.href = "/")}
-          >
-            Volver al inicio
-          </button>
         </motion.div>
       </div>
     </div>
