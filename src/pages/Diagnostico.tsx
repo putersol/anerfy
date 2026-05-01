@@ -232,12 +232,12 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
       });
     } catch (err) {
       console.error("Error saving submission:", err);
-      setSubmitted(true);
       toast({
-        title: "Diagnóstico completado",
-        description: "Hubo un problema al guardar, pero puedes ver tus resultados.",
-        variant: "destructive",
+        variant: 'destructive',
+        title: 'No pudimos guardar tu diagnóstico',
+        description: 'Escríbenos por WhatsApp para no perder tu progreso.',
       });
+      window.open(`https://wa.me/4917629959371?text=${encodeURIComponent('Hola Anerfy, intenté completar mi diagnóstico pero falló al enviar. ¿Me ayudan?')}`, '_blank');
     } finally {
       setSubmitting(false);
     }
