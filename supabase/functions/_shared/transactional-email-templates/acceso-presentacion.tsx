@@ -50,25 +50,15 @@ const AccesoPresentacionEmail = ({ nombre, resultadosUrl, roadmapUrl }: AccesoPr
           avances con claridad cada semana.
         </Text>
 
-        {resultadosUrl && (
-          <Section style={buttonSection}>
-            <Button style={button} href={resultadosUrl}>
-              Ver mi plan personalizado
-            </Button>
-          </Section>
-        )}
-
-        {roadmapUrl && (
-          <Section style={buttonSectionSecondary}>
-            <Button style={buttonSecondary} href={roadmapUrl}>
-              Abrir mi mapa de seguimiento
-            </Button>
-          </Section>
-        )}
+        <Section style={buttonSection}>
+          <Button style={button} href="https://anerfy.com/mi-roadmap">
+            Pedir acceso a mi roadmap
+          </Button>
+        </Section>
 
         <Text style={linkNote}>
-          Guarda este correo: estos enlaces son personales y los necesitarás
-          para volver a tu perfil.
+          Como medida de seguridad, te pediremos confirmar tu email para
+          abrir tu plan.
         </Text>
 
         <Hr style={hr} />
