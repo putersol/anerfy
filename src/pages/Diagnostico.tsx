@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   ChevronLeft, ChevronRight, Send, Stethoscope, Clock, Shield,
-  MessageCircle, Loader2,
+  MessageCircle, Loader2, CalendarCheck,
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
@@ -351,7 +351,7 @@ export default function Diagnostico({ tokenData }: DiagnosticoProps = {}) {
 
   // ─── Submitted Results ───
   if (submitted) {
-    return <SubmittedScreen form={form} />;
+    return <SubmittedScreen form={form} submissionId={submissionIdRef.current} />;
   }
 
   // ─── Form: Questions + Score ───
@@ -553,13 +553,20 @@ function ScorePreview({
 
 // ─── Submitted Screen ───
 
-function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<DiagnosticoForm>> }) {
+function SubmittedScreen({
+  form,
+  submissionId,
+}: {
+  form: ReturnType<typeof useForm<DiagnosticoForm>>;
+  submissionId: string;
+}) {
   const data = form.getValues();
   const firstName = (data.nombreCompleto || "").split(" ")[0] || "";
   const waMessage = encodeURIComponent(
     `Hola Anerfy, soy ${data.nombreCompleto || ""}. Acabo de completar mi diagnóstico y me gustaría agendar mi asesoría de 90 min para revisar mis resultados.`
   );
   const waLink = `https://wa.me/4917629959371?text=${waMessage}`;
+  const calLink = `https://cal.com/anerfy/asesoria-90min?name=${encodeURIComponent(data.nombreCompleto || '')}&email=${encodeURIComponent(data.email || '')}&metadata[submission_id]=${submissionId}`;
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -594,16 +601,25 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
             </p>
           </div>
 
-          {/* Primary CTA — WhatsApp */}
+          {/* Primary CTA — Cal.com; WhatsApp as secondary */}
           <div className="space-y-3">
+            <a
+              href={calLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-4 rounded-full transition-colors text-base"
+            >
+              <CalendarCheck className="w-5 h-5" />
+              Agendar mi asesoría ahora
+            </a>
             <a
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20BD5A] text-white font-semibold py-4 rounded-full transition-colors text-base"
+              className="flex items-center justify-center gap-2 w-full border-2 border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10 font-semibold py-3 rounded-full transition-colors text-sm"
             >
-              <MessageCircle className="w-5 h-5" />
-              Agendar asesoría por WhatsApp
+              <MessageCircle className="w-4 h-4" />
+              ¿Prefieres WhatsApp?
             </a>
             <p className="text-center text-muted-foreground text-xs">
               Te mostramos tu plan personalizado en la asesoría.
