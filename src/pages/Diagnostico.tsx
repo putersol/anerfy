@@ -583,36 +583,15 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
               ¡Diagnóstico completado!
             </h2>
             <p className="text-muted-foreground text-sm">
-              Gracias, {firstName}. Tu caso ya está siendo analizado por un asesor de Anerfy.
+              Gracias, {firstName}. Tu siguiente paso es agendar la asesoría — ahí te mostramos tu plan.
             </p>
           </div>
 
-          {/* Detailed next steps */}
-          <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 space-y-4">
-            <h3 className="text-primary font-semibold text-base">¿Qué sigue ahora?</h3>
-            <div className="space-y-3">
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">1</div>
-                <div>
-                  <p className="text-foreground text-sm font-medium">Revisa tu correo</p>
-                  <p className="text-muted-foreground text-xs">En unos minutos te llegará un email con el enlace para agendar tu asesoría de 90 min y revisar tus resultados con un asesor.</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">2</div>
-                <div>
-                  <p className="text-foreground text-sm font-medium">Agenda tu asesoría (90 min)</p>
-                  <p className="text-muted-foreground text-xs">También puedes coordinarla directamente por WhatsApp con el botón de abajo.</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">3</div>
-                <div>
-                  <p className="text-foreground text-sm font-medium">Recibe tu plan y acceso a tu perfil</p>
-                  <p className="text-muted-foreground text-xs">Al terminar la llamada te enviamos tu plan al instante y te habilitamos el acceso a tu mapa de seguimiento interactivo.</p>
-                </div>
-              </div>
-            </div>
+          <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 space-y-3">
+            <h3 className="text-primary font-semibold text-base">Agenda tu asesoría de 90 min</h3>
+            <p className="text-foreground text-sm leading-relaxed">
+              Es donde repasamos tu diagnóstico contigo y te mostramos tu <strong>plan personalizado</strong>. Sin esperas: directo a la sesión.
+            </p>
           </div>
 
           {/* Primary CTA — WhatsApp */}
@@ -627,7 +606,7 @@ function SubmittedScreen({ form }: { form: ReturnType<typeof useForm<Diagnostico
               Agendar asesoría por WhatsApp
             </a>
             <p className="text-center text-muted-foreground text-xs">
-              Tus resultados estarán visibles después de tu asesoría de 90 min.
+              Te mostramos tu plan personalizado en la asesoría.
             </p>
           </div>
 
