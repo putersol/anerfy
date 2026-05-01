@@ -103,7 +103,7 @@ const SlideExecutiveSummary = forwardRef<HTMLDivElement, Props>(({ submission, s
 
         {/* CTA — Activar Bloque 3 */}
         <a
-          href="/mi-roadmap"
+          href={`/mi-roadmap/${submission.submission_id}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground hover:opacity-90 transition-opacity text-sm font-medium"
