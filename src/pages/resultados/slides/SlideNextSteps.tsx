@@ -7,7 +7,6 @@ import {
   MapPin,
   Building2,
   FileText,
-  CalendarCheck,
   ExternalLink,
   Stethoscope,
 } from 'lucide-react';
@@ -111,31 +110,6 @@ const SlideNextSteps = forwardRef<HTMLDivElement, Props>(({ submission, scores }
           <p className="text-sm text-muted-foreground mt-0.5">
             Acciones concretas para {submission.nombre_completo || 'tu caso'}
           </p>
-        </motion.div>
-
-        {/* ── Booking CTA: Asesoría 90 min ── */}
-        <motion.div {...anim(0.5)}>
-          <a
-            href={`https://cal.com/anerfy/asesoria-90min?name=${encodeURIComponent(submission.nombre_completo || '')}&email=${encodeURIComponent(submission.email || '')}&metadata[submission_id]=${submission.submission_id || ''}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block rounded-xl border border-primary/40 bg-gradient-to-r from-primary/10 to-primary/5 p-5 hover:border-primary/60 hover:from-primary/15 transition-all group"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-xl bg-primary border border-primary flex items-center justify-center shrink-0">
-                <CalendarCheck className="w-7 h-7 text-primary-foreground" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">
-                  Reserva tu asesoría personalizada de 90 min
-                </h3>
-                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-                  Repasamos contigo este diagnóstico, resolvemos dudas y te entregamos un plan de acción adaptado a tu caso.
-                </p>
-              </div>
-              <ExternalLink className="w-5 h-5 text-primary shrink-0 transition-colors" />
-            </div>
-          </a>
         </motion.div>
 
         {/* ── 3 Columns ── */}

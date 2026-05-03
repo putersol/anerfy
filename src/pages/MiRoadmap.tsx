@@ -21,6 +21,8 @@ import {
   Newspaper,
   Home,
   Clock,
+  CalendarCheck,
+  ExternalLink,
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -395,6 +397,34 @@ export default function MiRoadmap() {
         <p className="text-xs text-muted-foreground mt-1">
           Toca cada nodo para ver y completar tareas
         </p>
+      </div>
+
+      {/* CTA: Asesoría de seguimiento */}
+      <div className="max-w-md mx-auto px-4 pt-4">
+        <motion.a
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          href={`https://cal.eu/anerfy/asesoria-seguimiento?name=${encodeURIComponent(submission.nombre_completo || '')}&email=${encodeURIComponent(submission.email || '')}&metadata[submission_id]=${submission.submission_id || ''}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/10 to-primary/5 p-4 hover:border-primary/60 hover:from-primary/15 transition-all group shadow-[0_4px_0_hsl(var(--primary)/0.2)]"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-xl bg-primary border border-primary flex items-center justify-center shrink-0">
+              <CalendarCheck className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                Asesoría de seguimiento
+              </h3>
+              <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
+                Agenda tu próxima sesión cuando ya estés avanzando — repasamos progreso y ajustamos el plan.
+              </p>
+            </div>
+            <ExternalLink className="w-4 h-4 text-primary shrink-0" />
+          </div>
+        </motion.a>
       </div>
 
       {/* Islas flotantes: Noticias + Vida en Alemania */}

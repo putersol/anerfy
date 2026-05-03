@@ -84,7 +84,7 @@ export const template = {
   displayName: 'Diagnóstico completado (cliente)',
   previewData: {
     nombre: 'María Laura',
-    bookingUrl: 'https://cal.com/anerfy/asesoria-90min?name=Mar%C3%ADa%20Laura&email=test%40anerfy.com',
+    bookingUrl: 'https://cal.eu/anerfy/asesoria-90min?name=Mar%C3%ADa%20Laura&email=test%40anerfy.com',
   },
 } satisfies TemplateEntry
 

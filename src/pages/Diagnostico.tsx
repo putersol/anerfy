@@ -566,7 +566,7 @@ function SubmittedScreen({
     `Hola Anerfy, soy ${data.nombreCompleto || ""}. Acabo de completar mi diagnóstico y me gustaría agendar mi asesoría de 90 min para revisar mis resultados.`
   );
   const waLink = `https://wa.me/4917629959371?text=${waMessage}`;
-  const calLink = `https://cal.com/anerfy/asesoria-90min?name=${encodeURIComponent(data.nombreCompleto || '')}&email=${encodeURIComponent(data.email || '')}&metadata[submission_id]=${submissionId}`;
+  const calLink = `https://cal.eu/anerfy/asesoria-90min?name=${encodeURIComponent(data.nombreCompleto || '')}&email=${encodeURIComponent(data.email || '')}&metadata[submission_id]=${submissionId}`;
 
   return (
     <div className="relative min-h-screen overflow-hidden">

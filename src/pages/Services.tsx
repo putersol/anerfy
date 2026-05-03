@@ -27,14 +27,14 @@ const providers: ServiceProvider[] = [
     rating: 4.9, reviews: 127, specialty: 'Alemán médico + Preparación FSP + Simulaciones',
     includes: ['8 sesiones 1:1 por mes', 'Simulaciones FSP reales', 'Corrección documentos médicos', 'Grupo práctica otros médicos'],
     price: '€280/mes (mín. 3 meses)', testimonial: 'Aprobé FSP primera vez gracias a simulaciones', testimonialAuthor: 'Dr. Carlos M.',
-    cta: 'Agendar consulta gratis',
+    cta: 'Agendar consulta',
   },
   {
     name: 'Alberto Díaz', role: 'Especialista Homologación Médica', category: 'Homologación',
     rating: 5.0, reviews: 89, specialty: 'Homologación completa médicos LatAm',
     includes: ['Revisión completa documentos', 'Verificación ANABIN', 'Estrategia por Bundesland', 'Seguimiento proceso completo'],
     price: '€300–€400 por asesoría', testimonial: 'Me ahorró meses de trámites innecesarios', testimonialAuthor: 'Dra. Ana L.',
-    cta: 'Consulta inicial gratis',
+    cta: 'Reservar consulta inicial',
   },
   {
     name: 'Dieter', role: 'Asesor Financiero Médicos — Hispano Akademie', category: 'Finanzas',
@@ -46,7 +46,7 @@ const providers: ServiceProvider[] = [
     name: 'Lic. Patricia Ruiz', role: 'Psicóloga especializada migrantes', category: 'Psicología',
     rating: 4.9, reviews: 78, specialty: 'Burnout, integración, síndrome impostor',
     includes: ['Sesiones individuales', 'Grupo de apoyo semanal', 'Recursos de autoayuda', 'Atención en español'],
-    price: '€90/sesión', cta: 'Primera sesión gratis',
+    price: '€90/sesión', cta: 'Reservar primera sesión',
   },
   {
     name: 'Rechtsanwalt Thomas Weber', role: 'Abogado contratos médicos', category: 'Legal',

@@ -6,10 +6,10 @@ import { createClient } from 'jsr:@supabase/supabase-js@2'
 //    - Reminder 1: 24h after token created (window 23-25h)
 //    - Reminder 2: 72h after token created (window 71-73h)
 //
-// B) Booking reminders (filled diagnostic but didn't book the asesoría yet):
-//    - Reminder 1: 24h after status='completed' (window 23-25h)
-//    - Reminder 2: 72h after status='completed' (window 71-73h)
-//    - Reminder 3: 7d  after status='completed' (window 6d23h-7d1h)
+// B) Booking reminders (got booking link but didn't book the asesoría yet):
+//    - Reminder 1: 24h after booking_link_sent_at (window 23-25h)
+//    - Reminder 2: 72h after booking_link_sent_at (window 71-73h)
+//    - Reminder 3: 7d  after booking_link_sent_at (window 6d23h-7d1h)
 //
 // All windows are 2h wide so an hourly cron hits each candidate exactly once.
 // Sent timestamps are written back to prevent duplicates.
@@ -73,6 +73,7 @@ interface SubmissionRow {
   email: string
   nombre_completo: string | null
   completed_at: string | null
+  booking_link_sent_at: string | null
   meeting_scheduled_at: string | null
   booking_reminder_1_sent_at: string | null
   booking_reminder_2_sent_at: string | null
@@ -82,7 +83,7 @@ interface SubmissionRow {
 function buildBookingUrl(s: SubmissionRow): string {
   const name = encodeURIComponent(s.nombre_completo || '')
   const email = encodeURIComponent(s.email || '')
-  return `https://cal.com/anerfy/asesoria-90min?name=${name}&email=${email}&metadata[submission_id]=${s.submission_id}`
+  return `https://cal.eu/anerfy/asesoria-90min?name=${name}&email=${email}&metadata[submission_id]=${s.submission_id}`
 }
 
 async function sendBookingReminder(s: SubmissionRow, kind: 1 | 2 | 3): Promise<boolean> {
@@ -137,13 +138,14 @@ async function fetchBookingCandidates(
   const { data, error } = await supabase
     .from('diagnostico_submissions')
     .select(
-      'submission_id, email, nombre_completo, completed_at, meeting_scheduled_at, booking_reminder_1_sent_at, booking_reminder_2_sent_at, booking_reminder_3_sent_at',
+      'submission_id, email, nombre_completo, completed_at, booking_link_sent_at, meeting_scheduled_at, booking_reminder_1_sent_at, booking_reminder_2_sent_at, booking_reminder_3_sent_at',
     )
     .eq('status', 'completed')
     .is('meeting_scheduled_at', null)
     .is(sentAtField, null)
-    .gte('completed_at', lower)
-    .lte('completed_at', upper)
+    .not('booking_link_sent_at', 'is', null)
+    .gte('booking_link_sent_at', lower)
+    .lte('booking_link_sent_at', upper)
 
   if (error) {
     console.error(`Error fetching booking candidates (${hoursAgo}h):`, error)

@@ -82,7 +82,7 @@ export const template = {
   displayName: 'Recordatorio agendar (72h)',
   previewData: {
     nombre: 'María Laura',
-    bookingUrl: 'https://cal.com/anerfy/asesoria-90min',
+    bookingUrl: 'https://cal.eu/anerfy/asesoria-90min',
   },
 } satisfies TemplateEntry
 

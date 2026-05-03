@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   Lock, LogOut, Download, Link2, ChevronDown, ChevronUp,
   BarChart3, Users, Globe, TrendingUp, Search, X,
-  Plus, Copy, Check, Ticket, Trash2, Presentation, MapPin, Unlock, Mail,
+  Plus, Copy, Check, Ticket, Trash2, Presentation, MapPin, Unlock, Mail, Calendar,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -81,6 +81,7 @@ interface Submission {
   status: string;
   created_at: string;
   client_access_unlocked: boolean;
+  booking_link_sent_at: string | null;
 }
 
 function classColor(c: string) {
@@ -617,6 +618,40 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
   const daysAgo = lastActivity ? Math.floor((Date.now() - new Date(lastActivity).getTime()) / 86400000) : null;
   const { toast } = useToast();
   const [sending, setSending] = useState(false);
+  const [sendingBooking, setSendingBooking] = useState(false);
+
+  async function sendBookingLinkEmail(e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!s.email) {
+      toast({ title: "Sin email", description: "Esta submission no tiene email", variant: "destructive" });
+      return;
+    }
+    setSendingBooking(true);
+    try {
+      const bookingUrl = `https://cal.eu/anerfy/asesoria-90min?name=${encodeURIComponent(s.nombre_completo || '')}&email=${encodeURIComponent(s.email)}&metadata[submission_id]=${s.submission_id}`;
+      const { error } = await supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'diagnostico-completado',
+          recipientEmail: s.email,
+          idempotencyKey: `diagnostico-completado-${s.submission_id}`,
+          templateData: {
+            nombre: s.nombre_completo?.split(' ')[0] || undefined,
+            bookingUrl,
+          },
+        },
+      });
+      if (error) throw error;
+      await supabase
+        .from('diagnostico_submissions')
+        .update({ booking_link_sent_at: new Date().toISOString() } as any)
+        .eq('submission_id', s.submission_id);
+      toast({ title: "Link de asesoría enviado", description: `Booking link enviado a ${s.email}` });
+    } catch (err: any) {
+      toast({ title: "Error", description: err?.message || "No se pudo enviar", variant: "destructive" });
+    } finally {
+      setSendingBooking(false);
+    }
+  }
 
   async function sendAccessEmail(e: React.MouseEvent) {
     e.stopPropagation();
@@ -733,6 +768,23 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
               title="Ver roadmap del cliente (solo lectura)"
             >
               <MapPin className="w-3 h-3" /> Ver roadmap
+            </button>
+          )}
+          {s.status === 'completed' && s.email && (
+            <button
+              onClick={sendBookingLinkEmail}
+              disabled={sendingBooking}
+              className={`text-xs font-medium px-2.5 py-1.5 rounded-lg border transition-colors flex items-center gap-1 disabled:opacity-50 ${
+                s.booking_link_sent_at
+                  ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20 hover:bg-emerald-500/25'
+                  : 'bg-amber-500/15 text-amber-300 border-amber-500/20 hover:bg-amber-500/25'
+              }`}
+              title={s.booking_link_sent_at
+                ? `Link de asesoría enviado el ${new Date(s.booking_link_sent_at).toLocaleString()}. Click para reenviar.`
+                : 'Enviar link de asesoría al cliente (placeholder de Stripe webhook futuro)'}
+            >
+              <Calendar className="w-3 h-3" />
+              {sendingBooking ? 'Enviando…' : (s.booking_link_sent_at ? 'Link enviado' : 'Enviar link')}
             </button>
           )}
           {s.status === 'completed' && s.email && (

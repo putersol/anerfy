@@ -1,21 +1,20 @@
 /// <reference types="npm:@types/react@18.3.1" />
 import * as React from 'npm:react@18.3.1'
 import {
-  Body, Container, Head, Heading, Html, Preview, Text, Button, Hr, Section, Img,
+  Body, Container, Head, Heading, Html, Preview, Text, Hr, Section, Img,
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
 const LOGO_URL = "https://omtmccscfnxqagmpdxnw.supabase.co/storage/v1/object/public/email-assets/anerfy-logo-dark.png"
 
-interface BookingReminderProps {
+interface DiagnosticoRecibidoProps {
   nombre?: string
-  bookingUrl?: string
 }
 
-const BookingReminder1Email = ({ nombre, bookingUrl }: BookingReminderProps) => (
+const DiagnosticoRecibidoEmail = ({ nombre }: DiagnosticoRecibidoProps) => (
   <Html lang="es" dir="ltr">
     <Head />
-    <Preview>Te queda un paso: agenda tu asesoría de 90 min</Preview>
+    <Preview>Recibimos tu diagnóstico — pronto te contactaremos</Preview>
     <Body style={main}>
       <Section style={headerBand}>
         <Container style={headerContainer}>
@@ -34,29 +33,19 @@ const BookingReminder1Email = ({ nombre, bookingUrl }: BookingReminderProps) => 
 
       <Container style={container}>
         <Heading style={h1}>
-          {nombre ? `${nombre}, ` : ''}te queda un paso.
+          {nombre ? `Gracias, ${nombre}.` : 'Gracias.'}
         </Heading>
 
         <Text style={text}>
-          Tu diagnóstico ya está en revisión. Para avanzar a la
-          <strong style={bold}> asesoría personalizada de 90 min</strong> con
-          un asesor, falta que elijas el horario.
+          Recibimos tu <strong style={bold}>Diagnóstico Migratorio</strong>.
+          Un asesor lo revisa con calma para preparar un plan adaptado a tu caso real.
         </Text>
+
+        <Heading style={h2}>¿Qué sigue?</Heading>
 
         <Text style={text}>
-          Tres clics y queda agendado:
-        </Text>
-
-        {bookingUrl && (
-          <Section style={buttonSection}>
-            <Button style={button} href={bookingUrl}>
-              Elegir horario
-            </Button>
-          </Section>
-        )}
-
-        <Text style={linkNote}>
-          Si tienes dudas antes de agendar, responde este email.
+          Te enviaremos por email el acceso para agendar tu sesión personalizada
+          en cuanto tu caso esté listo. No tienes que hacer nada por ahora.
         </Text>
 
         <Hr style={hr} />
@@ -74,12 +63,11 @@ const BookingReminder1Email = ({ nombre, bookingUrl }: BookingReminderProps) => 
 )
 
 export const template = {
-  component: BookingReminder1Email,
-  subject: 'Te queda un paso: agenda tu asesoría',
-  displayName: 'Recordatorio agendar (24h)',
+  component: DiagnosticoRecibidoEmail,
+  subject: 'Recibimos tu diagnóstico',
+  displayName: 'Diagnóstico recibido (cliente, sin link)',
   previewData: {
     nombre: 'María Laura',
-    bookingUrl: 'https://cal.eu/anerfy/asesoria-90min',
   },
 } satisfies TemplateEntry
 
@@ -110,19 +98,14 @@ const h1 = {
   fontSize: '20px', fontWeight: '600' as const, color: DARK_TEXT,
   margin: '0 0 20px', lineHeight: '1.3',
 }
+const h2 = {
+  fontSize: '16px', fontWeight: '600' as const, color: DARK_TEXT,
+  margin: '24px 0 12px', lineHeight: '1.3',
+}
 const text = {
   fontSize: '15px', color: BODY_TEXT, lineHeight: '1.7', margin: '0 0 16px',
 }
 const bold = { color: DARK_TEXT, fontWeight: '600' as const }
-const buttonSection = { textAlign: 'center' as const, margin: '28px 0' }
-const button = {
-  backgroundColor: PRIMARY, color: '#ffffff', fontSize: '15px',
-  fontWeight: '600' as const, padding: '14px 36px', borderRadius: '8px',
-  textDecoration: 'none', display: 'inline-block',
-}
-const linkNote = {
-  fontSize: '13px', color: MUTED, margin: '0 0 24px', textAlign: 'center' as const,
-}
 const hr = { borderColor: BORDER, margin: '24px 0' }
 const footer = { fontSize: '14px', color: BODY_TEXT, lineHeight: '1.5' }
 const footerBand = { backgroundColor: '#ffffff', padding: '0 0 28px' }
