@@ -22,12 +22,15 @@ export default function MiRoadmapLogin() {
     setLoading(true);
 
     // Check if email exists in completed submissions first
-    const { data: submission } = await supabase
+    const { data: submissions } = await supabase
       .from('diagnostico_submissions')
-      .select('submission_id')
+      .select('submission_id, client_access_unlocked, updated_at')
       .eq('email', email.toLowerCase().trim())
       .eq('status', 'completed')
-      .maybeSingle();
+      .order('updated_at', { ascending: false });
+
+    const submission =
+      submissions?.find((s) => s.client_access_unlocked) ?? submissions?.[0];
 
     if (!submission) {
       toast({
