@@ -387,10 +387,14 @@ export default function MiRoadmap() {
       {/* Header sticky */}
       <header className={`border-b border-border bg-card/80 backdrop-blur-md sticky ${isAdminView ? 'top-9' : 'top-0'} z-20`}>
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <img src={anerfyLogo} alt="Anerfy" className="h-7 brightness-0 invert" />
+          <div className="w-20" />
+          <Link to="/" className="flex items-center justify-center gap-3">
+            <img src={anerfyLogo} alt="Anerfy logo" className="h-10 sm:h-12 brightness-0 invert object-contain scale-[1.4]" />
+            <span className="text-base sm:text-lg font-bold tracking-[0.35em] text-foreground/80 font-sans">
+              ANERFY
+            </span>
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 w-20 justify-end">
             <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full">
               <Trophy className="w-4 h-4 text-amber-400" />
               <span className="text-sm font-semibold text-primary">{overallPct}%</span>
