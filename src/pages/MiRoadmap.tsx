@@ -402,32 +402,6 @@ export default function MiRoadmap() {
             </p>
           </div>
 
-          {/* CTA central: Asesoría de seguimiento */}
-          <motion.a
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            href={`https://cal.eu/anerfy/asesoria-seguimiento?name=${encodeURIComponent(submission.nombre_completo || '')}&email=${encodeURIComponent(submission.email || '')}&metadata[submission_id]=${submission.submission_id || ''}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/10 to-primary/5 p-6 hover:border-primary/60 hover:from-primary/15 transition-all group shadow-[0_6px_0_hsl(var(--primary)/0.2)] mb-10"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-primary border border-primary flex items-center justify-center shrink-0">
-                <CalendarCheck className="w-7 h-7 text-primary-foreground" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-                  Asesoría de seguimiento
-                </h3>
-                <p className="text-sm text-muted-foreground mt-1 leading-snug">
-                  Agenda tu próxima sesión cuando ya estés avanzando — repasamos progreso y ajustamos el plan.
-                </p>
-              </div>
-              <ExternalLink className="w-5 h-5 text-primary shrink-0" />
-            </div>
-          </motion.a>
-
           {/* Camino zigzag */}
         <div className="relative">
           {/* Línea SVG zigzag de fondo */}
