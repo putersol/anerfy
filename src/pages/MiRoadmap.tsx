@@ -357,154 +357,78 @@ export default function MiRoadmap() {
       )}
       {/* Header sticky */}
       <header className={`border-b border-border bg-card/80 backdrop-blur-md sticky ${isAdminView ? 'top-9' : 'top-0'} z-20`}>
-        <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src={anerfyLogo} alt="Anerfy" className="h-6 brightness-0 invert" />
+            <img src={anerfyLogo} alt="Anerfy" className="h-7 brightness-0 invert" />
           </Link>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 bg-primary/10 px-2.5 py-1 rounded-full">
-              <Trophy className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-xs font-semibold text-primary">{overallPct}%</span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full">
+              <Trophy className="w-4 h-4 text-amber-400" />
+              <span className="text-sm font-semibold text-primary">{overallPct}%</span>
             </div>
             {!isAdminView && (
-              <Button variant="ghost" size="sm" onClick={logout} className="h-8 px-2">
+              <Button variant="ghost" size="sm" onClick={logout} className="h-9 px-3">
                 <LogOut className="w-4 h-4" />
               </Button>
             )}
           </div>
         </div>
-        <div className="max-w-md mx-auto px-4 pb-3">
-          <Progress value={overallPct} className="h-1.5" />
-          <p className="text-[10px] text-muted-foreground mt-1 text-center">
+        <div className="max-w-6xl mx-auto px-6 pb-3">
+          <Progress value={overallPct} className="h-2" />
+          <p className="text-xs text-muted-foreground mt-1.5 text-center">
             {completedTasks} / {totalTasks} tareas · {phases.length} fases
           </p>
         </div>
       </header>
 
-      {/* Saludo */}
-      <div className="max-w-md mx-auto px-4 pt-6 pb-2 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-full px-3 py-1 mb-3"
-        >
-          <Sparkles className="w-3 h-3 text-primary" />
-          <span className="text-xs text-primary font-medium">Tu camino a la Approbation</span>
-        </motion.div>
-        <h1 className="text-xl font-semibold">
-          ¡Hola {submission.nombre_completo?.split(' ')[0] || 'Doctor'}! 👋
-        </h1>
-        <p className="text-xs text-muted-foreground mt-1">
-          Toca cada nodo para ver y completar tareas
-        </p>
-      </div>
-
-      {/* CTA: Asesoría de seguimiento */}
-      <div className="max-w-md mx-auto px-4 pt-4">
-        <motion.a
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-          href={`https://cal.eu/anerfy/asesoria-seguimiento?name=${encodeURIComponent(submission.nombre_completo || '')}&email=${encodeURIComponent(submission.email || '')}&metadata[submission_id]=${submission.submission_id || ''}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/10 to-primary/5 p-4 hover:border-primary/60 hover:from-primary/15 transition-all group shadow-[0_4px_0_hsl(var(--primary)/0.2)]"
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-primary border border-primary flex items-center justify-center shrink-0">
-              <CalendarCheck className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                Asesoría de seguimiento
-              </h3>
-              <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
-                Agenda tu próxima sesión cuando ya estés avanzando — repasamos progreso y ajustamos el plan.
-              </p>
-            </div>
-            <ExternalLink className="w-4 h-4 text-primary shrink-0" />
+      {/* Layout principal: contenido central + sidebar de noticias */}
+      <div className="max-w-6xl mx-auto px-4 lg:px-6 pt-8 pb-6 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
+        <div className="min-w-0">
+          {/* Saludo */}
+          <div className="text-center mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-full px-4 py-1.5 mb-4"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <span className="text-sm text-primary font-medium">Tu camino a la Approbation</span>
+            </motion.div>
+            <h1 className="text-3xl sm:text-4xl font-semibold">
+              ¡Hola {submission.nombre_completo?.split(' ')[0] || 'Doctor'}! 👋
+            </h1>
+            <p className="text-sm text-muted-foreground mt-2">
+              Toca cada nodo para ver y completar tareas
+            </p>
           </div>
-        </motion.a>
-      </div>
 
-      {/* Islas flotantes: Noticias + Vida en Alemania */}
-      <div className="max-w-md mx-auto px-4 pt-4 pb-2 grid grid-cols-2 gap-3">
-        {/* Isla Noticias */}
-        <motion.div
-          initial={{ opacity: 0, y: 10, rotate: -1 }}
-          animate={{ opacity: 1, y: 0, rotate: -1 }}
-          whileHover={{ y: -2, rotate: 0 }}
-          transition={{ delay: 0.2 }}
-          className="bg-card border border-border rounded-2xl p-3 shadow-[0_4px_0_hsl(var(--border))] relative overflow-hidden"
-        >
-          <div className="flex items-center gap-1.5 mb-2">
-            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-              <Newspaper className="w-3.5 h-3.5 text-primary" />
-            </div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-primary">Noticias</p>
-            <div className="ml-auto w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-          </div>
-          <ul className="space-y-2">
-            <li>
-              <a
-                href="https://www.bundesregierung.de/breg-de/themen/fachkraefteeinwanderung"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block group"
-              >
-                <p className="text-[11px] font-semibold leading-tight text-foreground group-hover:text-primary transition-colors">
-                  Nueva ley de inmigración facilita reconocimiento médico
+          {/* CTA central: Asesoría de seguimiento */}
+          <motion.a
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            href={`https://cal.eu/anerfy/asesoria-seguimiento?name=${encodeURIComponent(submission.nombre_completo || '')}&email=${encodeURIComponent(submission.email || '')}&metadata[submission_id]=${submission.submission_id || ''}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block rounded-2xl border border-primary/40 bg-gradient-to-r from-primary/10 to-primary/5 p-6 hover:border-primary/60 hover:from-primary/15 transition-all group shadow-[0_6px_0_hsl(var(--primary)/0.2)] mb-10"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-primary border border-primary flex items-center justify-center shrink-0">
+                <CalendarCheck className="w-7 h-7 text-primary-foreground" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base sm:text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+                  Asesoría de seguimiento
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1 leading-snug">
+                  Agenda tu próxima sesión cuando ya estés avanzando — repasamos progreso y ajustamos el plan.
                 </p>
-                <div className="flex items-center gap-1 mt-1 text-[9px] text-muted-foreground">
-                  <Clock className="w-2.5 h-2.5" />
-                  <span>Hace 2 días</span>
-                </div>
-              </a>
-            </li>
-            <li className="pt-2 border-t border-border/50">
-              <a
-                href="https://www.aerzteblatt.de/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block group"
-              >
-                <p className="text-[11px] font-semibold leading-tight text-foreground group-hover:text-primary transition-colors">
-                  Hospitales en Bayern aumentan vacantes para extranjeros
-                </p>
-                <div className="flex items-center gap-1 mt-1 text-[9px] text-muted-foreground">
-                  <Clock className="w-2.5 h-2.5" />
-                  <span>Esta semana</span>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </motion.div>
-
-        {/* Isla Vida en Alemania - Próximamente */}
-        <motion.div
-          initial={{ opacity: 0, y: 10, rotate: 1 }}
-          animate={{ opacity: 1, y: 0, rotate: 1 }}
-          transition={{ delay: 0.3 }}
-          className="bg-gradient-to-br from-secondary/50 to-secondary/20 border border-dashed border-border rounded-2xl p-3 shadow-[0_4px_0_hsl(var(--border))] relative overflow-hidden"
-        >
-          <div className="flex items-center gap-1.5 mb-2">
-            <div className="w-6 h-6 rounded-full bg-amber-400/20 flex items-center justify-center">
-              <Home className="w-3.5 h-3.5 text-amber-500" />
+              </div>
+              <ExternalLink className="w-5 h-5 text-primary shrink-0" />
             </div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Vida en DE</p>
-          </div>
-          <p className="text-[11px] font-semibold leading-tight text-foreground/80 mb-2">
-            Vivienda, taxes, escuelas, comunidad latina...
-          </p>
-          <div className="inline-flex items-center gap-1 bg-amber-400/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full">
-            <Sparkles className="w-2.5 h-2.5" />
-            <span className="text-[9px] font-bold uppercase tracking-wider">Próximamente</span>
-          </div>
-        </motion.div>
-      </div>
+          </motion.a>
 
-      {/* Camino zigzag */}
-      <div className="max-w-md mx-auto px-4 py-8">
+          {/* Camino zigzag */}
         <div className="relative">
           {/* Línea SVG zigzag de fondo */}
           <svg
@@ -640,11 +564,85 @@ export default function MiRoadmap() {
             <p className="text-sm font-bold mt-2">¡Approbation! 🎉</p>
             <p className="text-[10px] text-muted-foreground">Tu meta final</p>
           </motion.div>
+          </div>
+
+          <p className="text-center text-xs text-muted-foreground mt-12 px-6">
+            Tu progreso se guarda automáticamente. Vuelve cuando quieras desde el link mágico que recibes por email.
+          </p>
         </div>
 
-        <p className="text-center text-[10px] text-muted-foreground mt-12 px-6">
-          Tu progreso se guarda automáticamente. Vuelve cuando quieras desde el link mágico que recibes por email.
-        </p>
+        {/* Sidebar derecho: Noticias + Vida en DE */}
+        <aside className="space-y-4 lg:sticky lg:top-28 self-start">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-card border border-border rounded-2xl p-5 shadow-[0_4px_0_hsl(var(--border))]"
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <Newspaper className="w-4 h-4 text-primary" />
+              </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-primary">Noticias</p>
+              <div className="ml-auto w-2 h-2 rounded-full bg-success animate-pulse" />
+            </div>
+            <ul className="space-y-3">
+              <li>
+                <a
+                  href="https://www.bundesregierung.de/breg-de/themen/fachkraefteeinwanderung"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block group"
+                >
+                  <p className="text-sm font-semibold leading-snug text-foreground group-hover:text-primary transition-colors">
+                    Nueva ley de inmigración facilita reconocimiento médico
+                  </p>
+                  <div className="flex items-center gap-1 mt-1.5 text-[11px] text-muted-foreground">
+                    <Clock className="w-3 h-3" />
+                    <span>Hace 2 días</span>
+                  </div>
+                </a>
+              </li>
+              <li className="pt-3 border-t border-border/50">
+                <a
+                  href="https://www.aerzteblatt.de/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block group"
+                >
+                  <p className="text-sm font-semibold leading-snug text-foreground group-hover:text-primary transition-colors">
+                    Hospitales en Bayern aumentan vacantes para extranjeros
+                  </p>
+                  <div className="flex items-center gap-1 mt-1.5 text-[11px] text-muted-foreground">
+                    <Clock className="w-3 h-3" />
+                    <span>Esta semana</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-gradient-to-br from-secondary/50 to-secondary/20 border border-dashed border-border rounded-2xl p-5 shadow-[0_4px_0_hsl(var(--border))]"
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-8 h-8 rounded-full bg-amber-400/20 flex items-center justify-center">
+                <Home className="w-4 h-4 text-amber-500" />
+              </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Vida en DE</p>
+            </div>
+            <p className="text-sm font-semibold leading-snug text-foreground/80 mb-3">
+              Vivienda, taxes, escuelas, comunidad latina...
+            </p>
+            <div className="inline-flex items-center gap-1 bg-amber-400/20 text-amber-600 dark:text-amber-400 px-2.5 py-1 rounded-full">
+              <Sparkles className="w-3 h-3" />
+              <span className="text-[10px] font-bold uppercase tracking-wider">Próximamente</span>
+            </div>
+          </motion.div>
+        </aside>
       </div>
 
       {/* Bottom Sheet de fase */}
