@@ -523,30 +523,32 @@ export default function MiRoadmap() {
           <div className="relative px-4 sm:px-6 py-6">
           {/* Saludo */}
           <div className="text-center mb-8">
-            <motion.h1
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="text-4xl sm:text-5xl font-normal leading-tight mb-5"
-            >
-              Tu camino a la{' '}
-              <span className="italic font-accent font-semibold text-primary">
-                Approbation
-              </span>
-            </motion.h1>
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              className="inline-block bg-card/60 border border-border rounded-2xl px-5 py-3 text-center"
-            >
+            <div className="inline-block">
+              <motion.h1
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-4xl sm:text-5xl font-normal leading-tight mb-5 whitespace-nowrap"
+              >
+                Tu camino a la{' '}
+                <span className="italic font-accent font-semibold text-primary">
+                  Approbation
+                </span>
+              </motion.h1>
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className="bg-card/60 border border-border rounded-2xl px-5 py-3 text-center w-full"
+              >
               <p className="text-base font-medium text-foreground">
                 Bienvenido, <span className="text-primary">{submission.nombre_completo?.split(' ')[0] || 'Doctor'}</span>
               </p>
               <p className="text-xs text-muted-foreground mt-1">
                 Toca cada nodo para ver y completar tareas
               </p>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
 
           {/* Camino zigzag */}
