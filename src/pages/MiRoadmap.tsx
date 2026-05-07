@@ -44,7 +44,7 @@ interface ProgressRow {
 
 const PHASE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   fase_documentos: FileText,
-  fase_idioma: MessageCircle,
+  fase_idioma: UmlautIcon,
   fase_bundesland: MapPin,
   fase_fsp: GraduationCap,
   fase_kenntnis: Stethoscope,
