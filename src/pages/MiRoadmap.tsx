@@ -512,7 +512,7 @@ export default function MiRoadmap() {
         <div className="min-w-0 order-1 lg:order-2 relative">
           {/* Halo de resalto detrás del mapa */}
           <div className="absolute inset-0 -z-10 pointer-events-none">
-            <div className="absolute top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[140%] bg-gradient-to-b from-primary/18 via-primary/10 to-transparent blur-3xl rounded-[50%]" />
+            <div className="absolute -top-[5%] left-1/2 -translate-x-1/2 w-[170%] h-[170%] bg-gradient-to-b from-primary/20 via-primary/10 to-transparent blur-3xl rounded-[50%]" />
             <div className="absolute inset-0 bg-gradient-to-b from-card/60 via-card/30 to-transparent backdrop-blur-sm rounded-3xl border border-primary/15 shadow-[0_0_60px_-10px_hsl(var(--primary)/0.25)]" />
           </div>
 
