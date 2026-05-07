@@ -486,54 +486,7 @@ export default function MiRoadmap() {
                         onOpen={() => setOpenPhase(phase)}
                       />
                     )}
-                    {/* Torito en la columna opuesta al nodo activo */}
-                    {isActive && !isComplete && isLeft && (
-                      <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.4 }}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center"
-                      >
-                        <div className="bg-card border border-border rounded-xl px-2 py-1 shadow-md mb-1">
-                          <p className="text-[10px] font-semibold whitespace-nowrap">¡Vamos! 💪</p>
-                        </div>
-                        <motion.img
-                          src={torito}
-                          alt="Tu guía"
-                          width={88}
-                          height={88}
-                          className="w-22 h-22 drop-shadow-xl"
-                          style={{ width: 88, height: 88 }}
-                          animate={{ y: [0, -6, 0] }}
-                          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                        />
-                      </motion.div>
-                    )}
                   </div>
-                  {/* Si nodo está a la derecha, torito en la izquierda */}
-                  {isActive && !isComplete && !isLeft && (
-                    <motion.div
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.4 }}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center"
-                      style={{ position: 'absolute' }}
-                    >
-                      <div className="bg-card border border-border rounded-xl px-2 py-1 shadow-md mb-1">
-                        <p className="text-[10px] font-semibold whitespace-nowrap">¡Vamos! 💪</p>
-                      </div>
-                      <motion.img
-                        src={torito}
-                        alt="Tu guía"
-                        width={88}
-                        height={88}
-                        className="drop-shadow-xl"
-                        style={{ width: 88, height: 88 }}
-                        animate={{ y: [0, -6, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                      />
-                    </motion.div>
-                  )}
                 </div>
                 {Connector}
               </div>
