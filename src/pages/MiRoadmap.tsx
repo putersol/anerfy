@@ -383,9 +383,106 @@ export default function MiRoadmap() {
         </div>
       </header>
 
-      {/* Layout principal: contenido central + sidebar de noticias */}
-      <div className="max-w-6xl mx-auto px-4 lg:px-6 pt-8 pb-6 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
-        <div className="min-w-0">
+      {/* Layout principal: sidebar servicios | mapa central | sidebar noticias */}
+      <div className="max-w-7xl mx-auto px-4 lg:px-6 pt-8 pb-6 grid grid-cols-1 lg:grid-cols-[300px_1fr_320px] gap-6">
+        {/* Sidebar izquierdo: Servicios & Partners */}
+        <aside className="space-y-4 lg:sticky lg:top-28 self-start order-2 lg:order-1">
+          <motion.a
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            href={`https://cal.eu/anerfy/asesoria-seguimiento?name=${encodeURIComponent(submission.nombre_completo || '')}&email=${encodeURIComponent(submission.email || '')}&metadata[submission_id]=${submission.submission_id || ''}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/15 to-primary/5 p-5 hover:border-primary/60 hover:from-primary/20 transition-all group shadow-[0_4px_0_hsl(var(--primary)/0.2)]"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shrink-0">
+                <CalendarCheck className="w-5 h-5 text-primary-foreground" />
+              </div>
+              <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors flex-1">
+                Asesoría de seguimiento
+              </h3>
+              <ExternalLink className="w-4 h-4 text-primary shrink-0" />
+            </div>
+            <p className="text-xs text-muted-foreground leading-snug">
+              Agenda tu próxima sesión — repasamos progreso y ajustamos el plan.
+            </p>
+          </motion.a>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-card border border-border rounded-2xl p-5 shadow-[0_4px_0_hsl(var(--border))]"
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <GraduationCap className="w-4 h-4 text-primary" />
+              </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-primary">Servicios partner</p>
+            </div>
+            <ul className="space-y-3">
+              <li>
+                <a
+                  href="https://virtus-fsp.de"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block group rounded-xl border border-border/60 p-3 hover:border-primary/50 hover:bg-primary/5 transition-all"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                      Virtus FSP
+                    </p>
+                    <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary" />
+                  </div>
+                  <p className="text-[11px] text-muted-foreground leading-snug">
+                    Preparación intensiva para el examen FSP
+                  </p>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://hispanoakademie.de"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block group rounded-xl border border-border/60 p-3 hover:border-primary/50 hover:bg-primary/5 transition-all"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                      Hispano Akademie
+                    </p>
+                    <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary" />
+                  </div>
+                  <p className="text-[11px] text-muted-foreground leading-snug">
+                    Cursos de alemán médico para hispanohablantes
+                  </p>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/4915123456789?text=Hola,%20quiero%20saber%20m%C3%A1s%20sobre%20servicios%20Anerfy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block group rounded-xl border border-dashed border-border/60 p-3 hover:border-primary/50 hover:bg-primary/5 transition-all"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                      Más servicios
+                    </p>
+                    <ExternalLink className="w-3 h-3 text-muted-foreground group-hover:text-primary" />
+                  </div>
+                  <p className="text-[11px] text-muted-foreground leading-snug">
+                    Apostilla, traducciones, vivienda, visa…
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </motion.div>
+        </aside>
+
+        {/* Centro: mapa */}
+        <div className="min-w-0 order-1 lg:order-2">
           {/* Saludo */}
           <div className="text-center mb-8">
             <motion.div
