@@ -65,7 +65,7 @@ function UmlautIcon({ className }: { className?: string }) {
         fontWeight="800"
         fontFamily="Geist, system-ui, sans-serif"
       >
-        ä
+        Ä
       </text>
     </svg>
   );
