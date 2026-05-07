@@ -522,7 +522,9 @@ export default function MiRoadmap() {
           {phases.map((phase, i) => {
             const stats = phaseStats[i];
             const isActive = i === activeIndex;
-            const isLocked = i > activeIndex;
+            // Documentación e Idioma se pueden trabajar en paralelo desde el inicio
+            const alwaysUnlocked = phase.id === 'fase_documentos' || phase.id === 'fase_idioma';
+            const isLocked = !alwaysUnlocked && i > activeIndex;
             const isComplete = stats.complete;
             const Icon = PHASE_ICONS[phase.id] || Star;
             // zigzag fuerte: par = izquierda extrema, impar = derecha extrema
