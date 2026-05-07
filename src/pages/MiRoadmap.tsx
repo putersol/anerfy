@@ -563,7 +563,7 @@ export default function MiRoadmap() {
             const isLeft = i % 2 === 0;
             // Curva tipo "anillo" entre islas; alterna dirección según zigzag
             const Connector = i < phases.length - 1 ? (
-              <div className="relative w-full h-16 -my-2" aria-hidden="true">
+              <div className="relative w-full h-10 -my-3" aria-hidden="true">
                 <svg
                   className="absolute inset-0 w-full h-full"
                   viewBox="0 0 200 64"
@@ -586,9 +586,9 @@ export default function MiRoadmap() {
 
             return (
               <div key={phase.id}>
-                <div className={`grid grid-cols-2 gap-2 items-center ${isLeft ? '' : ''}`}>
+                <div className="grid grid-cols-2 gap-2 items-center max-w-md mx-auto">
                   {/* Columna izquierda */}
-                  <div className={`flex ${isLeft ? 'justify-start' : 'justify-end'} relative`}>
+                  <div className={`flex ${isLeft ? 'justify-end pr-2' : 'justify-end'} relative`}>
                     {isLeft && (
                       <PhaseNode
                         phase={phase}
@@ -604,7 +604,7 @@ export default function MiRoadmap() {
                     )}
                   </div>
                   {/* Columna derecha */}
-                  <div className={`flex ${isLeft ? 'justify-start' : 'justify-end'} relative`}>
+                  <div className={`flex ${isLeft ? 'justify-start' : 'justify-start pl-2'} relative`}>
                     {!isLeft && (
                       <PhaseNode
                         phase={phase}
