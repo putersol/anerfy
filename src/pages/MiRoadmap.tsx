@@ -53,6 +53,18 @@ const PHASE_ICONS: Record<string, React.ComponentType<{ className?: string }>> =
   fase_finanzas: Wallet,
 };
 
+// Color theme per phase (from-to gradient + shadow)
+const PHASE_COLORS: Record<string, { from: string; to: string; shadow: string }> = {
+  fase_documentos:     { from: 'from-sky-400',     to: 'to-sky-600',     shadow: 'shadow-[0_6px_0_rgb(2,132,199)]' },
+  fase_idioma:         { from: 'from-violet-400',  to: 'to-violet-600',  shadow: 'shadow-[0_6px_0_rgb(124,58,237)]' },
+  fase_bundesland:     { from: 'from-emerald-400', to: 'to-emerald-600', shadow: 'shadow-[0_6px_0_rgb(5,150,105)]' },
+  fase_fsp:            { from: 'from-rose-400',    to: 'to-rose-600',    shadow: 'shadow-[0_6px_0_rgb(225,29,72)]' },
+  fase_kenntnis:       { from: 'from-orange-400',  to: 'to-orange-600',  shadow: 'shadow-[0_6px_0_rgb(234,88,12)]' },
+  fase_berufserlaubnis:{ from: 'from-cyan-400',    to: 'to-cyan-600',    shadow: 'shadow-[0_6px_0_rgb(8,145,178)]' },
+  fase_approbation:    { from: 'from-amber-400',   to: 'to-amber-600',   shadow: 'shadow-[0_6px_0_rgb(217,119,6)]' },
+  fase_finanzas:       { from: 'from-lime-400',    to: 'to-lime-600',    shadow: 'shadow-[0_6px_0_rgb(101,163,13)]' },
+};
+
 interface PhaseNodeProps {
   phase: RoadmapPhase;
   Icon: React.ComponentType<any>;
@@ -66,6 +78,7 @@ interface PhaseNodeProps {
 }
 
 function PhaseNode({ phase, Icon, stats, isActive, isLocked, isComplete, index, nodeRef, onOpen }: PhaseNodeProps) {
+  const color = PHASE_COLORS[phase.id] ?? { from: 'from-primary', to: 'to-primary/70', shadow: 'shadow-[0_6px_0_hsl(var(--primary)/0.4)]' };
   return (
     <motion.div
       ref={nodeRef}
@@ -80,13 +93,13 @@ function PhaseNode({ phase, Icon, stats, isActive, isLocked, isComplete, index, 
         className={`
           relative w-20 h-20 rounded-2xl flex items-center justify-center
           transition-all duration-200 active:scale-95
-          ${isComplete
-            ? 'bg-gradient-to-br from-success to-success/70 shadow-[0_6px_0_hsl(var(--success)/0.4)] hover:shadow-[0_4px_0_hsl(var(--success)/0.4)] hover:translate-y-0.5'
-            : isActive
-              ? 'bg-gradient-to-br from-primary to-primary/70 shadow-[0_6px_0_hsl(var(--primary)/0.4)] hover:shadow-[0_4px_0_hsl(var(--primary)/0.4)] hover:translate-y-0.5 ring-4 ring-primary/20 animate-pulse'
-              : isLocked
-                ? 'bg-muted shadow-[0_4px_0_hsl(var(--border))] cursor-not-allowed opacity-60'
-                : 'bg-secondary shadow-[0_4px_0_hsl(var(--border))]'
+          ${isLocked
+            ? 'bg-muted shadow-[0_4px_0_hsl(var(--border))] cursor-not-allowed opacity-60'
+            : isComplete
+              ? `bg-gradient-to-br ${color.from} ${color.to} ${color.shadow} hover:translate-y-0.5 opacity-90`
+              : isActive
+                ? `bg-gradient-to-br ${color.from} ${color.to} ${color.shadow} hover:translate-y-0.5 ring-4 ring-primary/30 animate-pulse`
+                : `bg-gradient-to-br ${color.from} ${color.to} ${color.shadow} hover:translate-y-0.5`
           }
         `}
       >
