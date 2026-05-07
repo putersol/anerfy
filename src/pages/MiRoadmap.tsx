@@ -78,7 +78,7 @@ function PhaseNode({ phase, Icon, stats, isActive, isLocked, isComplete, index, 
         onClick={() => !isLocked && onOpen()}
         disabled={isLocked}
         className={`
-          relative w-20 h-20 rounded-full flex items-center justify-center
+          relative w-20 h-20 rounded-2xl flex items-center justify-center
           transition-all duration-200 active:scale-95
           ${isComplete
             ? 'bg-gradient-to-br from-success to-success/70 shadow-[0_6px_0_hsl(var(--success)/0.4)] hover:shadow-[0_4px_0_hsl(var(--success)/0.4)] hover:translate-y-0.5'
