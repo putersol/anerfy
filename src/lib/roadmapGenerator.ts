@@ -76,7 +76,7 @@ export function generatePersonalizedRoadmap(submission: any): RoadmapPhase[] {
     );
     phases.push({
       id: 'fase_idioma',
-      title: 'Fase 2 — Alemán hasta B2/C1 + Médico',
+      title: 'Fase 2 — Alemán B2 / C1 médico',
       subtitle: 'Llegar al nivel requerido para el ejercicio profesional',
       tasks: langTasks,
     });
