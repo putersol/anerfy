@@ -523,17 +523,17 @@ export default function MiRoadmap() {
           <div className="relative px-4 sm:px-6 py-6">
           {/* Saludo */}
           <div className="text-center mb-8">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="w-full bg-gradient-to-r from-primary/15 via-primary/25 to-primary/15 border-y border-primary/30 px-6 py-6 mb-6 flex items-center justify-center gap-4"
+            <motion.h1
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-4xl sm:text-5xl font-normal leading-tight mb-6"
             >
-              <Sparkles className="w-6 h-6 text-primary shrink-0" />
-              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
-                Tu camino a la <span className="text-primary">Approbation</span>
-              </h1>
-              <Sparkles className="w-5 h-5 text-primary shrink-0" />
-            </motion.div>
+              Tu camino a la{' '}
+              <span className="italic font-accent font-semibold text-primary">
+                Approbation
+              </span>
+            </motion.h1>
             <p className="text-lg sm:text-xl font-medium flex items-center justify-center gap-2">
               <span>¡Hola {submission.nombre_completo?.split(' ')[0] || 'Doctor'}!</span>
               <Sparkles className="w-5 h-5 text-[#d4af37] drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]" strokeWidth={1.5} />
