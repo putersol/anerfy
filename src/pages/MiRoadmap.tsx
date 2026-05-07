@@ -429,13 +429,26 @@ export default function MiRoadmap() {
             const Icon = PHASE_ICONS[phase.id] || Star;
             // zigzag fuerte: par = izquierda extrema, impar = derecha extrema
             const isLeft = i % 2 === 0;
+            // Curva tipo "anillo" entre islas; alterna dirección según zigzag
             const Connector = i < phases.length - 1 ? (
-              <div className="flex justify-center w-full my-1" aria-hidden="true">
-                <div className="flex flex-col gap-1.5">
-                  {[0, 1, 2, 3].map(d => (
-                    <div key={d} className="w-1.5 h-1.5 rounded-full bg-border" />
-                  ))}
-                </div>
+              <div className="relative w-full h-16 -my-2" aria-hidden="true">
+                <svg
+                  className="absolute inset-0 w-full h-full"
+                  viewBox="0 0 200 64"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d={isLeft
+                      ? 'M 30 0 Q 100 32, 170 64'
+                      : 'M 170 0 Q 100 32, 30 64'}
+                    fill="none"
+                    stroke="hsl(var(--primary))"
+                    strokeOpacity="0.18"
+                    strokeWidth="1.5"
+                    strokeDasharray="4 6"
+                    strokeLinecap="round"
+                  />
+                </svg>
               </div>
             ) : null;
 
