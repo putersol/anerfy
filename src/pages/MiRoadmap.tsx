@@ -534,11 +534,10 @@ export default function MiRoadmap() {
                 Approbation
               </span>
             </motion.h1>
-            <p className="text-lg sm:text-xl font-medium flex items-center justify-center gap-2">
-              <span>¡Hola {submission.nombre_completo?.split(' ')[0] || 'Doctor'}!</span>
-              <Sparkles className="w-5 h-5 text-[#d4af37] drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]" strokeWidth={1.5} />
+            <p className="text-base sm:text-lg font-light text-muted-foreground tracking-wide">
+              Bienvenido, <span className="text-foreground font-normal">{submission.nombre_completo?.split(' ')[0] || 'Doctor'}</span>
             </p>
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-xs text-muted-foreground/70 mt-3">
               Toca cada nodo para ver y completar tareas
             </p>
           </div>
