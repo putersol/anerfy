@@ -110,20 +110,6 @@ function PhaseNode({ phase, Icon, stats, isActive, isLocked, isComplete, index, 
         ) : (
           <Icon className="w-9 h-9 text-white" strokeWidth={2} />
         )}
-        {!isLocked && !isComplete && stats.done > 0 && (
-          <div className="absolute -top-1 -right-1 bg-amber-400 text-[10px] font-bold rounded-full w-6 h-6 flex items-center justify-center text-amber-950 border-2 border-background">
-            {stats.done}
-          </div>
-        )}
-        {isComplete && (
-          <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            className="absolute -top-2 -right-2 bg-amber-400 rounded-full p-1 border-2 border-background"
-          >
-            <Star className="w-3 h-3 text-amber-950 fill-amber-950" />
-          </motion.div>
-        )}
       </button>
       <div className="mt-2.5 text-center max-w-[150px] w-[150px]">
         <p className={`text-sm font-semibold leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground'}`}>
