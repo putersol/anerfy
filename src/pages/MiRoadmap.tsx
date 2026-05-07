@@ -523,25 +523,30 @@ export default function MiRoadmap() {
           <div className="relative px-4 sm:px-6 py-6">
           {/* Saludo */}
           <div className="text-center mb-8">
-            <motion.div
+            <motion.h1
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="flex flex-wrap items-baseline justify-center gap-x-4 gap-y-1 mb-2"
+              className="text-4xl sm:text-5xl font-normal leading-tight mb-5"
             >
-              <h1 className="text-4xl sm:text-5xl font-normal leading-tight">
-                Tu camino a la{' '}
-                <span className="italic font-accent font-semibold text-primary">
-                  Approbation
-                </span>
-              </h1>
-              <p className="text-base sm:text-lg font-light text-muted-foreground tracking-wide">
-                Bienvenido, <span className="text-foreground font-normal">{submission.nombre_completo?.split(' ')[0] || 'Doctor'}</span>
+              Tu camino a la{' '}
+              <span className="italic font-accent font-semibold text-primary">
+                Approbation
+              </span>
+            </motion.h1>
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 }}
+              className="inline-block bg-card/60 border border-border rounded-2xl px-5 py-3 text-center"
+            >
+              <p className="text-base font-medium text-foreground">
+                Bienvenido, <span className="text-primary">{submission.nombre_completo?.split(' ')[0] || 'Doctor'}</span>
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Toca cada nodo para ver y completar tareas
               </p>
             </motion.div>
-            <p className="text-xs text-muted-foreground/70 mt-3">
-              Toca cada nodo para ver y completar tareas
-            </p>
           </div>
 
           {/* Camino zigzag */}
