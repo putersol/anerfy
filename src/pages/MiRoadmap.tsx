@@ -413,7 +413,7 @@ export default function MiRoadmap() {
       {/* Layout principal: sidebar servicios | mapa central | sidebar noticias */}
       <div className="max-w-[1400px] mx-auto px-4 lg:px-6 pt-8 pb-6 grid grid-cols-1 lg:grid-cols-[220px_1fr_220px] gap-8">
         {/* Sidebar izquierdo: Servicios & Partners */}
-        <aside className="space-y-4 lg:sticky lg:top-28 self-start order-2 lg:order-1">
+        <aside className="space-y-4 lg:sticky lg:top-28 self-start order-2 lg:order-1 lg:mt-40">
           <motion.a
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
