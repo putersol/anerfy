@@ -11,7 +11,6 @@ import {
   X,
   FileText,
   Languages,
-  MessageCircle,
   MapPin,
   GraduationCap,
   Stethoscope,
