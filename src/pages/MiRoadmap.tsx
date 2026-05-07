@@ -112,13 +112,19 @@ function PhaseNode({ phase, Icon, stats, isActive, isLocked, isComplete, index, 
           </motion.div>
         )}
       </button>
-      <div className="mt-2 text-center max-w-[140px]">
+      <div className="mt-2 text-center max-w-[140px] w-[140px]">
         <p className={`text-xs font-semibold leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground'}`}>
           {phase.title.replace(/^Fase \d+ — /, '')}
         </p>
         <p className="text-[10px] text-muted-foreground mt-0.5">
           {stats.done}/{stats.total} · {stats.pct}%
         </p>
+        <div className="mt-1.5 h-1 w-full bg-muted/60 rounded-full overflow-hidden">
+          <div
+            className={`h-full rounded-full transition-all ${isComplete ? 'bg-success' : isActive ? 'bg-primary' : 'bg-muted-foreground/40'}`}
+            style={{ width: `${stats.pct}%` }}
+          />
+        </div>
       </div>
     </motion.div>
   );
