@@ -529,10 +529,10 @@ export default function MiRoadmap() {
               className="w-full bg-gradient-to-r from-primary/15 via-primary/25 to-primary/15 border-y border-primary/30 px-6 py-6 mb-6 flex items-center justify-center gap-4"
             >
               <Sparkles className="w-6 h-6 text-primary shrink-0" />
-              <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-foreground">
+              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
                 Tu camino a la <span className="text-primary">Approbation</span>
               </h1>
-              <Sparkles className="w-6 h-6 text-primary shrink-0" />
+              <Sparkles className="w-5 h-5 text-primary shrink-0" />
             </motion.div>
             <p className="text-lg sm:text-xl font-medium flex items-center justify-center gap-2">
               <span>¡Hola {submission.nombre_completo?.split(' ')[0] || 'Doctor'}!</span>
