@@ -351,6 +351,33 @@ export default function MiRoadmap() {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       <FloatingShapes />
+      {/* Anillos extra + glow central más brillante */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] sm:w-[1100px] sm:h-[1100px]"
+          animate={{ rotate: -360 }}
+          transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
+        >
+          <div className="w-full h-full border border-primary/8 rounded-[45%]" />
+        </motion.div>
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[1100px] sm:w-[1400px] sm:h-[1400px]"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+        >
+          <div className="w-full h-full border border-primary/6 rounded-[50%]" />
+        </motion.div>
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[120px] sm:w-[180px] sm:h-[180px]"
+          animate={{ rotate: -180, scale: [1, 1.08, 1] }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <div className="w-full h-full border border-primary/15 rounded-[40%]" />
+        </motion.div>
+        {/* Glow central más brillante */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] bg-primary/15 rounded-full blur-[140px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] bg-primary/20 rounded-full blur-[80px]" />
+      </div>
       {isAdminView && (
         <div className="bg-amber-500/15 border-b border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-medium px-4 py-2 text-center sticky top-0 z-30">
           👁️ Modo admin · Solo lectura · {submission?.nombre_completo || submission?.email || 'Cliente'}
