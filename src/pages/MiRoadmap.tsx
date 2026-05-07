@@ -11,6 +11,7 @@ import {
   X,
   FileText,
   Languages,
+  MessageCircle,
   MapPin,
   GraduationCap,
   Stethoscope,
@@ -44,7 +45,7 @@ interface ProgressRow {
 
 const PHASE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   fase_documentos: FileText,
-  fase_idioma: Languages,
+  fase_idioma: MessageCircle,
   fase_bundesland: MapPin,
   fase_fsp: GraduationCap,
   fase_kenntnis: Stethoscope,
