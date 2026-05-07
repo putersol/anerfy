@@ -565,7 +565,6 @@ export default function MiRoadmap() {
             <p className="text-[10px] text-muted-foreground">Tu meta final</p>
           </motion.div>
           </div>
-        </div>
 
           <p className="text-center text-xs text-muted-foreground mt-12 px-6">
             Tu progreso se guarda automáticamente. Vuelve cuando quieras desde el link mágico que recibes por email.
