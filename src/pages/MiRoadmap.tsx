@@ -522,15 +522,18 @@ export default function MiRoadmap() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-full px-4 py-1.5 mb-4"
+              className="w-full bg-gradient-to-r from-primary/15 via-primary/25 to-primary/15 border-y border-primary/30 px-6 py-6 mb-6 flex items-center justify-center gap-4"
             >
-              <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <span className="text-sm text-primary font-medium">Tu camino a la Approbation</span>
+              <Sparkles className="w-6 h-6 text-primary shrink-0" />
+              <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-foreground">
+                Tu camino a la <span className="text-primary">Approbation</span>
+              </h1>
+              <Sparkles className="w-6 h-6 text-primary shrink-0" />
             </motion.div>
-            <h1 className="text-3xl sm:text-4xl font-semibold flex items-center gap-3 justify-center">
+            <p className="text-lg sm:text-xl font-medium flex items-center justify-center gap-2">
               <span>¡Hola {submission.nombre_completo?.split(' ')[0] || 'Doctor'}!</span>
-              <Sparkles className="w-7 h-7 text-[#d4af37] drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]" strokeWidth={1.5} />
-            </h1>
+              <Sparkles className="w-5 h-5 text-[#d4af37] drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]" strokeWidth={1.5} />
+            </p>
             <p className="text-sm text-muted-foreground mt-2">
               Toca cada nodo para ver y completar tareas
             </p>
