@@ -527,7 +527,7 @@ export default function MiRoadmap() {
               <Sparkles className="w-3.5 h-3.5 text-primary" />
               <span className="text-sm text-primary font-medium">Tu camino a la Approbation</span>
             </motion.div>
-            <h1 className="text-3xl sm:text-4xl font-semibold inline-flex items-center gap-3 justify-center">
+            <h1 className="text-3xl sm:text-4xl font-semibold flex items-center gap-3 justify-center">
               <span>¡Hola {submission.nombre_completo?.split(' ')[0] || 'Doctor'}!</span>
               <Sparkles className="w-7 h-7 text-[#d4af37] drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]" strokeWidth={1.5} />
             </h1>
