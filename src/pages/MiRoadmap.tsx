@@ -411,7 +411,7 @@ export default function MiRoadmap() {
       </header>
 
       {/* Layout principal: sidebar servicios | mapa central | sidebar noticias */}
-      <div className="max-w-7xl mx-auto px-4 lg:px-6 pt-8 pb-6 grid grid-cols-1 lg:grid-cols-[300px_1fr_320px] gap-6">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6 pt-8 pb-6 grid grid-cols-1 lg:grid-cols-[240px_1fr_240px] gap-6">
         {/* Sidebar izquierdo: Servicios & Partners */}
         <aside className="space-y-4 lg:sticky lg:top-28 self-start order-2 lg:order-1">
           <motion.a
