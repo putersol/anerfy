@@ -78,6 +78,7 @@ interface PhaseNodeProps {
 }
 
 function PhaseNode({ phase, Icon, stats, isActive, isLocked, isComplete, index, nodeRef, onOpen }: PhaseNodeProps) {
+  const color = PHASE_COLORS[phase.id] ?? { from: 'from-primary', to: 'to-primary/70', shadow: 'shadow-[0_6px_0_hsl(var(--primary)/0.4)]' };
   return (
     <motion.div
       ref={nodeRef}
@@ -92,13 +93,13 @@ function PhaseNode({ phase, Icon, stats, isActive, isLocked, isComplete, index, 
         className={`
           relative w-20 h-20 rounded-2xl flex items-center justify-center
           transition-all duration-200 active:scale-95
-          ${isComplete
-            ? 'bg-gradient-to-br from-success to-success/70 shadow-[0_6px_0_hsl(var(--success)/0.4)] hover:shadow-[0_4px_0_hsl(var(--success)/0.4)] hover:translate-y-0.5'
-            : isActive
-              ? 'bg-gradient-to-br from-primary to-primary/70 shadow-[0_6px_0_hsl(var(--primary)/0.4)] hover:shadow-[0_4px_0_hsl(var(--primary)/0.4)] hover:translate-y-0.5 ring-4 ring-primary/20 animate-pulse'
-              : isLocked
-                ? 'bg-muted shadow-[0_4px_0_hsl(var(--border))] cursor-not-allowed opacity-60'
-                : 'bg-secondary shadow-[0_4px_0_hsl(var(--border))]'
+          ${isLocked
+            ? 'bg-muted shadow-[0_4px_0_hsl(var(--border))] cursor-not-allowed opacity-60'
+            : isComplete
+              ? `bg-gradient-to-br ${color.from} ${color.to} ${color.shadow} hover:translate-y-0.5 opacity-90`
+              : isActive
+                ? `bg-gradient-to-br ${color.from} ${color.to} ${color.shadow} hover:translate-y-0.5 ring-4 ring-primary/30 animate-pulse`
+                : `bg-gradient-to-br ${color.from} ${color.to} ${color.shadow} hover:translate-y-0.5`
           }
         `}
       >
