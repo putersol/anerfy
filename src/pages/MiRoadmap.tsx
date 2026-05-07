@@ -53,16 +53,16 @@ const PHASE_ICONS: Record<string, React.ComponentType<{ className?: string }>> =
   fase_finanzas: Wallet,
 };
 
-// Color theme per phase (from-to gradient + shadow)
+// Tonos dentro de la paleta azul de marca (primary #1a56db)
 const PHASE_COLORS: Record<string, { from: string; to: string; shadow: string }> = {
-  fase_documentos:     { from: 'from-sky-400',     to: 'to-sky-600',     shadow: 'shadow-[0_6px_0_rgb(2,132,199)]' },
-  fase_idioma:         { from: 'from-violet-400',  to: 'to-violet-600',  shadow: 'shadow-[0_6px_0_rgb(124,58,237)]' },
-  fase_bundesland:     { from: 'from-emerald-400', to: 'to-emerald-600', shadow: 'shadow-[0_6px_0_rgb(5,150,105)]' },
-  fase_fsp:            { from: 'from-rose-400',    to: 'to-rose-600',    shadow: 'shadow-[0_6px_0_rgb(225,29,72)]' },
-  fase_kenntnis:       { from: 'from-orange-400',  to: 'to-orange-600',  shadow: 'shadow-[0_6px_0_rgb(234,88,12)]' },
-  fase_berufserlaubnis:{ from: 'from-cyan-400',    to: 'to-cyan-600',    shadow: 'shadow-[0_6px_0_rgb(8,145,178)]' },
-  fase_approbation:    { from: 'from-amber-400',   to: 'to-amber-600',   shadow: 'shadow-[0_6px_0_rgb(217,119,6)]' },
-  fase_finanzas:       { from: 'from-lime-400',    to: 'to-lime-600',    shadow: 'shadow-[0_6px_0_rgb(101,163,13)]' },
+  fase_documentos:     { from: 'from-blue-300',    to: 'to-blue-500',    shadow: 'shadow-[0_6px_0_rgb(59,130,246)]' },
+  fase_idioma:         { from: 'from-blue-400',    to: 'to-blue-600',    shadow: 'shadow-[0_6px_0_rgb(37,99,235)]' },
+  fase_bundesland:     { from: 'from-indigo-400',  to: 'to-indigo-600',  shadow: 'shadow-[0_6px_0_rgb(79,70,229)]' },
+  fase_fsp:            { from: 'from-blue-500',    to: 'to-blue-700',    shadow: 'shadow-[0_6px_0_rgb(29,78,216)]' },
+  fase_kenntnis:       { from: 'from-indigo-500',  to: 'to-indigo-700',  shadow: 'shadow-[0_6px_0_rgb(67,56,202)]' },
+  fase_berufserlaubnis:{ from: 'from-sky-400',     to: 'to-sky-600',     shadow: 'shadow-[0_6px_0_rgb(2,132,199)]' },
+  fase_approbation:    { from: 'from-blue-600',    to: 'to-indigo-700',  shadow: 'shadow-[0_6px_0_rgb(67,56,202)]' },
+  fase_finanzas:       { from: 'from-cyan-400',    to: 'to-blue-600',    shadow: 'shadow-[0_6px_0_rgb(37,99,235)]' },
 };
 
 interface PhaseNodeProps {
