@@ -527,8 +527,9 @@ export default function MiRoadmap() {
               <Sparkles className="w-3.5 h-3.5 text-primary" />
               <span className="text-sm text-primary font-medium">Tu camino a la Approbation</span>
             </motion.div>
-            <h1 className="text-3xl sm:text-4xl font-semibold">
-              ¡Hola {submission.nombre_completo?.split(' ')[0] || 'Doctor'}! 👋
+            <h1 className="text-3xl sm:text-4xl font-semibold inline-flex items-center gap-3 justify-center">
+              <span>¡Hola {submission.nombre_completo?.split(' ')[0] || 'Doctor'}!</span>
+              <Sparkles className="w-7 h-7 text-[#d4af37] drop-shadow-[0_0_8px_rgba(212,175,55,0.5)]" strokeWidth={1.5} />
             </h1>
             <p className="text-sm text-muted-foreground mt-2">
               Toca cada nodo para ver y completar tareas
@@ -631,10 +632,10 @@ export default function MiRoadmap() {
             transition={{ delay: 0.5 }}
             className="flex flex-col items-center mt-4"
           >
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-[0_6px_0_hsl(var(--border))]">
-              <Trophy className="w-12 h-12 text-amber-950" strokeWidth={2} />
+            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#f4d97a] via-[#d4af37] to-[#8a6d1f] flex items-center justify-center shadow-[0_6px_24px_-4px_rgba(212,175,55,0.5)] ring-1 ring-[#d4af37]/40">
+              <Trophy className="w-12 h-12 text-[#3a2c08]" strokeWidth={1.75} />
             </div>
-            <p className="text-sm font-bold mt-2">¡Approbation! 🎉</p>
+            <p className="text-sm font-semibold mt-3 tracking-wide bg-gradient-to-r from-[#f4d97a] to-[#d4af37] bg-clip-text text-transparent">¡Approbation!</p>
             <p className="text-[10px] text-muted-foreground">Tu meta final</p>
           </motion.div>
           </div>
