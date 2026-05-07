@@ -509,7 +509,14 @@ export default function MiRoadmap() {
         </aside>
 
         {/* Centro: mapa */}
-        <div className="min-w-0 order-1 lg:order-2">
+        <div className="min-w-0 order-1 lg:order-2 relative">
+          {/* Halo de resalto detrás del mapa */}
+          <div className="absolute inset-0 -z-10 pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[95%] bg-gradient-to-b from-primary/10 via-primary/5 to-transparent blur-3xl rounded-[50%]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-card/60 via-card/30 to-transparent backdrop-blur-sm rounded-3xl border border-primary/15 shadow-[0_0_60px_-10px_hsl(var(--primary)/0.25)]" />
+          </div>
+
+          <div className="relative px-4 sm:px-6 py-6">
           {/* Saludo */}
           <div className="text-center mb-8">
             <motion.div
@@ -635,6 +642,7 @@ export default function MiRoadmap() {
           <p className="text-center text-xs text-muted-foreground mt-12 px-6">
             Tu progreso se guarda automáticamente. Vuelve cuando quieras desde el link mágico que recibes por email.
           </p>
+          </div>
         </div>
 
         {/* Sidebar derecho: Noticias + Vida en DE */}
