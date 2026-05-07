@@ -522,7 +522,7 @@ export default function MiRoadmap() {
 
           <div className="relative px-4 sm:px-6 py-6">
           {/* Saludo */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-20">
             <motion.p
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
