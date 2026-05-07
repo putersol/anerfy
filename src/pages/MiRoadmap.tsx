@@ -34,6 +34,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { generatePersonalizedRoadmap, getTotalTasks, getCompletedCount, RoadmapPhase } from '@/lib/roadmapGenerator';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 import torito from '@/assets/torito-mascot.png';
+import FloatingShapes from '@/components/FloatingShapes';
 
 interface ProgressRow {
   task_id: string;
@@ -348,7 +349,8 @@ export default function MiRoadmap() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      <FloatingShapes />
       {isAdminView && (
         <div className="bg-amber-500/15 border-b border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-medium px-4 py-2 text-center sticky top-0 z-30">
           👁️ Modo admin · Solo lectura · {submission?.nombre_completo || submission?.email || 'Cliente'}
