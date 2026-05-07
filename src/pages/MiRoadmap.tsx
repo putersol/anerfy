@@ -421,10 +421,10 @@ export default function MiRoadmap() {
             href={`https://cal.eu/anerfy/asesoria-seguimiento?name=${encodeURIComponent(submission.nombre_completo || '')}&email=${encodeURIComponent(submission.email || '')}&metadata[submission_id]=${submission.submission_id || ''}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="block rounded-none border border-primary/40 bg-gradient-to-br from-primary/15 to-primary/5 p-5 hover:border-primary/60 hover:from-primary/20 transition-all group shadow-[0_4px_0_hsl(var(--primary)/0.2)]"
+            className="block rounded-lg border border-primary/40 bg-gradient-to-br from-primary/15 to-primary/5 p-5 hover:border-primary/60 hover:from-primary/20 transition-all group shadow-[0_4px_0_hsl(var(--primary)/0.2)]"
           >
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-none bg-primary flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0">
                 <CalendarCheck className="w-5 h-5 text-primary-foreground" />
               </div>
               <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors flex-1">
@@ -441,7 +441,7 @@ export default function MiRoadmap() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-card border border-border rounded-none p-5 shadow-[0_4px_0_hsl(var(--border))]"
+            className="bg-card border border-border rounded-lg p-5 shadow-[0_4px_0_hsl(var(--border))]"
           >
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
@@ -455,7 +455,7 @@ export default function MiRoadmap() {
                   href="https://virtus-fsp.de"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block group rounded-none border border-border/60 p-3 hover:border-primary/50 hover:bg-primary/5 transition-all"
+                  className="block group rounded-lg border border-border/60 p-3 hover:border-primary/50 hover:bg-primary/5 transition-all"
                 >
                   <div className="flex items-center justify-between mb-1">
                     <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
@@ -473,7 +473,7 @@ export default function MiRoadmap() {
                   href="https://hispanoakademie.de"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block group rounded-none border border-border/60 p-3 hover:border-primary/50 hover:bg-primary/5 transition-all"
+                  className="block group rounded-lg border border-border/60 p-3 hover:border-primary/50 hover:bg-primary/5 transition-all"
                 >
                   <div className="flex items-center justify-between mb-1">
                     <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
@@ -491,7 +491,7 @@ export default function MiRoadmap() {
                   href="https://wa.me/4915123456789?text=Hola,%20quiero%20saber%20m%C3%A1s%20sobre%20servicios%20Anerfy"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block group rounded-none border border-dashed border-border/60 p-3 hover:border-primary/50 hover:bg-primary/5 transition-all"
+                  className="block group rounded-lg border border-dashed border-border/60 p-3 hover:border-primary/50 hover:bg-primary/5 transition-all"
                 >
                   <div className="flex items-center justify-between mb-1">
                     <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
@@ -651,7 +651,7 @@ export default function MiRoadmap() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-card border border-border rounded-none p-5 shadow-[0_4px_0_hsl(var(--border))]"
+            className="bg-card border border-border rounded-lg p-5 shadow-[0_4px_0_hsl(var(--border))]"
           >
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
@@ -700,7 +700,7 @@ export default function MiRoadmap() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-gradient-to-br from-secondary/50 to-secondary/20 border border-dashed border-border rounded-none p-5 shadow-[0_4px_0_hsl(var(--border))]"
+            className="bg-gradient-to-br from-secondary/50 to-secondary/20 border border-dashed border-border rounded-lg p-5 shadow-[0_4px_0_hsl(var(--border))]"
           >
             <div className="flex items-center gap-2 mb-3">
               <div className="w-8 h-8 rounded-full bg-amber-400/20 flex items-center justify-center">
