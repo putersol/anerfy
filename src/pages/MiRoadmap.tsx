@@ -11,7 +11,6 @@ import {
   X,
   FileText,
   Languages,
-  MessageCircle,
   MapPin,
   GraduationCap,
   Stethoscope,
@@ -45,7 +44,7 @@ interface ProgressRow {
 
 const PHASE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   fase_documentos: FileText,
-  fase_idioma: MessageCircle,
+  fase_idioma: UmlautIcon as any,
   fase_bundesland: MapPin,
   fase_fsp: GraduationCap,
   fase_kenntnis: Stethoscope,
@@ -53,6 +52,24 @@ const PHASE_ICONS: Record<string, React.ComponentType<{ className?: string }>> =
   fase_approbation: Trophy,
   fase_finanzas: Wallet,
 };
+
+// Letra "ä" estilizada para representar idioma alemán
+function UmlautIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <text
+        x="12"
+        y="20"
+        textAnchor="middle"
+        fontSize="22"
+        fontWeight="800"
+        fontFamily="Geist, system-ui, sans-serif"
+      >
+        ä
+      </text>
+    </svg>
+  );
+}
 
 // Tonos dentro de la paleta azul de marca (primary #1a56db)
 const PHASE_COLORS: Record<string, { from: string; to: string; shadow: string }> = {
