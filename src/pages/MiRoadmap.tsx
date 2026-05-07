@@ -646,7 +646,7 @@ export default function MiRoadmap() {
         </div>
 
         {/* Sidebar derecho: Noticias + Vida en DE */}
-        <aside className="space-y-4 lg:sticky lg:top-28 self-start order-3">
+        <aside className="space-y-4 lg:sticky lg:top-28 self-start order-3 lg:mt-40">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
