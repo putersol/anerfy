@@ -6,8 +6,8 @@ import {
   CheckCircle2,
   Lock,
   LogOut,
-  Trophy,
   Star,
+  BadgeCheck,
   X,
   FileText,
   Languages,
@@ -51,7 +51,7 @@ const PHASE_ICONS: Record<string, React.ComponentType<{ className?: string }>> =
   fase_fsp: GraduationCap,
   fase_kenntnis: Stethoscope,
   fase_berufserlaubnis: Award,
-  fase_approbation: Trophy,
+  fase_approbation: BadgeCheck,
   fase_finanzas: Wallet,
 };
 
@@ -507,7 +507,7 @@ export default function MiRoadmap() {
           </Link>
           <div className="flex items-center gap-4 w-20 justify-end">
             <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full">
-              <Trophy className="w-4 h-4 text-amber-400" />
+              <BadgeCheck className="w-4 h-4 text-primary" />
               <span className="text-sm font-semibold text-primary">{overallPct}%</span>
             </div>
             {!isAdminView && (
