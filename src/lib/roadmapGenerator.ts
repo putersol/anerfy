@@ -92,9 +92,6 @@ export function generatePersonalizedRoadmap(submission: any): RoadmapPhase[] {
       { id: 'fin_ahorro', label: 'Alcanzar meta de ahorro €25k-€28k', preCompleted: ahorroOk },
       { id: 'fin_sperrkonto', label: 'Abrir Sperrkonto (€11.904)', preCompleted: submission?.puede_abrir_sperrkonto === 'Sí, ya tengo' },
       { id: 'fin_visa', label: 'Tramitar visa de trabajo / búsqueda de empleo' },
-      { id: 'fin_steuerklasse', label: 'Optimizar Steuerklasse' },
-      { id: 'fin_versorgungswerk', label: 'Configurar Versorgungswerk (pensión médica)' },
-      { id: 'fin_seguro_bu', label: 'Contratar Berufsunfähigkeitsversicherung' },
     ],
   });
 
@@ -169,6 +166,9 @@ export function generatePersonalizedRoadmap(submission: any): RoadmapPhase[] {
       { id: 'approb_recibida', label: 'Recibir Approbation', preCompleted: tieneApprobation },
       { id: 'approb_ejercer', label: 'Ejercer libremente en toda Alemania', preCompleted: tieneApprobation },
       { id: 'approb_weiterbildung', label: 'Planificar Facharzt / Weiterbildung' },
+      { id: 'fin_steuerklasse', label: 'Optimizar Steuerklasse' },
+      { id: 'fin_versorgungswerk', label: 'Configurar Versorgungswerk (pensión médica)' },
+      { id: 'fin_seguro_bu', label: 'Contratar Berufsunfähigkeitsversicherung' },
     ],
   });
 
