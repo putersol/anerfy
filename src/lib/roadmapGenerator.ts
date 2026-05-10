@@ -82,10 +82,26 @@ export function generatePersonalizedRoadmap(submission: any): RoadmapPhase[] {
     });
   }
 
-  // FASE 3 — Elección de Bundesland y envío de documentos
+  // FASE — Finanzas y vida en Alemania (siempre desbloqueada, antes de Bundesland)
+  const ahorroOk = ahorrado === '€25.000+' || ahorrado === '€20.000-25.000';
+  phases.push({
+    id: 'fase_finanzas',
+    title: 'Fase 3 — Finanzas y vida en Alemania',
+    subtitle: 'Plan de ahorro, Sperrkonto y planificación financiera',
+    tasks: [
+      { id: 'fin_ahorro', label: 'Alcanzar meta de ahorro €25k-€28k', preCompleted: ahorroOk },
+      { id: 'fin_sperrkonto', label: 'Abrir Sperrkonto (€11.904)', preCompleted: submission?.puede_abrir_sperrkonto === 'Sí, ya tengo' },
+      { id: 'fin_visa', label: 'Tramitar visa de trabajo / búsqueda de empleo' },
+      { id: 'fin_steuerklasse', label: 'Optimizar Steuerklasse' },
+      { id: 'fin_versorgungswerk', label: 'Configurar Versorgungswerk (pensión médica)' },
+      { id: 'fin_seguro_bu', label: 'Contratar Berufsunfähigkeitsversicherung' },
+    ],
+  });
+
+  // FASE 4 — Elección de Bundesland y envío de documentos
   phases.push({
     id: 'fase_bundesland',
-    title: 'Fase 3 — Bundesland y envío de documentos',
+    title: 'Fase 4 — Bundesland y envío de documentos',
     subtitle: 'Elegir estratégicamente y enviar documentación',
     tasks: [
       { id: 'bundes_eleccion', label: 'Elegir Bundesland estratégicamente', preCompleted: !!submission?.bundesland_preferido },
@@ -153,22 +169,6 @@ export function generatePersonalizedRoadmap(submission: any): RoadmapPhase[] {
       { id: 'approb_recibida', label: 'Recibir Approbation', preCompleted: tieneApprobation },
       { id: 'approb_ejercer', label: 'Ejercer libremente en toda Alemania', preCompleted: tieneApprobation },
       { id: 'approb_weiterbildung', label: 'Planificar Facharzt / Weiterbildung' },
-    ],
-  });
-
-  // FASE 8 — Finanzas y vida en Alemania
-  const ahorroOk = ahorrado === '€25.000+' || ahorrado === '€20.000-25.000';
-  phases.push({
-    id: 'fase_finanzas',
-    title: 'Fase 8 — Finanzas y vida en Alemania',
-    subtitle: 'Plan de ahorro, Sperrkonto y planificación financiera',
-    tasks: [
-      { id: 'fin_ahorro', label: 'Alcanzar meta de ahorro €25k-€28k', preCompleted: ahorroOk },
-      { id: 'fin_sperrkonto', label: 'Abrir Sperrkonto (€11.904)', preCompleted: submission?.puede_abrir_sperrkonto === 'Sí, ya tengo' },
-      { id: 'fin_visa', label: 'Tramitar visa de trabajo / búsqueda de empleo' },
-      { id: 'fin_steuerklasse', label: 'Optimizar Steuerklasse' },
-      { id: 'fin_versorgungswerk', label: 'Configurar Versorgungswerk (pensión médica)' },
-      { id: 'fin_seguro_bu', label: 'Contratar Berufsunfähigkeitsversicherung' },
     ],
   });
 

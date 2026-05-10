@@ -762,7 +762,7 @@ export default function MiRoadmap() {
             const stats = phaseStats[i];
             const isActive = i === activeIndex;
             // Documentación e Idioma se pueden trabajar en paralelo desde el inicio
-            const alwaysUnlocked = phase.id === 'fase_documentos' || phase.id === 'fase_idioma';
+            const alwaysUnlocked = phase.id === 'fase_documentos' || phase.id === 'fase_idioma' || phase.id === 'fase_finanzas';
             const isLocked = !alwaysUnlocked && i > activeIndex;
             const isComplete = stats.complete;
             const Icon = PHASE_ICONS[phase.id] || Star;
