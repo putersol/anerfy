@@ -985,6 +985,30 @@ export default function MiRoadmap() {
             </ul>
           </motion.div>
 
+          <motion.a
+            href="https://learngerman.dw.com/en/nicos-weg/c-36519789"
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="block bg-card border border-border rounded-lg p-5 shadow-[0_4px_0_hsl(var(--border))] hover:border-primary/50 transition-colors group"
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <Languages className="w-4 h-4 text-primary" />
+              </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-primary">Aprende alemán</p>
+              <ExternalLink className="w-3.5 h-3.5 text-muted-foreground ml-auto group-hover:text-primary transition-colors" />
+            </div>
+            <p className="text-sm font-semibold leading-snug text-foreground mb-1">
+              Nicos Weg — curso gratis A1-B1
+            </p>
+            <p className="text-xs text-muted-foreground leading-snug">
+              Deutsche Welle. Vídeos, ejercicios y certificado.
+            </p>
+          </motion.a>
+
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
