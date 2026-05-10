@@ -342,14 +342,12 @@ export default function MiRoadmap() {
   const completedTasks = getCompletedCount(phases, progressMap);
   const overallPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
-  // Auto-scroll al nodo activo cuando cargan las fases
+  // Al cargar, mantener el scroll arriba para mostrar el título de bienvenida
   useEffect(() => {
-    if (!loading && activeNodeRef.current) {
-      setTimeout(() => {
-        activeNodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 400);
+    if (!loading) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
-  }, [loading, activeIndex]);
+  }, [loading]);
 
   const toggleTask = async (taskId: string) => {
     if (isReadOnly) return;
