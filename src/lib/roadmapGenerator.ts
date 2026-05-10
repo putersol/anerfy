@@ -90,8 +90,9 @@ export function generatePersonalizedRoadmap(submission: any): RoadmapPhase[] {
     tasks: [
       { id: 'bundes_eleccion', label: 'Elegir Bundesland estratégicamente', preCompleted: !!submission?.bundesland_preferido },
       { id: 'bundes_envio', label: 'Enviar documentación completa al Bundesland', preCompleted: envioDocs },
-      { id: 'bundes_tasas', label: 'Pagar tasas administrativas' },
+      { id: 'bundes_tasas', label: 'Pagar FSP' },
       { id: 'bundes_respuesta', label: 'Recibir evaluación inicial', preCompleted: recibioRespuesta },
+      { id: 'bundes_deficit', label: 'Recibir Defizitbescheid' },
     ],
   });
 
