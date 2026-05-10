@@ -715,7 +715,7 @@ export default function MiRoadmap() {
                 <Newspaper className="w-4 h-4 text-primary" />
               </div>
               <p className="text-xs font-bold uppercase tracking-wider text-primary">Noticias</p>
-              <div className="ml-auto w-2 h-2 rounded-full bg-success animate-pulse" />
+              <div className="ml-auto w-2 h-2 rounded-full bg-success" />
             </div>
             <ul className="space-y-3">
               <li>
