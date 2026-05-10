@@ -33,6 +33,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { generatePersonalizedRoadmap, getTotalTasks, getCompletedCount, RoadmapPhase } from '@/lib/roadmapGenerator';
+import { calculateDashboardScores, getPillarDetails } from '@/lib/dashboardScoring';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 import torito from '@/assets/torito-mascot.png';
 import FloatingShapes from '@/components/FloatingShapes';
@@ -268,6 +269,12 @@ export default function MiRoadmap() {
   }, [authLoading, user, submissionId, navigate, toast, isDemo, isAdminView]);
 
   const phases = useMemo(() => (submission ? generatePersonalizedRoadmap(submission) : []), [submission]);
+
+  const scores = useMemo(() => (submission ? calculateDashboardScores(submission) : null), [submission]);
+  const pillarDetails = useMemo(
+    () => (submission && scores ? getPillarDetails(submission, scores) : null),
+    [submission, scores],
+  );
 
   const progressMap = useMemo(() => {
     const map: Record<string, boolean> = {};
