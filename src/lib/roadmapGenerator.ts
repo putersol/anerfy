@@ -122,11 +122,7 @@ export function generatePersonalizedRoadmap(submission: any): RoadmapPhase[] {
         title: 'Fase 5 — Kenntnisprüfung',
         subtitle: 'Examen de equivalencia de conocimientos médicos',
         tasks: [
-          { id: 'kp_evaluacion', label: 'Recibir resultado de evaluación de formación' },
-          { id: 'kp_estudio_interna', label: 'Estudiar medicina interna' },
-          { id: 'kp_estudio_cirugia', label: 'Estudiar cirugía' },
-          { id: 'kp_estudio_urgencias', label: 'Estudiar urgencias' },
-          { id: 'kp_casos', label: 'Practicar casos clínicos' },
+          { id: 'kp_inscripcion', label: 'Inscripción a Kenntnisprüfung' },
           { id: 'kp_examen', label: 'Aprobar Kenntnisprüfung' },
         ],
       });
