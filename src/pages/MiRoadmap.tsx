@@ -514,71 +514,93 @@ export default function MiRoadmap() {
             </p>
           </motion.a>
 
-          <motion.a
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.18 }}
-            href={`https://wa.me/4915123456789?text=${encodeURIComponent(`Hola, soy ${submission.nombre_completo || 'médico/a'} y me interesa la bolsa de trabajo de Anerfy. Quiero que un asesor me ayude a encontrar un buen empleo en Alemania.`)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block rounded-lg border border-emerald-500/40 bg-gradient-to-br from-emerald-500/15 to-emerald-500/5 p-5 hover:border-emerald-500/60 hover:from-emerald-500/20 transition-all group shadow-[0_4px_0_hsl(160_84%_30%/0.25)]"
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center shrink-0">
-                <Briefcase className="w-5 h-5 text-white" />
-              </div>
-              <h3 className="text-sm font-semibold text-foreground group-hover:text-emerald-500 transition-colors flex-1">
-                Bolsa de trabajo
-              </h3>
-              <ExternalLink className="w-4 h-4 text-emerald-500 shrink-0" />
-            </div>
-            <p className="text-xs text-muted-foreground leading-snug mb-3">
-              Contáctanos por WhatsApp — un asesor te ayuda a conseguir un empleo con buen sueldo y condiciones.
-            </p>
-            <div className="space-y-3">
-              {/* Sección Approbation */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                    Approbation
-                  </p>
-                  <span className="text-[10px] text-muted-foreground">2 vacantes</span>
+          {scores && pillarDetails && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18 }}
+              className="bg-card border border-border rounded-lg p-5 shadow-[0_4px_0_hsl(var(--border))]"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-primary" />
                 </div>
-                <div className="space-y-2">
-                  <div className="rounded-md border border-emerald-500/30 bg-background/40 p-2.5">
-                    <p className="text-xs font-semibold text-foreground leading-tight">
-                      Medicina física y rehabilitación
-                    </p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">Niedersachsen · Tiempo completo</p>
-                  </div>
-                  <div className="rounded-md border border-emerald-500/30 bg-background/40 p-2.5">
-                    <p className="text-xs font-semibold text-foreground leading-tight">
-                      Ortopedia
-                    </p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">Niedersachsen · Tiempo completo</p>
-                  </div>
-                </div>
+                <p className="text-xs font-bold uppercase tracking-wider text-primary">Diagnóstico</p>
               </div>
 
-              {/* Divisor */}
-              <div className="border-t border-emerald-500/20" />
+              {(() => {
+                const c = 2 * Math.PI * 42;
+                const dash = (scores.total / 100) * c;
+                const routeColor = scores.route === 'rapida'
+                  ? 'bg-success/20 text-success border-success/30'
+                  : scores.route === 'estandar'
+                    ? 'bg-warning/20 text-warning border-warning/30'
+                    : 'bg-destructive/20 text-destructive border-destructive/30';
+                return (
+                  <div className="flex flex-col items-center mb-4">
+                    <div className="relative w-[120px] h-[120px]">
+                      <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="42" fill="none" stroke="hsl(var(--secondary))" strokeWidth="8" />
+                        <motion.circle
+                          cx="60" cy="60" r="42" fill="none"
+                          stroke="hsl(var(--primary))"
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          strokeDasharray={c}
+                          initial={{ strokeDashoffset: c }}
+                          animate={{ strokeDashoffset: c - dash }}
+                          transition={{ delay: 0.3, duration: 1.1, ease: 'easeOut' }}
+                          transform="rotate(-90 60 60)"
+                        />
+                      </svg>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className="text-2xl font-bold text-foreground leading-none">{scores.total}</span>
+                        <span className="text-[10px] text-muted-foreground">/100</span>
+                      </div>
+                    </div>
+                    <span className={`mt-2 text-[10px] font-semibold px-2.5 py-0.5 rounded-full border ${routeColor}`}>
+                      {scores.routeLabel}
+                    </span>
+                  </div>
+                );
+              })()}
 
-              {/* Sección Berufserlaubnis */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                    Berufserlaubnis
-                  </p>
-                  <span className="text-[10px] text-muted-foreground">Próximamente</span>
-                </div>
-                <div className="rounded-md border border-dashed border-emerald-500/25 bg-background/20 p-2.5">
-                  <p className="text-[11px] text-muted-foreground leading-snug">
-                    Sin vacantes activas. Contáctanos para que un asesor te avise en cuanto abramos posiciones.
-                  </p>
-                </div>
+              <div className="space-y-2.5">
+                {Object.entries(pillarDetails).map(([key, detail]) => {
+                  const labels: Record<string, string> = {
+                    idioma: 'Idioma',
+                    documentos: 'Documentos',
+                    homologacion: 'Homologación',
+                    finanzas: 'Finanzas',
+                    estrategia: 'Estrategia',
+                  };
+                  const icons: Record<string, string> = {
+                    idioma: '🗣️', documentos: '📄', homologacion: '🏥', finanzas: '💰', estrategia: '🎯',
+                  };
+                  return (
+                    <div key={key}>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <span className="text-[11px]">{icons[key]}</span>
+                          <span className="text-[11px] font-medium text-foreground truncate">{labels[key]}</span>
+                        </div>
+                        <span className="text-[10px] font-mono text-muted-foreground shrink-0">{detail.score}/20</span>
+                      </div>
+                      <div className="h-1.5 rounded-full bg-secondary overflow-hidden">
+                        <motion.div
+                          className="h-full rounded-full"
+                          style={{ backgroundColor: detail.color }}
+                          initial={{ width: 0 }}
+                          animate={{ width: `${(detail.score / 20) * 100}%` }}
+                          transition={{ delay: 0.4, duration: 0.8 }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
-          </motion.a>
+            </motion.div>
+          )}
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -795,95 +817,68 @@ export default function MiRoadmap() {
 
         {/* Sidebar derecho: Noticias + Vida en DE */}
         <aside className="space-y-4 lg:sticky lg:top-28 self-start order-3 lg:mt-40">
-          {scores && pillarDetails && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-              className="bg-card border border-border rounded-lg p-5 shadow-[0_4px_0_hsl(var(--border))]"
-            >
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-primary" />
+          <motion.a
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            href={`https://wa.me/4915123456789?text=${encodeURIComponent(`Hola, soy ${submission.nombre_completo || 'médico/a'} y me interesa la bolsa de trabajo de Anerfy. Quiero que un asesor me ayude a encontrar un buen empleo en Alemania.`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block rounded-lg border border-emerald-500/40 bg-gradient-to-br from-emerald-500/15 to-emerald-500/5 p-5 hover:border-emerald-500/60 hover:from-emerald-500/20 transition-all group shadow-[0_4px_0_hsl(160_84%_30%/0.25)]"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center shrink-0">
+                <Briefcase className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-sm font-semibold text-foreground group-hover:text-emerald-500 transition-colors flex-1">
+                Bolsa de trabajo
+              </h3>
+              <ExternalLink className="w-4 h-4 text-emerald-500 shrink-0" />
+            </div>
+            <p className="text-xs text-muted-foreground leading-snug mb-3">
+              Contáctanos por WhatsApp — un asesor te ayuda a conseguir un empleo con buen sueldo y condiciones.
+            </p>
+            <div className="space-y-3">
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                    Approbation
+                  </p>
+                  <span className="text-[10px] text-muted-foreground">2 vacantes</span>
                 </div>
-                <p className="text-xs font-bold uppercase tracking-wider text-primary">Diagnóstico</p>
-              </div>
-
-              {/* Score donut */}
-              {(() => {
-                const c = 2 * Math.PI * 42;
-                const dash = (scores.total / 100) * c;
-                const routeColor = scores.route === 'rapida'
-                  ? 'bg-success/20 text-success border-success/30'
-                  : scores.route === 'estandar'
-                    ? 'bg-warning/20 text-warning border-warning/30'
-                    : 'bg-destructive/20 text-destructive border-destructive/30';
-                return (
-                  <div className="flex flex-col items-center mb-4">
-                    <div className="relative w-[120px] h-[120px]">
-                      <svg width="120" height="120" viewBox="0 0 120 120">
-                        <circle cx="60" cy="60" r="42" fill="none" stroke="hsl(var(--secondary))" strokeWidth="8" />
-                        <motion.circle
-                          cx="60" cy="60" r="42" fill="none"
-                          stroke="hsl(var(--primary))"
-                          strokeWidth="8"
-                          strokeLinecap="round"
-                          strokeDasharray={c}
-                          initial={{ strokeDashoffset: c }}
-                          animate={{ strokeDashoffset: c - dash }}
-                          transition={{ delay: 0.3, duration: 1.1, ease: 'easeOut' }}
-                          transform="rotate(-90 60 60)"
-                        />
-                      </svg>
-                      <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-2xl font-bold text-foreground leading-none">{scores.total}</span>
-                        <span className="text-[10px] text-muted-foreground">/100</span>
-                      </div>
-                    </div>
-                    <span className={`mt-2 text-[10px] font-semibold px-2.5 py-0.5 rounded-full border ${routeColor}`}>
-                      {scores.routeLabel}
-                    </span>
+                <div className="space-y-2">
+                  <div className="rounded-md border border-emerald-500/30 bg-background/40 p-2.5">
+                    <p className="text-xs font-semibold text-foreground leading-tight">
+                      Medicina física y rehabilitación
+                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">Niedersachsen · Tiempo completo</p>
                   </div>
-                );
-              })()}
-
-              {/* Pillar bars */}
-              <div className="space-y-2.5">
-                {Object.entries(pillarDetails).map(([key, detail]) => {
-                  const labels: Record<string, string> = {
-                    idioma: 'Idioma',
-                    documentos: 'Documentos',
-                    homologacion: 'Homologación',
-                    finanzas: 'Finanzas',
-                    estrategia: 'Estrategia',
-                  };
-                  const icons: Record<string, string> = {
-                    idioma: '🗣️', documentos: '📄', homologacion: '🏥', finanzas: '💰', estrategia: '🎯',
-                  };
-                  return (
-                    <div key={key}>
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="flex items-center gap-1.5 min-w-0">
-                          <span className="text-[11px]">{icons[key]}</span>
-                          <span className="text-[11px] font-medium text-foreground truncate">{labels[key]}</span>
-                        </div>
-                        <span className="text-[10px] font-mono text-muted-foreground shrink-0">{detail.score}/20</span>
-                      </div>
-                      <div className="h-1.5 rounded-full bg-secondary overflow-hidden">
-                        <motion.div
-                          className="h-full rounded-full"
-                          style={{ backgroundColor: detail.color }}
-                          initial={{ width: 0 }}
-                          animate={{ width: `${(detail.score / 20) * 100}%` }}
-                          transition={{ delay: 0.4, duration: 0.8 }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
+                  <div className="rounded-md border border-emerald-500/30 bg-background/40 p-2.5">
+                    <p className="text-xs font-semibold text-foreground leading-tight">
+                      Ortopedia
+                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">Niedersachsen · Tiempo completo</p>
+                  </div>
+                </div>
               </div>
-            </motion.div>
-          )}
+
+              <div className="border-t border-emerald-500/20" />
+
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                    Berufserlaubnis
+                  </p>
+                  <span className="text-[10px] text-muted-foreground">Próximamente</span>
+                </div>
+                <div className="rounded-md border border-dashed border-emerald-500/25 bg-background/20 p-2.5">
+                  <p className="text-[11px] text-muted-foreground leading-snug">
+                    Sin vacantes activas. Contáctanos para que un asesor te avise en cuanto abramos posiciones.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.a>
 
           <motion.div
             initial={{ opacity: 0, y: 10 }}
