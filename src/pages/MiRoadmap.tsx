@@ -33,6 +33,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { generatePersonalizedRoadmap, getTotalTasks, getCompletedCount, RoadmapPhase } from '@/lib/roadmapGenerator';
+import { calculateDashboardScores, getPillarDetails } from '@/lib/dashboardScoring';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 import torito from '@/assets/torito-mascot.png';
 import FloatingShapes from '@/components/FloatingShapes';
@@ -268,6 +269,12 @@ export default function MiRoadmap() {
   }, [authLoading, user, submissionId, navigate, toast, isDemo, isAdminView]);
 
   const phases = useMemo(() => (submission ? generatePersonalizedRoadmap(submission) : []), [submission]);
+
+  const scores = useMemo(() => (submission ? calculateDashboardScores(submission) : null), [submission]);
+  const pillarDetails = useMemo(
+    () => (submission && scores ? getPillarDetails(submission, scores) : null),
+    [submission, scores],
+  );
 
   const progressMap = useMemo(() => {
     const map: Record<string, boolean> = {};
@@ -788,6 +795,96 @@ export default function MiRoadmap() {
 
         {/* Sidebar derecho: Noticias + Vida en DE */}
         <aside className="space-y-4 lg:sticky lg:top-28 self-start order-3 lg:mt-40">
+          {scores && pillarDetails && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="bg-card border border-border rounded-lg p-5 shadow-[0_4px_0_hsl(var(--border))]"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                </div>
+                <p className="text-xs font-bold uppercase tracking-wider text-primary">Diagnóstico</p>
+              </div>
+
+              {/* Score donut */}
+              {(() => {
+                const c = 2 * Math.PI * 42;
+                const dash = (scores.total / 100) * c;
+                const routeColor = scores.route === 'rapida'
+                  ? 'bg-success/20 text-success border-success/30'
+                  : scores.route === 'estandar'
+                    ? 'bg-warning/20 text-warning border-warning/30'
+                    : 'bg-destructive/20 text-destructive border-destructive/30';
+                return (
+                  <div className="flex flex-col items-center mb-4">
+                    <div className="relative w-[120px] h-[120px]">
+                      <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="42" fill="none" stroke="hsl(var(--secondary))" strokeWidth="8" />
+                        <motion.circle
+                          cx="60" cy="60" r="42" fill="none"
+                          stroke="hsl(var(--primary))"
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          strokeDasharray={c}
+                          initial={{ strokeDashoffset: c }}
+                          animate={{ strokeDashoffset: c - dash }}
+                          transition={{ delay: 0.3, duration: 1.1, ease: 'easeOut' }}
+                          transform="rotate(-90 60 60)"
+                        />
+                      </svg>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className="text-2xl font-bold text-foreground leading-none">{scores.total}</span>
+                        <span className="text-[10px] text-muted-foreground">/100</span>
+                      </div>
+                    </div>
+                    <span className={`mt-2 text-[10px] font-semibold px-2.5 py-0.5 rounded-full border ${routeColor}`}>
+                      {scores.routeLabel}
+                    </span>
+                  </div>
+                );
+              })()}
+
+              {/* Pillar bars */}
+              <div className="space-y-2.5">
+                {Object.entries(pillarDetails).map(([key, detail]) => {
+                  const labels: Record<string, string> = {
+                    idioma: 'Idioma',
+                    documentos: 'Documentos',
+                    homologacion: 'Homologación',
+                    finanzas: 'Finanzas',
+                    estrategia: 'Estrategia',
+                  };
+                  const icons: Record<string, string> = {
+                    idioma: '🗣️', documentos: '📄', homologacion: '🏥', finanzas: '💰', estrategia: '🎯',
+                  };
+                  return (
+                    <div key={key}>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <span className="text-[11px]">{icons[key]}</span>
+                          <span className="text-[11px] font-medium text-foreground truncate">{labels[key]}</span>
+                        </div>
+                        <span className="text-[10px] font-mono text-muted-foreground shrink-0">{detail.score}/20</span>
+                      </div>
+                      <div className="h-1.5 rounded-full bg-secondary overflow-hidden">
+                        <motion.div
+                          className="h-full rounded-full"
+                          style={{ backgroundColor: detail.color }}
+                          initial={{ width: 0 }}
+                          animate={{ width: `${(detail.score / 20) * 100}%` }}
+                          transition={{ delay: 0.4, duration: 0.8 }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
