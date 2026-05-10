@@ -528,21 +528,47 @@ export default function MiRoadmap() {
             <p className="text-xs text-muted-foreground leading-snug mb-3">
               Contáctanos por WhatsApp — un asesor te ayuda a conseguir un empleo con buen sueldo y condiciones.
             </p>
-            <div className="space-y-2">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                Vacantes activas · 2
-              </p>
-              <div className="rounded-md border border-emerald-500/30 bg-background/40 p-2.5">
-                <p className="text-xs font-semibold text-foreground leading-tight">
-                  Medicina física y rehabilitación
-                </p>
-                <p className="text-[10px] text-muted-foreground mt-0.5">Alemania · Tiempo completo</p>
+            <div className="space-y-3">
+              {/* Sección Approbation */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                    Approbation
+                  </p>
+                  <span className="text-[10px] text-muted-foreground">2 vacantes</span>
+                </div>
+                <div className="space-y-2">
+                  <div className="rounded-md border border-emerald-500/30 bg-background/40 p-2.5">
+                    <p className="text-xs font-semibold text-foreground leading-tight">
+                      Medicina física y rehabilitación
+                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">Alemania · Tiempo completo</p>
+                  </div>
+                  <div className="rounded-md border border-emerald-500/30 bg-background/40 p-2.5">
+                    <p className="text-xs font-semibold text-foreground leading-tight">
+                      Ortopedia
+                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">Alemania · Tiempo completo</p>
+                  </div>
+                </div>
               </div>
-              <div className="rounded-md border border-emerald-500/30 bg-background/40 p-2.5">
-                <p className="text-xs font-semibold text-foreground leading-tight">
-                  Ortopedia
-                </p>
-                <p className="text-[10px] text-muted-foreground mt-0.5">Alemania · Tiempo completo</p>
+
+              {/* Divisor */}
+              <div className="border-t border-emerald-500/20" />
+
+              {/* Sección Berufserlaubnis */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                    Berufserlaubnis
+                  </p>
+                  <span className="text-[10px] text-muted-foreground">Próximamente</span>
+                </div>
+                <div className="rounded-md border border-dashed border-emerald-500/25 bg-background/20 p-2.5">
+                  <p className="text-[11px] text-muted-foreground leading-snug">
+                    Sin vacantes activas. Contáctanos para que un asesor te avise en cuanto abramos posiciones.
+                  </p>
+                </div>
               </div>
             </div>
           </motion.a>
