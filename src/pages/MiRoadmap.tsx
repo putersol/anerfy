@@ -116,7 +116,7 @@ function PhaseNode({ phase, Icon, stats, isActive, isLocked, isComplete, index, 
             : isComplete
               ? `bg-gradient-to-br ${color.from} ${color.to} ${color.shadow} hover:translate-y-0.5 opacity-90`
               : isActive
-                ? `bg-gradient-to-br ${color.from} ${color.to} ${color.shadow} hover:translate-y-0.5 ring-4 ring-primary/30 animate-pulse`
+                ? `bg-gradient-to-br ${color.from} ${color.to} ${color.shadow} hover:translate-y-0.5 ring-4 ring-primary/30`
                 : `bg-gradient-to-br ${color.from} ${color.to} ${color.shadow} hover:translate-y-0.5`
           }
         `}
@@ -373,9 +373,17 @@ export default function MiRoadmap() {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <FloatingShapes />
-      {/* Anillos extra + glow central más brillante */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Capa de fondo fija (anillos esparcidos + glows) — visible mientras scrolleas */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        {/* Glows de fondo cubriendo la pantalla */}
+        <div className="absolute top-[10%] left-[18%] w-[420px] h-[420px] bg-primary/12 rounded-full blur-[130px]" />
+        <div className="absolute top-[8%] right-[14%] w-[460px] h-[460px] bg-primary/12 rounded-full blur-[140px]" />
+        <div className="absolute top-[35%] left-1/2 -translate-x-1/2 w-[700px] h-[500px] sm:w-[900px] sm:h-[600px] bg-primary/14 rounded-full blur-[150px]" />
+        <div className="absolute bottom-[10%] left-[10%] w-[380px] h-[380px] bg-primary/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[12%] right-[12%] w-[420px] h-[420px] bg-primary/10 rounded-full blur-[130px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] bg-primary/22 rounded-full blur-[80px]" />
+
+        {/* Anillos centrales (orbitas grandes) */}
         <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] sm:w-[1100px] sm:h-[1100px]"
           animate={{ rotate: -360 }}
@@ -390,25 +398,19 @@ export default function MiRoadmap() {
         >
           <div className="w-full h-full border border-primary/6 rounded-[50%]" />
         </motion.div>
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[120px] sm:w-[180px] sm:h-[180px]"
-          animate={{ rotate: -180, scale: [1, 1.08, 1] }}
-          transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <div className="w-full h-full border border-primary/15 rounded-[40%]" />
-        </motion.div>
-        {/* Anillos esparcidos por todo el fondo */}
+
+        {/* Anillos esparcidos en todo el viewport */}
         {[
-          { top: '8%',  left: '6%',  size: 180, dur: 70,  dir: 1,  op: 12 },
-          { top: '14%', left: '82%', size: 240, dur: 95,  dir: -1, op: 10 },
-          { top: '32%', left: '-4%', size: 320, dur: 110, dir: 1,  op: 8  },
-          { top: '36%', left: '88%', size: 200, dur: 80,  dir: -1, op: 14 },
-          { top: '58%', left: '4%',  size: 260, dur: 100, dir: -1, op: 10 },
-          { top: '62%', left: '78%', size: 300, dur: 130, dir: 1,  op: 9  },
-          { top: '82%', left: '12%', size: 220, dur: 85,  dir: 1,  op: 12 },
-          { top: '86%', left: '70%', size: 280, dur: 115, dir: -1, op: 8  },
-          { top: '4%',  left: '44%', size: 160, dur: 60,  dir: -1, op: 14 },
-          { top: '92%', left: '46%', size: 200, dur: 75,  dir: 1,  op: 10 },
+          { top: '6%',  left: '4%',  size: 170, dur: 70,  dir: 1,  op: 14 },
+          { top: '12%', left: '78%', size: 220, dur: 95,  dir: -1, op: 12 },
+          { top: '4%',  left: '42%', size: 140, dur: 55,  dir: -1, op: 16 },
+          { top: '38%', left: '-3%', size: 280, dur: 110, dir: 1,  op: 10 },
+          { top: '42%', left: '85%', size: 200, dur: 80,  dir: -1, op: 14 },
+          { top: '68%', left: '6%',  size: 240, dur: 100, dir: -1, op: 12 },
+          { top: '72%', left: '74%', size: 260, dur: 120, dir: 1,  op: 10 },
+          { top: '88%', left: '38%', size: 180, dur: 65,  dir: 1,  op: 14 },
+          { top: '52%', left: '24%', size: 130, dur: 50,  dir: 1,  op: 16 },
+          { top: '24%', left: '60%', size: 110, dur: 45,  dir: -1, op: 18 },
         ].map((r, i) => (
           <motion.div
             key={`ring-${i}`}
@@ -418,18 +420,11 @@ export default function MiRoadmap() {
             transition={{ duration: r.dur, repeat: Infinity, ease: 'linear' }}
           >
             <div
-              className="w-full h-full border rounded-[42%]"
+              className="w-full h-full border-2 rounded-[42%]"
               style={{ borderColor: `hsl(var(--primary) / ${r.op / 100})` }}
             />
           </motion.div>
         ))}
-        {/* Glow central + glows que cubren hasta el primer botón (parte superior) */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] bg-primary/15 rounded-full blur-[140px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] bg-primary/20 rounded-full blur-[80px]" />
-        <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-[600px] h-[400px] sm:w-[850px] sm:h-[500px] bg-primary/12 rounded-full blur-[130px]" />
-        <div className="absolute top-[6%] left-[20%] w-[380px] h-[380px] bg-primary/10 rounded-full blur-[110px]" />
-        <div className="absolute top-[8%] right-[18%] w-[420px] h-[420px] bg-primary/10 rounded-full blur-[120px]" />
-        <div className="absolute top-[28%] left-1/2 -translate-x-1/2 w-[500px] h-[260px] bg-primary/14 rounded-full blur-[100px]" />
       </div>
       {isAdminView && (
         <div className="bg-amber-500/15 border-b border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-medium px-4 py-2 text-center sticky top-0 z-30">
