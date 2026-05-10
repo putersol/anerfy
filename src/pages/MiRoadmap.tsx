@@ -719,7 +719,7 @@ export default function MiRoadmap() {
             <div className="absolute inset-0 bg-gradient-to-b from-card/60 via-card/30 to-transparent backdrop-blur-sm rounded-3xl border border-primary/15 shadow-[0_0_60px_-10px_hsl(var(--primary)/0.25)]" />
           </div>
 
-          <div className="relative px-4 sm:px-6 py-6">
+          <div className="relative px-4 sm:px-6 pt-16 sm:pt-24 pb-6">
           {/* Saludo */}
           <div className="text-center mb-20">
             <motion.p
