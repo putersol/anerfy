@@ -375,6 +375,23 @@ export default function MiRoadmap() {
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Capa de fondo fija (anillos esparcidos + glows) — visible mientras scrolleas */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        {/* Franja vertical luminosa central (resalta el camino de los nodos) */}
+        <div
+          className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[260px] sm:w-[340px]"
+          style={{
+            background:
+              'linear-gradient(to bottom, hsl(var(--primary) / 0) 0%, hsl(var(--primary) / 0.18) 20%, hsl(var(--primary) / 0.22) 50%, hsl(var(--primary) / 0.18) 80%, hsl(var(--primary) / 0) 100%)',
+            filter: 'blur(60px)',
+          }}
+        />
+        <div
+          className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[120px] sm:w-[160px]"
+          style={{
+            background:
+              'linear-gradient(to bottom, hsl(var(--primary) / 0) 0%, hsl(var(--primary) / 0.28) 50%, hsl(var(--primary) / 0) 100%)',
+            filter: 'blur(40px)',
+          }}
+        />
         {/* Glows de fondo cubriendo la pantalla */}
         <div className="absolute top-[10%] left-[18%] w-[420px] h-[420px] bg-primary/12 rounded-full blur-[130px]" />
         <div className="absolute top-[8%] right-[14%] w-[460px] h-[460px] bg-primary/12 rounded-full blur-[140px]" />
