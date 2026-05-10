@@ -832,18 +832,6 @@ export default function MiRoadmap() {
           })}
 
           {/* Meta final */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="flex flex-col items-center mt-4"
-          >
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#f4d97a] via-[#d4af37] to-[#8a6d1f] flex items-center justify-center shadow-[0_6px_24px_-4px_rgba(212,175,55,0.5)] ring-1 ring-[#d4af37]/40">
-              <Trophy className="w-12 h-12 text-[#3a2c08]" strokeWidth={1.75} />
-            </div>
-            <p className="text-sm font-semibold mt-3 tracking-wide bg-gradient-to-r from-[#f4d97a] to-[#d4af37] bg-clip-text text-transparent">¡Approbation!</p>
-            <p className="text-[10px] text-muted-foreground">Tu meta final</p>
-          </motion.div>
           </div>
 
           <p className="text-center text-xs text-muted-foreground mt-12 px-6">
