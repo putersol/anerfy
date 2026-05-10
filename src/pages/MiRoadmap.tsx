@@ -404,30 +404,30 @@ export default function MiRoadmap() {
         <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] sm:w-[1100px] sm:h-[1100px]"
           animate={{ rotate: -360 }}
-          transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 70, repeat: Infinity, ease: 'linear' }}
         >
           <div className="w-full h-full border border-primary/8 rounded-[45%]" />
         </motion.div>
         <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[1100px] sm:w-[1400px] sm:h-[1400px]"
           animate={{ rotate: 360 }}
-          transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 95, repeat: Infinity, ease: 'linear' }}
         >
           <div className="w-full h-full border border-primary/6 rounded-[50%]" />
         </motion.div>
 
         {/* Anillos esparcidos en todo el viewport */}
         {[
-          { top: '6%',  left: '4%',  size: 170, dur: 70,  dir: 1,  op: 14 },
-          { top: '12%', left: '78%', size: 220, dur: 95,  dir: -1, op: 12 },
-          { top: '4%',  left: '42%', size: 140, dur: 55,  dir: -1, op: 16 },
-          { top: '38%', left: '-3%', size: 280, dur: 110, dir: 1,  op: 10 },
-          { top: '42%', left: '85%', size: 200, dur: 80,  dir: -1, op: 14 },
-          { top: '68%', left: '6%',  size: 240, dur: 100, dir: -1, op: 12 },
-          { top: '72%', left: '74%', size: 260, dur: 120, dir: 1,  op: 10 },
-          { top: '88%', left: '38%', size: 180, dur: 65,  dir: 1,  op: 14 },
-          { top: '52%', left: '24%', size: 130, dur: 50,  dir: 1,  op: 16 },
-          { top: '24%', left: '60%', size: 110, dur: 45,  dir: -1, op: 18 },
+          { top: '6%',  left: '4%',  size: 170, dur: 55, dir: 1,  op: 14 },
+          { top: '12%', left: '78%', size: 220, dur: 75, dir: -1, op: 12 },
+          { top: '4%',  left: '42%', size: 140, dur: 42, dir: -1, op: 16 },
+          { top: '38%', left: '-3%', size: 280, dur: 85, dir: 1,  op: 10 },
+          { top: '42%', left: '85%', size: 200, dur: 62, dir: -1, op: 14 },
+          { top: '68%', left: '6%',  size: 240, dur: 78, dir: -1, op: 12 },
+          { top: '72%', left: '74%', size: 260, dur: 92, dir: 1,  op: 10 },
+          { top: '88%', left: '38%', size: 180, dur: 50, dir: 1,  op: 14 },
+          { top: '52%', left: '24%', size: 130, dur: 38, dir: 1,  op: 16 },
+          { top: '24%', left: '60%', size: 110, dur: 34, dir: -1, op: 18 },
         ].map((r, i) => (
           <motion.div
             key={`ring-${i}`}
