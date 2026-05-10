@@ -936,6 +936,22 @@ export default function MiRoadmap() {
             <ul className="space-y-3">
               <li>
                 <a
+                  href="https://www.tagesschau.de/inland/gesellschaft/aerztemangel-178.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block group"
+                >
+                  <p className="text-sm font-semibold leading-snug text-foreground group-hover:text-primary transition-colors">
+                    Tagesschau: Alemania enfrenta creciente escasez de médicos
+                  </p>
+                  <div className="flex items-center gap-1 mt-1.5 text-[11px] text-muted-foreground">
+                    <Clock className="w-3 h-3" />
+                    <span>Hoy</span>
+                  </div>
+                </a>
+              </li>
+              <li className="pt-3 border-t border-border/50">
+                <a
                   href="https://www.bundesregierung.de/breg-de/themen/fachkraefteeinwanderung"
                   target="_blank"
                   rel="noopener noreferrer"
