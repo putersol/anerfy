@@ -322,9 +322,9 @@ export default function MiRoadmap() {
     const total = idioma + documentos + homologacion + finanzas + estrategia;
     let route = baseScores.route;
     let routeLabel = baseScores.routeLabel;
-    if (total >= 70) { route = 'rapida' as any; routeLabel = 'Ruta rápida'; }
-    else if (total >= 40) { route = 'estandar' as any; routeLabel = 'Ruta estándar'; }
-    else { route = 'preparacion' as any; routeLabel = 'Ruta de preparación'; }
+    if (total >= 70) { route = 'rapida'; routeLabel = 'Ruta rápida'; }
+    else if (total >= 40) { route = 'estandar'; routeLabel = 'Ruta estándar'; }
+    else { route = 'preparatoria'; routeLabel = 'Ruta preparatoria'; }
     return { ...baseScores, idioma, documentos, homologacion, finanzas, estrategia, total, route, routeLabel };
   }, [baseScores, phaseStats]);
 
