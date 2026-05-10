@@ -542,13 +542,13 @@ export default function MiRoadmap() {
                     <p className="text-xs font-semibold text-foreground leading-tight">
                       Medicina física y rehabilitación
                     </p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">Alemania · Tiempo completo</p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">Niedersachsen · Tiempo completo</p>
                   </div>
                   <div className="rounded-md border border-emerald-500/30 bg-background/40 p-2.5">
                     <p className="text-xs font-semibold text-foreground leading-tight">
                       Ortopedia
                     </p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">Alemania · Tiempo completo</p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">Niedersachsen · Tiempo completo</p>
                   </div>
                 </div>
               </div>
