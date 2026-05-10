@@ -270,10 +270,9 @@ export default function MiRoadmap() {
 
   const phases = useMemo(() => (submission ? generatePersonalizedRoadmap(submission) : []), [submission]);
 
-  const scores = useMemo(() => (submission ? calculateDashboardScores(submission) : null), [submission]);
-  const pillarDetails = useMemo(
-    () => (submission && scores ? getPillarDetails(submission, scores) : null),
-    [submission, scores],
+  const baseScores = useMemo(
+    () => (submission ? calculateDashboardScores(submission) : null),
+    [submission],
   );
 
   const progressMap = useMemo(() => {
@@ -292,6 +291,47 @@ export default function MiRoadmap() {
       return { id: p.id, total, done, pct, complete: pct === 100 };
     });
   }, [phases, progressMap]);
+
+  // Live scores: arrancan con el resultado del diagnóstico y suben con el avance del roadmap.
+  // Cada pilar se acerca a 20 según el % de tareas completadas en sus fases asociadas.
+  const scores = useMemo(() => {
+    if (!baseScores) return null;
+    const statsById: Record<string, { done: number; total: number }> = {};
+    phaseStats.forEach(s => { statsById[s.id] = { done: s.done, total: s.total }; });
+    const phaseProgress = (ids: string[]) => {
+      let done = 0, total = 0;
+      ids.forEach(id => { const s = statsById[id]; if (s) { done += s.done; total += s.total; } });
+      return total > 0 ? done / total : 0;
+    };
+    const PILLAR_PHASES: Record<string, string[]> = {
+      idioma: ['fase_idioma'],
+      documentos: ['fase_documentos'],
+      homologacion: ['fase_fsp', 'fase_kenntnis', 'fase_berufserlaubnis', 'fase_approbation'],
+      finanzas: ['fase_finanzas'],
+      estrategia: ['fase_bundesland'],
+    };
+    const boost = (base: number, ids: string[]) => {
+      const p = phaseProgress(ids);
+      return Math.min(20, Math.round(base + (20 - base) * p));
+    };
+    const idioma = boost(baseScores.idioma, PILLAR_PHASES.idioma);
+    const documentos = boost(baseScores.documentos, PILLAR_PHASES.documentos);
+    const homologacion = boost(baseScores.homologacion, PILLAR_PHASES.homologacion);
+    const finanzas = boost(baseScores.finanzas, PILLAR_PHASES.finanzas);
+    const estrategia = boost(baseScores.estrategia, PILLAR_PHASES.estrategia);
+    const total = idioma + documentos + homologacion + finanzas + estrategia;
+    let route = baseScores.route;
+    let routeLabel = baseScores.routeLabel;
+    if (total >= 70) { route = 'rapida' as any; routeLabel = 'Ruta rápida'; }
+    else if (total >= 40) { route = 'estandar' as any; routeLabel = 'Ruta estándar'; }
+    else { route = 'preparacion' as any; routeLabel = 'Ruta de preparación'; }
+    return { ...baseScores, idioma, documentos, homologacion, finanzas, estrategia, total, route, routeLabel };
+  }, [baseScores, phaseStats]);
+
+  const pillarDetails = useMemo(
+    () => (submission && scores ? getPillarDetails(submission, scores) : null),
+    [submission, scores],
+  );
 
   const activeIndex = useMemo(() => {
     const idx = phaseStats.findIndex(s => !s.complete);
