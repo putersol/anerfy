@@ -23,6 +23,7 @@ import {
   Clock,
   CalendarCheck,
   ExternalLink,
+  Briefcase,
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -503,6 +504,29 @@ export default function MiRoadmap() {
             </div>
             <p className="text-xs text-muted-foreground leading-snug">
               Agenda tu próxima sesión — repasamos progreso y ajustamos el plan.
+            </p>
+          </motion.a>
+
+          <motion.a
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18 }}
+            href={`https://wa.me/4915123456789?text=${encodeURIComponent(`Hola, soy ${submission.nombre_completo || 'médico/a'} y me interesa la bolsa de trabajo de Anerfy. Quiero que un asesor me ayude a encontrar un buen empleo en Alemania.`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block rounded-lg border border-emerald-500/40 bg-gradient-to-br from-emerald-500/15 to-emerald-500/5 p-5 hover:border-emerald-500/60 hover:from-emerald-500/20 transition-all group shadow-[0_4px_0_hsl(160_84%_30%/0.25)]"
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center shrink-0">
+                <Briefcase className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-sm font-semibold text-foreground group-hover:text-emerald-500 transition-colors flex-1">
+                Bolsa de trabajo
+              </h3>
+              <ExternalLink className="w-4 h-4 text-emerald-500 shrink-0" />
+            </div>
+            <p className="text-xs text-muted-foreground leading-snug">
+              Contáctanos por WhatsApp — un asesor te ayuda a conseguir un empleo con buen sueldo y condiciones.
             </p>
           </motion.a>
 
