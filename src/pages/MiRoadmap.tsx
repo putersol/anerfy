@@ -525,9 +525,26 @@ export default function MiRoadmap() {
               </h3>
               <ExternalLink className="w-4 h-4 text-emerald-500 shrink-0" />
             </div>
-            <p className="text-xs text-muted-foreground leading-snug">
+            <p className="text-xs text-muted-foreground leading-snug mb-3">
               Contáctanos por WhatsApp — un asesor te ayuda a conseguir un empleo con buen sueldo y condiciones.
             </p>
+            <div className="space-y-2">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                Vacantes activas · 2
+              </p>
+              <div className="rounded-md border border-emerald-500/30 bg-background/40 p-2.5">
+                <p className="text-xs font-semibold text-foreground leading-tight">
+                  Medicina física y rehabilitación
+                </p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">Alemania · Tiempo completo</p>
+              </div>
+              <div className="rounded-md border border-emerald-500/30 bg-background/40 p-2.5">
+                <p className="text-xs font-semibold text-foreground leading-tight">
+                  Ortopedia
+                </p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">Alemania · Tiempo completo</p>
+              </div>
+            </div>
           </motion.a>
 
           <motion.div
