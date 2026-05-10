@@ -123,6 +123,7 @@ export function generatePersonalizedRoadmap(submission: any): RoadmapPhase[] {
         subtitle: 'Examen de equivalencia de conocimientos médicos',
         tasks: [
           { id: 'kp_inscripcion', label: 'Inscripción a Kenntnisprüfung' },
+          { id: 'kp_preparacion', label: 'Preparación estratégica KP' },
           { id: 'kp_examen', label: 'Aprobar Kenntnisprüfung' },
         ],
       });
