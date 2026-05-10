@@ -397,9 +397,39 @@ export default function MiRoadmap() {
         >
           <div className="w-full h-full border border-primary/15 rounded-[40%]" />
         </motion.div>
-        {/* Glow central más brillante */}
+        {/* Anillos esparcidos por todo el fondo */}
+        {[
+          { top: '8%',  left: '6%',  size: 180, dur: 70,  dir: 1,  op: 12 },
+          { top: '14%', left: '82%', size: 240, dur: 95,  dir: -1, op: 10 },
+          { top: '32%', left: '-4%', size: 320, dur: 110, dir: 1,  op: 8  },
+          { top: '36%', left: '88%', size: 200, dur: 80,  dir: -1, op: 14 },
+          { top: '58%', left: '4%',  size: 260, dur: 100, dir: -1, op: 10 },
+          { top: '62%', left: '78%', size: 300, dur: 130, dir: 1,  op: 9  },
+          { top: '82%', left: '12%', size: 220, dur: 85,  dir: 1,  op: 12 },
+          { top: '86%', left: '70%', size: 280, dur: 115, dir: -1, op: 8  },
+          { top: '4%',  left: '44%', size: 160, dur: 60,  dir: -1, op: 14 },
+          { top: '92%', left: '46%', size: 200, dur: 75,  dir: 1,  op: 10 },
+        ].map((r, i) => (
+          <motion.div
+            key={`ring-${i}`}
+            className="absolute"
+            style={{ top: r.top, left: r.left, width: r.size, height: r.size }}
+            animate={{ rotate: 360 * r.dir }}
+            transition={{ duration: r.dur, repeat: Infinity, ease: 'linear' }}
+          >
+            <div
+              className="w-full h-full border rounded-[42%]"
+              style={{ borderColor: `hsl(var(--primary) / ${r.op / 100})` }}
+            />
+          </motion.div>
+        ))}
+        {/* Glow central + glows que cubren hasta el primer botón (parte superior) */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] bg-primary/15 rounded-full blur-[140px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] bg-primary/20 rounded-full blur-[80px]" />
+        <div className="absolute top-[18%] left-1/2 -translate-x-1/2 w-[600px] h-[400px] sm:w-[850px] sm:h-[500px] bg-primary/12 rounded-full blur-[130px]" />
+        <div className="absolute top-[6%] left-[20%] w-[380px] h-[380px] bg-primary/10 rounded-full blur-[110px]" />
+        <div className="absolute top-[8%] right-[18%] w-[420px] h-[420px] bg-primary/10 rounded-full blur-[120px]" />
+        <div className="absolute top-[28%] left-1/2 -translate-x-1/2 w-[500px] h-[260px] bg-primary/14 rounded-full blur-[100px]" />
       </div>
       {isAdminView && (
         <div className="bg-amber-500/15 border-b border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-medium px-4 py-2 text-center sticky top-0 z-30">
