@@ -421,7 +421,7 @@ export default function MiRoadmap() {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Capa de fondo fija (anillos esparcidos + glows) — visible mientras scrolleas */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 no-print">
         {/* Franja vertical luminosa central (resalta el camino de los nodos) */}
         <div
           className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[260px] sm:w-[340px]"
