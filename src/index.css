@@ -119,8 +119,17 @@
 
 /* === PDF / Print mode === */
 @media print {
-  @page { size: A4; margin: 12mm; }
-  html, body { background: white !important; }
+  /* Preserve on-screen colors (dark theme) in the PDF */
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  @page { size: A4; margin: 10mm; }
+  html, body {
+    background: hsl(var(--background)) !important;
+    color: hsl(var(--foreground)) !important;
+  }
   .no-print { display: none !important; }
   .print-page-break { break-after: page; page-break-after: always; }
   .print-stack { display: block !important; }
@@ -128,7 +137,7 @@
     break-inside: avoid;
     page-break-inside: avoid;
   }
-  /* Slides print full page */
+  /* Slides: landscape full page to match the on-screen 16:9 presentation */
   .print-slide {
     width: 100% !important;
     height: auto !important;
@@ -139,6 +148,18 @@
     page-break-after: always;
     break-after: page;
     overflow: hidden;
+    background: hsl(var(--background)) !important;
   }
   .print-slide:last-child { page-break-after: auto; break-after: auto; }
+}
+
+/* Landscape orientation only when printing the slide presentation */
+@media print {
+  body.print-landscape {
+    /* page rule cannot be inside body selector, applied via wrapper below */
+  }
+}
+@page :landscape-slides { size: A4 landscape; margin: 0; }
+@media print {
+  .print-landscape { page: landscape-slides; }
 }
