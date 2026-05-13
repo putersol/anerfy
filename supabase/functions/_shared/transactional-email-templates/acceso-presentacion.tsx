@@ -51,14 +51,19 @@ const AccesoPresentacionEmail = ({ nombre, resultadosUrl, roadmapUrl }: AccesoPr
         </Text>
 
         <Section style={buttonSection}>
-          <Button style={button} href="https://anerfy.com/mi-roadmap">
-            Pedir acceso a mi roadmap
+          <Button style={button} href={resultadosUrl ?? 'https://anerfy.com/resultados'}>
+            Ver mi plan personalizado
+          </Button>
+        </Section>
+
+        <Section style={buttonSectionSecondary}>
+          <Button style={buttonSecondary} href={roadmapUrl ?? 'https://anerfy.com/mi-roadmap'}>
+            Abrir mi mapa de seguimiento
           </Button>
         </Section>
 
         <Text style={linkNote}>
-          Como medida de seguridad, te pediremos confirmar tu email para
-          abrir tu plan.
+          Estos enlaces son personales y únicos para ti. No los compartas.
         </Text>
 
         <Hr style={hr} />
