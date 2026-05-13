@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Maximize, Loader2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Maximize, Loader2, Download } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { calculateDashboardScores } from '@/lib/dashboardScoring';
 import { useSlideNavigation } from './useSlideNavigation';
@@ -134,10 +134,12 @@ export default function ResultsDashboard() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Advisor tools */}
-      <AdvisorTools currentSlide={currentSlide} submissionId={submissionId || ''} />
+      <div className="no-print">
+        <AdvisorTools currentSlide={currentSlide} submissionId={submissionId || ''} />
+      </div>
 
       {/* Top bar */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-card/50 backdrop-blur-sm z-10">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-card/50 backdrop-blur-sm z-10 no-print">
         <div className="flex items-center gap-3">
           <Link to="/" className="hover:opacity-80 transition-opacity">
             <img src={anerfyLogo} alt="Anerfy" className="h-6 brightness-0 invert" />
@@ -149,6 +151,13 @@ export default function ResultsDashboard() {
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs text-muted-foreground font-mono">{currentSlide + 1}/{TOTAL_SLIDES}</span>
+          <button
+            onClick={() => window.print()}
+            className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center hover:bg-secondary transition-colors"
+            title="Descargar PDF"
+          >
+            <Download className="w-3.5 h-3.5 text-muted-foreground" />
+          </button>
           <button
             onClick={() => {
               if (!document.fullscreenElement) document.documentElement.requestFullscreen();
@@ -162,7 +171,7 @@ export default function ResultsDashboard() {
       </div>
 
       {/* Slide area */}
-      <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative overflow-hidden print:hidden">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={currentSlide}
@@ -177,8 +186,17 @@ export default function ResultsDashboard() {
         </AnimatePresence>
       </div>
 
+      {/* Print-only: render all slides stacked for PDF export */}
+      <div className="hidden print:block">
+        {slides.map((slide, i) => (
+          <div key={`print-${i}`} className="print-slide">
+            {slide}
+          </div>
+        ))}
+      </div>
+
       {/* Bottom nav */}
-      <div className="flex items-center justify-between px-4 py-3 border-t border-border bg-card/50 backdrop-blur-sm">
+      <div className="flex items-center justify-between px-4 py-3 border-t border-border bg-card/50 backdrop-blur-sm no-print">
         <button
           onClick={prev}
           disabled={currentSlide === 0}
