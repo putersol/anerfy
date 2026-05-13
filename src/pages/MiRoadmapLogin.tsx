@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Loader2, CheckCircle2, MapPin } from 'lucide-react';
+import { Mail, Loader2, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -11,8 +12,8 @@ import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 export default function MiRoadmapLogin() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSendLink = async () => {
     if (!email || !email.includes('@')) {
@@ -42,21 +43,18 @@ export default function MiRoadmapLogin() {
       return;
     }
 
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.toLowerCase().trim(),
-      options: {
-        emailRedirectTo: `${window.location.origin}/mi-roadmap/${submission.submission_id}`,
-      },
-    });
-
-    setLoading(false);
-
-    if (error) {
-      toast({ title: 'Error al enviar el link', description: error.message, variant: 'destructive' });
+    if (!submission.client_access_unlocked) {
+      toast({
+        title: 'Acceso aún no disponible',
+        description: 'Tu roadmap se habilita después de tu asesoría de 90 min.',
+        variant: 'destructive',
+      });
+      setLoading(false);
       return;
     }
 
-    setSent(true);
+    setLoading(false);
+    navigate(`/mi-roadmap/${submission.submission_id}`);
   };
 
   return (
@@ -72,19 +70,10 @@ export default function MiRoadmapLogin() {
             <h1 className="text-xl font-semibold">Mi Roadmap Personalizado</h1>
           </div>
           <p className="text-sm text-muted-foreground mb-6">
-            Accede a tu roadmap personalizado post-asesoría. Te enviaremos un link mágico al email con el que completaste tu diagnóstico.
+            Accede a tu roadmap personalizado post-asesoría. Ingresa el email con el que completaste tu diagnóstico.
           </p>
 
-          {sent ? (
-            <div className="flex flex-col items-center text-center py-6">
-              <CheckCircle2 className="w-12 h-12 text-success mb-3" />
-              <h2 className="font-semibold mb-1">Link enviado</h2>
-              <p className="text-sm text-muted-foreground">
-                Revisa tu email <strong>{email}</strong> y haz click en el link para acceder.
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-3">
+          <div className="space-y-3">
               <div>
                 <label className="text-sm font-medium mb-1 block">Tu email</label>
                 <Input
@@ -97,10 +86,9 @@ export default function MiRoadmapLogin() {
               </div>
               <Button onClick={handleSendLink} disabled={loading} className="w-full">
                 {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Mail className="w-4 h-4 mr-2" />}
-                Enviar link de acceso
+                Acceder a mi roadmap
               </Button>
-            </div>
-          )}
+          </div>
         </Card>
       </motion.div>
     </div>
