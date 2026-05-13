@@ -153,10 +153,11 @@ export default function ResultsDashboard() {
           <span className="text-xs text-muted-foreground font-mono">{currentSlide + 1}/{TOTAL_SLIDES}</span>
           <button
             onClick={() => window.print()}
-            className="w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center hover:bg-secondary transition-colors"
+            className="h-8 px-3 rounded-lg bg-primary text-primary-foreground flex items-center gap-1.5 hover:opacity-90 transition-opacity text-xs font-medium"
             title="Descargar PDF"
           >
-            <Download className="w-3.5 h-3.5 text-muted-foreground" />
+            <Download className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Descargar PDF</span>
           </button>
           <button
             onClick={() => {
