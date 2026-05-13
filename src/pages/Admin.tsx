@@ -660,7 +660,7 @@ function SubmissionRow({ submission: s, expanded, onToggle }: { submission: Subm
       return;
     }
     setSending(true);
-    const origin = window.location.origin;
+    const origin = 'https://anerfy.com';
     try {
       const { error } = await supabase.functions.invoke('send-transactional-email', {
         body: {
