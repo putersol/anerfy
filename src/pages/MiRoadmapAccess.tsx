@@ -3,6 +3,7 @@ import { MailCheck, ShieldCheck, TriangleAlert } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { supabase } from '@/integrations/supabase/client';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
 
 const isValidMagicLink = (value: string | null) => {
@@ -21,7 +22,27 @@ const isValidMagicLink = (value: string | null) => {
 export default function MiRoadmapAccess() {
   const [searchParams] = useSearchParams();
   const next = searchParams.get('next');
-  const isReady = isValidMagicLink(next);
+  const tokenHash = searchParams.get('token_hash');
+  const token = searchParams.get('token');
+  const type = searchParams.get('type');
+  const redirectTo = searchParams.get('redirect_to') ?? '/mi-roadmap';
+  const isReady = isValidMagicLink(next) || (!!type && (!!tokenHash || !!token));
+
+  const handleManualAccess = async () => {
+    if (tokenHash && type) {
+      const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: type as any });
+      if (!error) window.location.assign(redirectTo);
+      return;
+    }
+
+    if (token && type) {
+      const { error } = await supabase.auth.verifyOtp({ token, type: type as any });
+      if (!error) window.location.assign(redirectTo);
+      return;
+    }
+
+    window.location.assign(next ?? '/mi-roadmap');
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
@@ -53,11 +74,9 @@ export default function MiRoadmapAccess() {
                 Algunos proveedores de email abren enlaces automáticamente. Por eso protegimos el acceso con este paso intermedio.
               </div>
 
-              <Button asChild className="w-full">
-                <a href={next ?? '/mi-roadmap'}>
-                  <MailCheck className="w-4 h-4 mr-2" />
-                  Entrar a mi roadmap
-                </a>
+              <Button onClick={handleManualAccess} className="w-full">
+                <MailCheck className="w-4 h-4 mr-2" />
+                Entrar a mi roadmap
               </Button>
             </>
           ) : (
