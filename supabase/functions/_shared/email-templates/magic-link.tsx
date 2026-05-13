@@ -29,7 +29,22 @@ const buildSafeAccessUrl = (confirmationUrl: string) => {
     appUrl.pathname = '/mi-roadmap/acceso'
     appUrl.search = ''
     appUrl.hash = ''
-    appUrl.searchParams.set('next', confirmationUrl)
+
+    const tokenHash = authUrl.searchParams.get('token_hash')
+    const token = authUrl.searchParams.get('token')
+    const type = authUrl.searchParams.get('type')
+
+    if (tokenHash && type) {
+      appUrl.searchParams.set('token_hash', tokenHash)
+      appUrl.searchParams.set('type', type)
+      appUrl.searchParams.set('redirect_to', redirectTo)
+    } else if (token && type) {
+      appUrl.searchParams.set('token', token)
+      appUrl.searchParams.set('type', type)
+      appUrl.searchParams.set('redirect_to', redirectTo)
+    } else {
+      appUrl.searchParams.set('next', confirmationUrl)
+    }
 
     return appUrl.toString()
   } catch {
