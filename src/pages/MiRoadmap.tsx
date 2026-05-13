@@ -32,7 +32,6 @@ import { Progress } from '@/components/ui/progress';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/hooks/useAuth';
 import { generatePersonalizedRoadmap, getTotalTasks, getCompletedCount, RoadmapPhase } from '@/lib/roadmapGenerator';
 import { calculateDashboardScores, getPillarDetails } from '@/lib/dashboardScoring';
 import anerfyLogo from '@/assets/anerfy-logo-dark.png';
@@ -175,7 +174,6 @@ export default function MiRoadmap() {
   const { submissionId } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user, loading: authLoading } = useAuth();
   const [searchParams] = useSearchParams();
   const isAdminView = searchParams.get('admin') === '1';
   const isDemo = submissionId === 'demo';
@@ -358,7 +356,6 @@ export default function MiRoadmap() {
   };
 
   const logout = async () => {
-    await supabase.auth.signOut();
     navigate('/mi-roadmap');
   };
 
