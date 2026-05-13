@@ -187,10 +187,10 @@ export default function ResultsDashboard() {
         </AnimatePresence>
       </div>
 
-      {/* Print-only: render all slides stacked for PDF export */}
-      <div className="hidden print:block">
+      {/* Print-only: render all slides stacked for PDF export (landscape, dark theme preserved) */}
+      <div className="hidden print:block print-landscape">
         {slides.map((slide, i) => (
-          <div key={`print-${i}`} className="print-slide">
+          <div key={`print-${i}`} className="print-slide print-landscape">
             {slide}
           </div>
         ))}
