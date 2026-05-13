@@ -24,6 +24,7 @@ import {
   CalendarCheck,
   ExternalLink,
   Briefcase,
+  Download,
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -490,13 +491,13 @@ export default function MiRoadmap() {
         ))}
       </div>
       {isAdminView && (
-        <div className="bg-amber-500/15 border-b border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-medium px-4 py-2 text-center sticky top-0 z-30">
+        <div className="bg-amber-500/15 border-b border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-medium px-4 py-2 text-center sticky top-0 z-30 no-print">
           👁️ Modo admin · Solo lectura · {submission?.nombre_completo || submission?.email || 'Cliente'}
           <button onClick={() => navigate('/admin')} className="ml-3 underline">Volver a /admin</button>
         </div>
       )}
       {/* Header sticky */}
-      <header className={`border-b border-border bg-card/80 backdrop-blur-md sticky ${isAdminView ? 'top-9' : 'top-0'} z-20`}>
+      <header className={`border-b border-border bg-card/80 backdrop-blur-md sticky ${isAdminView ? 'top-9' : 'top-0'} z-20 no-print`}>
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="w-20" />
           <Link to="/" className="flex items-center justify-center gap-3">
@@ -510,6 +511,9 @@ export default function MiRoadmap() {
               <BadgeCheck className="w-4 h-4 text-primary" />
               <span className="text-sm font-semibold text-primary">{overallPct}%</span>
             </div>
+            <Button variant="ghost" size="sm" onClick={() => window.print()} className="h-9 px-3" title="Descargar PDF">
+              <Download className="w-4 h-4" />
+            </Button>
             {!isAdminView && (
               <Button variant="ghost" size="sm" onClick={logout} className="h-9 px-3">
                 <LogOut className="w-4 h-4" />
