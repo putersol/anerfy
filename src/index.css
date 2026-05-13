@@ -116,3 +116,29 @@
     box-shadow: var(--shadow-card-hover);
   }
 }
+
+/* === PDF / Print mode === */
+@media print {
+  @page { size: A4; margin: 12mm; }
+  html, body { background: white !important; }
+  .no-print { display: none !important; }
+  .print-page-break { break-after: page; page-break-after: always; }
+  .print-stack { display: block !important; }
+  .print-stack > * {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  /* Slides print full page */
+  .print-slide {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 180mm;
+    transform: none !important;
+    position: relative !important;
+    inset: auto !important;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+  }
+  .print-slide:last-child { page-break-after: auto; break-after: auto; }
+}
