@@ -35,12 +35,6 @@ export default function MiRoadmapAccess() {
       return;
     }
 
-    if (token && type) {
-      const { error } = await supabase.auth.verifyOtp({ token, type: type as any });
-      if (!error) window.location.assign(redirectTo);
-      return;
-    }
-
     window.location.assign(next ?? '/mi-roadmap');
   };
 
