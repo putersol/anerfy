@@ -26,7 +26,7 @@ export default function MiRoadmapLogin() {
     const { data: submissions } = await supabase
       .from('diagnostico_submissions')
       .select('submission_id, client_access_unlocked, updated_at')
-      .eq('email', email.toLowerCase().trim())
+      .ilike('email', email.trim())
       .eq('status', 'completed')
       .order('updated_at', { ascending: false });
 
