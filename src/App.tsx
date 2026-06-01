@@ -27,6 +27,7 @@ import Admin from "./pages/Admin";
 import ResultsDashboard from "./pages/resultados/ResultsDashboard";
 import Unsubscribe from "./pages/Unsubscribe";
 import Empezar from "./pages/Empezar";
+import Asesoria from "./pages/Asesoria";
 import MiRoadmapLogin from "./pages/MiRoadmapLogin";
 import MiRoadmap from "./pages/MiRoadmap";
 import MiRoadmapAccess from "./pages/MiRoadmapAccess";
@@ -69,6 +70,7 @@ const AppRoutes = () => (
     <Route path="/mi-roadmap/:submissionId" element={<MiRoadmap />} />
     <Route path="/mapa" element={<GameMap />} />
     <Route path="/empezar" element={<Empezar />} />
+    <Route path="/asesoria" element={<Asesoria />} />
     <Route path="/unsubscribe" element={<Unsubscribe />} />
     <Route path="/mapa" element={<GameMap />} />
     

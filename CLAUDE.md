@@ -1,3 +1,43 @@
+# ANERFY — CONTEXTO DE PRODUCTO (leer primero, aplica a TODO dev futuro)
+
+**Qué es:** plataforma para médicos hispanohablantes que homologan su título y ejercen en Alemania. Fundadores: Dieter Brodersen & Alberto Díaz. Contacto: info@anerfy.com. Repo: github.com/putersol/anerfy · local `/Users/miro1/Projects/anerfy`.
+
+**Stack:** React + Vite + TypeScript + Tailwind + shadcn/ui + framer-motion. Backend Supabase (DB + Edge Functions en Deno). Proyecto generado/gestionado en **Lovable**. Pagos: **Stripe**. Booking: **Cal.com**. Emails transaccionales propios.
+
+## 🚫 Reglas duras (NO romper nunca)
+- **NUNCA deployar / push / merge / Publish a producción sin aprobación explícita por cambio.** Trabajar siempre en rama, dejar preview, esperar OK del Patrón (Dieter). Esto es ley.
+- **La UI nunca dice "gratis".** El precio es premium aunque hoy el flujo no cobre todavía.
+- **Precio = TBD** hasta que el Patrón lo fije. Manejar el precio como variable única.
+- **Idioma de cara al usuario: español.**
+- No commitear secrets ni `.env`.
+
+## Arquitectura del funnel (la cara comercial del producto)
+`Landing (/asesoria) → Lead magnet 7 preguntas → resultado parcial (Anerfy Score preliminar) → Paywall Stripe → Diagnóstico completo (/diagnostico/:token) → roadmap + sesión 1:1 (Cal.com)`
+
+**Lo que ya existe y NO se duplica (conectarse):**
+- `supabase/functions/stripe-webhook`: en `checkout.session.completed` registra pago → genera `diagnostic_token` (30d) → manda email con `anerfy.com/diagnostico/{token}`.
+- `/diagnostico/:token` (`DiagnosticoGated`) desbloquea el form completo con token válido.
+- `/empezar` (`Empezar.tsx`): captura email → `diagnostic_tokens`. Flujo "free" actual hasta enchufar Stripe.
+- Preguntas/constantes del diagnóstico en `src/pages/diagnostico/questions.ts` (COUNTRIES, SPECIALTIES) y `schema.ts` (BUNDESLAENDER, GERMAN_LEVELS) — **reutilizar**, no redefinir.
+
+**Convenciones front:**
+- Páginas full-screen de marketing (Empezar, WaitlistLanding, **Asesoria**) van en las rutas **públicas** de `App.tsx` (sin `Layout`/`ProfileSync`), traen su propio `FloatingShapes`.
+- Design tokens en `src/index.css` (tema oscuro, primary azul `220 80% 48%`, fuente Geist + Spectral acento). Usar componentes de `src/components/ui/*`.
+- Tras editar: `npx tsc --noEmit -p tsconfig.app.json` (ojo: `Admin.tsx` tiene un error de tipos PREEXISTENTE no relacionado; ignorarlo). `npm run dev` sirve en :8080.
+
+## Estado actual del build (jun-2026)
+- Rama: **`feat/pagina-ventas-asesoria`** (sin commit/deploy).
+- Hecho: `/asesoria` (landing completa del docx + simulador de salario neto + sección webinars), lead magnet 7-preg con Anerfy Score preliminar + link a anabin (anabin.kmk.org), paywall, y edge function **`create-checkout-session`** lista.
+- **Bloqueante para cobro real:** falta `STRIPE_PRICE_ID` (+ `SITE_URL`) en Supabase Secrets. Sin él, el botón del paywall cae a `/empezar` sin mencionar precio; al ponerlo, el mismo botón cobra automáticamente.
+- Defaults tomados (corregibles por Patrón): resultado parcial gratis → paywall; filtrado suave.
+- Pendientes de contenido: guion VSL (caja "próximamente"), sección "Quién está detrás" (médicos+financieros+abogados, hoy solo en el guion), historia del fundador.
+
+## Workflow de revisión
+- Preview móvil = túnel `cloudflared tunnel --url http://localhost:8080` (no toca producción). Mandar link al Patrón.
+- Feedback de **Alberto Díaz** (albertodiaz2184@gmail.com) se pide por mail desde miroassist@icloud.com y se implementa directo.
+
+---
+
 # Claude Code Configuration - RuFlo V3
 
 ## Behavioral Rules (Always Enforced)
