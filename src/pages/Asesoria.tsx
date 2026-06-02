@@ -297,19 +297,44 @@ function LeadMagnet() {
         </div>
 
         {/* Paywall → diagnóstico completo */}
-        <div className="mt-7 rounded-2xl border border-primary/30 bg-primary/5 p-6 text-center">
-          <h4 className="font-display text-xl font-semibold">Desbloquea tu diagnóstico completo + roadmap</h4>
-          <p className="mx-auto mt-2 max-w-lg text-sm text-muted-foreground">
-            Formulario completo, tu Anerfy Score real, presupuesto por fases, ruta de visa, documentos
-            ordenados y tu sesión 1:1 de 90 minutos. {PRECIO ? <strong className="text-foreground">{PRECIO}, pago único.</strong> : null}
-          </p>
-          <Button size="lg" onClick={handleCheckout} disabled={checkingOut}
-                  className="mt-5 h-14 px-8 text-base font-semibold shadow-lg shadow-primary/20">
-            {checkingOut
-              ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Redirigiendo…</>
-              : <>Desbloquear mi diagnóstico {PRECIO ? `· ${PRECIO}` : ""}<ArrowRight className="ml-2 h-5 w-5" /></>}
-          </Button>
-          <GuaranteeLine />
+        <div className="mt-7 rounded-2xl border border-primary/30 bg-primary/5 p-6 md:p-8">
+          <div className="text-center">
+            <h4 className="font-display text-2xl font-semibold">Tienes la foto. Te falta el mapa.</h4>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              Lo que acabas de ver es <strong className="text-foreground">dónde estás hoy</strong>. Lo que
+              todavía no puedes ver es el camino: en qué orden mover cada pieza, cuánto cuesta realmente
+              <em> tu</em> caso, qué Bundesland te conviene, qué visa aplica y qué documento tramitar
+              primero para no perder meses. Esa ruta no es genérica —{" "}
+              <strong className="text-foreground">se construye sobre tus respuestas reales</strong>, y sin
+              ella seguirás decidiendo a ciegas. Complétala ahora y deja de avanzar a tientas.
+            </p>
+          </div>
+
+          <ul className="mx-auto mt-6 grid max-w-xl gap-3 text-sm">
+            {[
+              ["Tu Roadmap personalizado completo", "fases, tiempos, presupuesto y documentos ordenados según tu caso"],
+              ["Tu Anerfy Score real", "cruzando más de 50 variables sobre tu situación, no solo 7"],
+              ["Acceso permanente en la plataforma", "seguimiento continuo de tu avance, disponible siempre que lo necesites"],
+              ["Sesión privada 1:1 de 90 minutos", "con un consultor experto para resolver cada duda de tu homologación"],
+              ["Acceso exclusivo a la bolsa de trabajo Anerfy", "vacantes reales en Alemania, solo para clientes"],
+            ].map(([t, d]) => (
+              <li key={t} className="flex items-start gap-3 rounded-xl border border-border bg-card/50 p-3">
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" />
+                <span><strong className="text-foreground">{t}</strong> — <span className="text-muted-foreground">{d}</span></span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-7 text-center">
+            {PRECIO ? <p className="mb-3 text-sm text-muted-foreground"><strong className="text-foreground">{PRECIO}, pago único.</strong> Acceso permanente.</p> : null}
+            <Button size="lg" onClick={handleCheckout} disabled={checkingOut}
+                    className="h-14 px-8 text-base font-semibold shadow-lg shadow-primary/20">
+              {checkingOut
+                ? <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Redirigiendo…</>
+                : <>Completar mi hoja de ruta {PRECIO ? `· ${PRECIO}` : ""}<ArrowRight className="ml-2 h-5 w-5" /></>}
+            </Button>
+            <GuaranteeLine />
+          </div>
         </div>
       </div>
     );
