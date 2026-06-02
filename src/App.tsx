@@ -30,6 +30,7 @@ import Empezar from "./pages/Empezar";
 import MiRoadmapLogin from "./pages/MiRoadmapLogin";
 import MiRoadmap from "./pages/MiRoadmap";
 import MiRoadmapAccess from "./pages/MiRoadmapAccess";
+import Asesoria from "./pages/Asesoria";
 import { Loader2 } from "lucide-react";
 
 const queryClient = new QueryClient();
@@ -59,6 +60,7 @@ function ProfileSync({ children }: { children: React.ReactNode }) {
 const AppRoutes = () => (
   <Routes>
     {/* Public routes — no auth, no ProfileSync */}
+    <Route path="/asesoria" element={<Asesoria />} />
     <Route path="/diagnostico" element={<DiagnosticoGated />} />
     <Route path="/diagnostico/:token" element={<DiagnosticoGated />} />
     <Route path="/admin" element={<Admin />} />
