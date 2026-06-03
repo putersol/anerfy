@@ -653,7 +653,7 @@ export default function Asesoria() {
         <h3 className="mt-12 font-display text-2xl font-semibold">¿Cómo funciona exactamente?</h3>
         <div className="mt-6 space-y-5">
           <StepCard n="Paso 1" t="Una vez completas el pago recibes el formulario de diagnóstico por email"
-            d="Formulario de Diagnóstico Anerfy directo a tu correo — un cuestionario interactivo de 8 a 10 minutos. No es genérico: es el insumo que usan nuestra IA y nuestros consultores para construir tu roadmap antes de reunirnos." />
+            d="Inmediatamente después de tu pago recibes el enlace a nuestro formulario de diagnóstico Anerfy — un cuestionario interactivo de 8 a 10 min cuya información será usada por nuestra IA y nuestros consultores para construir tu roadmap antes de reunirnos." />
           <div className="rounded-xl border border-border bg-card/60 p-6">
             <p className="font-semibold">Paso 2 — Nuestra IA genera tu Anerfy Score y tu Roadmap</p>
             <ul className="mt-4 grid gap-3 md:grid-cols-2">
