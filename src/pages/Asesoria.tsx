@@ -225,7 +225,7 @@ function LeadMagnet() {
       // Captura de lead gratis: NO genera token de diagnóstico (eso es de pago,
       // solo lo crea el webhook de Stripe). Guarda el lead + su score y dispara
       // el email-gancho "mini-score" vía trigger sobre la tabla `leads`.
-      await supabase.from("leads").insert({
+      await (supabase as any).from("leads").insert({
         email: email.trim().toLowerCase(),
         nombre: nombre.trim(),
         answers: a,
