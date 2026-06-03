@@ -275,8 +275,7 @@ function LeadMagnet() {
             Buen primer paso, {nombre.split(" ")[0] || "doctor/a"}.
           </h3>
           <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
-            Esto es solo una lectura preliminar con 7 variables. Tu diagnóstico completo cruza más de 50
-            sobre tu caso real y construye tu roadmap paso a paso.
+            cruzando más de 50 variables sobre tu situación.
           </p>
         </div>
 
