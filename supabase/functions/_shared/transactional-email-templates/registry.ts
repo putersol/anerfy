@@ -20,6 +20,7 @@ import { template as diagnosticoRecibido } from './diagnostico-recibido.tsx'
 import { template as bookingReminder1 } from './booking-reminder-1.tsx'
 import { template as bookingReminder2 } from './booking-reminder-2.tsx'
 import { template as bookingReminder3 } from './booking-reminder-3.tsx'
+import { template as miniScore } from './mini-score.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'diagnostic-link': diagnosticLink,
@@ -33,4 +34,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'booking-reminder-1': bookingReminder1,
   'booking-reminder-2': bookingReminder2,
   'booking-reminder-3': bookingReminder3,
+  'mini-score': miniScore,
 }

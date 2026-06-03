@@ -222,9 +222,16 @@ function LeadMagnet() {
     }
     setLoading(true);
     try {
-      const token = crypto.randomUUID();
-      await supabase.from("diagnostic_tokens").insert({
-        token, email: email.trim().toLowerCase(), nombre: nombre.trim(),
+      // Captura de lead gratis: NO genera token de diagnóstico (eso es de pago,
+      // solo lo crea el webhook de Stripe). Guarda el lead + su score y dispara
+      // el email-gancho "mini-score" vía trigger sobre la tabla `leads`.
+      await supabase.from("leads").insert({
+        email: email.trim().toLowerCase(),
+        nombre: nombre.trim(),
+        answers: a,
+        score: result.score,
+        fortalezas: result.fortalezas,
+        atencion: result.atencion,
       });
     } catch {
       /* no bloqueamos la experiencia si la captura falla */
