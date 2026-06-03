@@ -118,7 +118,7 @@ function GuaranteeLine() {
   return (
     <p className="mt-3 flex items-center justify-center gap-2 text-sm text-muted-foreground">
       <ShieldCheck className="h-4 w-4 text-success" />
-      Garantía de satisfacción total. Si no es lo que esperabas, te devolvemos el 100%.
+      Garantía de satisfacción total. Al finalizar tu sesión puedes aclarar si no quedaste satisfecho y procesamos tu reembolso del 100%.
     </p>
   );
 }
