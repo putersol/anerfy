@@ -118,7 +118,7 @@ function GuaranteeLine() {
   return (
     <p className="mt-3 flex items-center justify-center gap-2 text-sm text-muted-foreground">
       <ShieldCheck className="h-4 w-4 text-success" />
-      Garantía de satisfacción total. Si no es lo que esperabas, te devolvemos el 100%.
+      Garantía de satisfacción total. Al finalizar tu sesión puedes aclarar si no quedaste satisfecho y procesamos tu reembolso del 100%.
     </p>
   );
 }
@@ -528,7 +528,7 @@ const FAQ = [
   { q: "¿Por cuánto tiempo tengo acceso a mi roadmap?", a: "2 años. Puedes consultarlo antes de tramitar un documento, antes de pedir cita en el consulado o en cualquier momento de tu proceso." },
   { q: "¿Qué pasa si después de la sesión necesito más ayuda?", a: "Anerfy cuenta con un servicio de asesoría de seguimiento como producto adicional. Si surgen nuevas preguntas, cambios en tu situación o necesitas actualizar tu plan, puedes contratar una sesión de seguimiento con tu consultor. Verás las opciones en tu perfil tras tu primera sesión." },
   { q: "¿Cuánto cuesta la asesoría Anerfy 1:1?", a: PRECIO ? `La asesoría 1:1 + tu roadmap personalizado tienen un costo de ${PRECIO}, pago único. Incluye el formulario de diagnóstico, la generación de tu Anerfy Score y roadmap, la sesión privada de 90 minutos y el acceso por 2 años a tu dashboard.` : "Estamos finalizando los detalles del precio. Déjanos tus datos en el diagnóstico gratuito y serás de los primeros en conocerlo, junto con cualquier condición de lanzamiento." },
-  { q: "¿Hay garantía de satisfacción?", a: "Sí. Si después de tu sesión sientes que el roadmap no correspondió a lo que necesitabas o que la asesoría no cumplió tus expectativas, te devolvemos el 100% de tu inversión. Sin condiciones complicadas." },
+  { q: "¿Hay garantía de satisfacción?", a: "Sí. Al finalizar tu sesión puedes aclarar si no quedaste satisfecho. Si sientes que el roadmap no correspondió a lo que necesitabas o que la asesoría no cumplió tus expectativas, te devolvemos el 100% de tu inversión. Sin condiciones complicadas." },
   { q: "¿En qué se diferencia Anerfy de otras consultorías o agencias?", a: "La mayoría ofrecen procesos genéricos diseñados para llevar médicos a Alemania en grandes volúmenes. Anerfy hace lo opuesto: cada análisis es individual, construido sobre las variables específicas de tu caso. Y somos honestos sobre los tiempos reales, los recursos necesarios y la importancia crítica del idioma. No vendemos optimismo — vendemos claridad." },
 ];
 
@@ -726,9 +726,9 @@ export default function Asesoria() {
           <ShieldCheck className="mx-auto h-12 w-12 text-success" />
           <h2 className="mt-4 font-display text-3xl font-bold">Tu inversión no tiene riesgo</h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-            Si después de tu sesión sientes que el roadmap no corresponde a lo que necesitabas o que la
-            asesoría no fue lo que esperabas, te devolvemos el 100% de tu inversión. Sin condiciones
-            complicadas, sin formularios interminables. Creemos en lo que construimos.
+            Al finalizar tu sesión puedes aclarar si no quedaste satisfecho. Si sientes que el roadmap no
+            corresponde a lo que necesitabas o que la asesoría no fue lo que esperabas, te devolvemos el 100%
+            de tu inversión. Sin condiciones complicadas, sin formularios interminables. Creemos en lo que construimos.
           </p>
         </div>
       </Section>
