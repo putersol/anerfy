@@ -235,7 +235,6 @@ function LeadMagnet() {
         nombre: nombre.trim(),
         expires_at: expires,
         created_by: "lead_magnet_asesoria",
-        metadata: { answers: a, score: result.score, source: "asesoria_lead_magnet" } as any,
       } as any);
       if (insErr) {
         console.error("lead capture failed", insErr);
