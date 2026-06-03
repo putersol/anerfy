@@ -556,7 +556,7 @@ export default function Asesoria() {
 
       {/* HERO */}
       <header className="relative z-10 mx-auto w-full max-w-5xl px-5 pt-12 text-center">
-        <img src={anerfyLogo} alt="Anerfy" className="mx-auto h-9 w-auto" />
+        <img src={anerfyLogo} alt="Anerfy" className="mx-auto h-10 sm:h-12 brightness-0 invert object-contain scale-[1.4]" />
         <motion.div initial="hidden" animate="show" variants={fadeUp} className="mt-14">
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-4 py-1.5 text-xs font-medium text-muted-foreground">
             <Stethoscope className="h-3.5 w-3.5 text-primary" />
