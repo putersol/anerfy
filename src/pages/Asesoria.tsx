@@ -318,14 +318,9 @@ function LeadMagnet() {
         {/* Paywall → diagnóstico completo */}
         <div className="mt-7 rounded-2xl border border-primary/30 bg-primary/5 p-6 md:p-8">
           <div className="text-center">
-            <h4 className="font-display text-2xl font-semibold">Tienes la foto. Te falta el mapa.</h4>
+            <h4 className="font-display text-2xl font-semibold">ya tienes una idea de donde estas ahora. te falta el mapa.</h4>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              Lo que acabas de ver es <strong className="text-foreground">dónde estás hoy</strong>. Lo que
-              todavía no puedes ver es el camino: en qué orden mover cada pieza, cuánto cuesta realmente
-              <em> tu</em> caso, qué Bundesland te conviene, qué visa aplica y qué documento tramitar
-              primero para no perder meses. Esa ruta no es genérica —{" "}
-              <strong className="text-foreground">se construye sobre tus respuestas reales</strong>, y sin
-              ella seguirás decidiendo a ciegas. Complétala ahora y deja de avanzar a tientas.
+              avanzar a ciegas no a tinetas.
             </p>
           </div>
 
