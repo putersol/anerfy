@@ -726,9 +726,9 @@ export default function Asesoria() {
           <ShieldCheck className="mx-auto h-12 w-12 text-success" />
           <h2 className="mt-4 font-display text-3xl font-bold">Tu inversión no tiene riesgo</h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-            Si después de tu sesión sientes que el roadmap no corresponde a lo que necesitabas o que la
-            asesoría no fue lo que esperabas, te devolvemos el 100% de tu inversión. Sin condiciones
-            complicadas, sin formularios interminables. Creemos en lo que construimos.
+            Al finalizar tu sesión puedes aclarar si no quedaste satisfecho. Si sientes que el roadmap no
+            corresponde a lo que necesitabas o que la asesoría no fue lo que esperabas, te devolvemos el 100%
+            de tu inversión. Sin condiciones complicadas, sin formularios interminables. Creemos en lo que construimos.
           </p>
         </div>
       </Section>
