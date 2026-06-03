@@ -283,7 +283,7 @@ function LeadMagnet() {
         <div className="mt-7 grid gap-4 md:grid-cols-2">
           <div className="rounded-xl border border-success/30 bg-success/5 p-5">
             <p className="flex items-center gap-2 text-sm font-semibold text-success">
-              <CheckCircle2 className="h-4 w-4" /> A tu favor
+              <CheckCircle2 className="h-4 w-4" /> ya tienes una idea de donde estas ahora.
             </p>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
               {result.fortalezas.map((f) => <li key={f} className="flex gap-2"><span className="text-success">›</span>{f}</li>)}
