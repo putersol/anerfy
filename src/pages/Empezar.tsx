@@ -61,7 +61,7 @@ export default function Empezar() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <img src={anerfyLogo} alt="Anerfy" className="h-8" />
+          <img src={anerfyLogo} alt="Anerfy" className="h-10 sm:h-12 brightness-0 invert object-contain scale-[1.4]" />
         </motion.div>
 
         <AnimatePresence mode="wait">
