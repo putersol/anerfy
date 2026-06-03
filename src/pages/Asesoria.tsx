@@ -222,19 +222,31 @@ function LeadMagnet() {
     }
     setLoading(true);
     try {
-      // Captura de lead gratis: NO genera token de diagnóstico (eso es de pago,
-      // solo lo crea el webhook de Stripe). Guarda el lead + su score y dispara
-      // el email-gancho "mini-score" vía trigger sobre la tabla `leads`.
-      await (supabase as any).from("leads").insert({
+      // Genera un token de orientación gratuita: guarda el lead en
+      // `diagnostic_tokens` (created_by='lead_magnet_asesoria') y dispara el
+      // trigger que envía el email con el enlace al diagnóstico + Anabin.
+      const token = (crypto as any).randomUUID
+        ? (crypto as any).randomUUID().replace(/-/g, "").slice(0, 16)
+        : Math.random().toString(36).slice(2, 18);
+      const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      const { error: insErr } = await supabase.from("diagnostic_tokens").insert({
+        token,
         email: email.trim().toLowerCase(),
         nombre: nombre.trim(),
-        answers: a,
-        score: result.score,
-        fortalezas: result.fortalezas,
-        atencion: result.atencion,
-      });
-    } catch {
-      /* no bloqueamos la experiencia si la captura falla */
+        expires_at: expires,
+        created_by: "lead_magnet_asesoria",
+      } as any);
+      if (insErr) {
+        console.error("lead capture failed", insErr);
+        setError("No pudimos enviarte el email. Revisa tu dirección e inténtalo de nuevo.");
+        setLoading(false);
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+      setError("No pudimos enviarte el email. Inténtalo de nuevo en unos segundos.");
+      setLoading(false);
+      return;
     }
     setLoading(false);
     setDone(true);
