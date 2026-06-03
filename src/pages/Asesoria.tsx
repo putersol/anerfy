@@ -327,7 +327,7 @@ function LeadMagnet() {
             {[
             ["Tu Roadmap personalizado completo", "fases, tiempos, presupuesto y documentos ordenados según tu caso"],
               ["Tu Anerfy Score real", "cruzando más de 50 variables sobre tu situación, no solo 7"],
-              ["Acceso por 3 años en la plataforma", "seguimiento continuo de tu avance, disponible siempre que lo necesites"],
+              ["Acceso por 2 años en la plataforma", "seguimiento continuo de tu avance, disponible siempre que lo necesites"],
               ["Sesión privada 1:1 de 90 minutos", "con un consultor experto para resolver cada duda de tu homologación"],
               ["Acceso exclusivo a la bolsa de trabajo Anerfy", "vacantes reales en Alemania, solo para clientes"],
             ].map(([t, d]) => (
@@ -339,7 +339,7 @@ function LeadMagnet() {
           </ul>
 
           <div className="mt-7 text-center">
-            {PRECIO ? <p className="mb-3 text-sm text-muted-foreground"><strong className="text-foreground">{PRECIO}, pago único.</strong> Acceso por 3 años.</p> : null}
+            {PRECIO ? <p className="mb-3 text-sm text-muted-foreground"><strong className="text-foreground">{PRECIO}, pago único.</strong> Acceso por 2 años.</p> : null}
             <Button size="lg" onClick={handleCheckout} disabled={checkingOut}
                     className="h-14 px-8 text-base font-semibold shadow-lg shadow-primary/20">
               {checkingOut
@@ -517,7 +517,7 @@ const TESTIMONIOS = [
 ];
 
 const FAQ = [
-  { q: "¿Qué recibo exactamente cuando compro la asesoría Anerfy?", a: "Tres cosas: (1) tu Anerfy Score — un análisis visual interactivo de tu situación migratoria actual, con gráficas de fortalezas y áreas de atención; (2) tu Roadmap personalizado — un dashboard interactivo con tu plan completo: fases, documentos, presupuesto estimado, recomendación de Bundesland, ruta de visa y pasos ordenados según tu caso; y (3) una sesión privada de 90 minutos con un consultor experto. Todo queda disponible en tu perfil Anerfy por 3 años." },
+  { q: "¿Qué recibo exactamente cuando compro la asesoría Anerfy?", a: "Tres cosas: (1) tu Anerfy Score — un análisis visual interactivo de tu situación migratoria actual, con gráficas de fortalezas y áreas de atención; (2) tu Roadmap personalizado — un dashboard interactivo con tu plan completo: fases, documentos, presupuesto estimado, recomendación de Bundesland, ruta de visa y pasos ordenados según tu caso; y (3) una sesión privada de 90 minutos con un consultor experto. Todo queda disponible en tu perfil Anerfy por 2 años." },
   { q: "¿La sesión ocurre antes o después de recibir mi roadmap?", a: "Después. Pagas → recibes el formulario de diagnóstico → la IA genera tu roadmap y te lo envía → agendas tu sesión, donde el consultor te lo presenta y aclara todas tus dudas. Es decir: tu roadmap está construido antes de la sesión. La sesión existe para presentarte los resultados, validar que todo corresponde a tu caso y resolver cada pregunta." },
   { q: "¿El roadmap es un PDF descargable o un documento en línea?", a: "Es un dashboard interactivo dentro de tu perfil en la plataforma Anerfy, no un PDF estático. Accedes desde cualquier dispositivo, en cualquier momento, tantas veces como lo necesites durante tu proceso." },
   { q: "¿Qué es el Anerfy Score?", a: "El análisis visual de tu situación migratoria actual. Muestra las fortalezas de tu perfil (edad, años de experiencia, especialidad con demanda en Alemania, capital disponible) y los aspectos que requieren atención (nivel de alemán, documentación pendiente, situación financiera). Es el punto de partida desde el que se construye todo tu roadmap." },
@@ -525,9 +525,9 @@ const FAQ = [
   { q: "¿La sesión es por videollamada o presencial?", a: "Por videollamada privada. Puedes realizarla desde cualquier país de Latinoamérica, sin importar tu zona horaria. El horario se coordina por correo al momento de agendar." },
   { q: "¿En qué idioma se realiza la asesoría?", a: "Toda la asesoría — el formulario, el dashboard, la sesión y el roadmap — es en español." },
   { q: "¿Qué pasa si no sé responder alguna pregunta del formulario?", a: "El formulario está diseñado para completarse incluso si no tienes claridad sobre algunos aspectos. Precisamente eso es lo que la asesoría resuelve. Responde con la mayor honestidad posible; el consultor revisará contigo cualquier punto que requiera más análisis." },
-  { q: "¿Por cuánto tiempo tengo acceso a mi roadmap?", a: "3 años. Puedes consultarlo antes de tramitar un documento, antes de pedir cita en el consulado o en cualquier momento de tu proceso." },
+  { q: "¿Por cuánto tiempo tengo acceso a mi roadmap?", a: "2 años. Puedes consultarlo antes de tramitar un documento, antes de pedir cita en el consulado o en cualquier momento de tu proceso." },
   { q: "¿Qué pasa si después de la sesión necesito más ayuda?", a: "Anerfy cuenta con un servicio de asesoría de seguimiento como producto adicional. Si surgen nuevas preguntas, cambios en tu situación o necesitas actualizar tu plan, puedes contratar una sesión de seguimiento con tu consultor. Verás las opciones en tu perfil tras tu primera sesión." },
-  { q: "¿Cuánto cuesta la asesoría Anerfy 1:1?", a: PRECIO ? `La asesoría 1:1 + tu roadmap personalizado tienen un costo de ${PRECIO}, pago único. Incluye el formulario de diagnóstico, la generación de tu Anerfy Score y roadmap, la sesión privada de 90 minutos y el acceso por 3 años a tu dashboard.` : "Estamos finalizando los detalles del precio. Déjanos tus datos en el diagnóstico gratuito y serás de los primeros en conocerlo, junto con cualquier condición de lanzamiento." },
+  { q: "¿Cuánto cuesta la asesoría Anerfy 1:1?", a: PRECIO ? `La asesoría 1:1 + tu roadmap personalizado tienen un costo de ${PRECIO}, pago único. Incluye el formulario de diagnóstico, la generación de tu Anerfy Score y roadmap, la sesión privada de 90 minutos y el acceso por 2 años a tu dashboard.` : "Estamos finalizando los detalles del precio. Déjanos tus datos en el diagnóstico gratuito y serás de los primeros en conocerlo, junto con cualquier condición de lanzamiento." },
   { q: "¿Hay garantía de satisfacción?", a: "Sí. Si después de tu sesión sientes que el roadmap no correspondió a lo que necesitabas o que la asesoría no cumplió tus expectativas, te devolvemos el 100% de tu inversión. Sin condiciones complicadas." },
   { q: "¿En qué se diferencia Anerfy de otras consultorías o agencias?", a: "La mayoría ofrecen procesos genéricos diseñados para llevar médicos a Alemania en grandes volúmenes. Anerfy hace lo opuesto: cada análisis es individual, construido sobre las variables específicas de tu caso. Y somos honestos sobre los tiempos reales, los recursos necesarios y la importancia crítica del idioma. No vendemos optimismo — vendemos claridad." },
 ];
@@ -646,7 +646,7 @@ export default function Asesoria() {
           </h2>
           <p className="mt-3 text-muted-foreground">
             {PRECIO ? <><strong className="text-foreground">{PRECIO}</strong> · Pago único. </> : null}
-            Acceso por 3 años a tu roadmap.
+            Acceso por 2 años a tu roadmap.
           </p>
         </div>
 
@@ -664,7 +664,7 @@ export default function Asesoria() {
               ))}
             </ul>
             <p className="mt-4 text-sm text-muted-foreground">
-              Tu roadmap queda disponible en tu perfil Anerfy por 3 años, para consultarlo
+              Tu roadmap queda disponible en tu perfil Anerfy por 2 años, para consultarlo
               cada vez que lo necesites durante tu proceso.
             </p>
           </div>
@@ -762,7 +762,7 @@ export default function Asesoria() {
         </div>
         <p className="mt-8 text-center text-muted-foreground">
           <strong className="text-foreground">Resultado:</strong> tu roadmap activo en tu perfil por
-          3 años. Tu proceso claro desde el día uno.
+          2 años. Tu proceso claro desde el día uno.
         </p>
       </Section>
 
