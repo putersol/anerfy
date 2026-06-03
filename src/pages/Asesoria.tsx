@@ -291,7 +291,7 @@ function LeadMagnet() {
           </div>
           <div className="rounded-xl border border-warning/30 bg-warning/5 p-5">
             <p className="flex items-center gap-2 text-sm font-semibold text-warning">
-              <Sparkles className="h-4 w-4" /> A trabajar
+              <Sparkles className="h-4 w-4" /> te falta el mapa.
             </p>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
               {result.atencion.map((f) => <li key={f} className="flex gap-2"><span className="text-warning">›</span>{f}</li>)}
